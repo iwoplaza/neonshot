@@ -12,7 +12,6 @@ public class Main
     {
         try
         {
-            TITLE_SCREEN = new TitleScreen();
             GAME_ENGINE = new GameEngine("NeonShot",
                     900, 600, true);
 
@@ -21,10 +20,12 @@ public class Main
                 CommonFonts.loadFonts();
 
                 GAME_ENGINE.getLocalizer().setLanguage("us_en");
+
+                TITLE_SCREEN = new TitleScreen(GAME_ENGINE.getLocalizer());
+                GAME_ENGINE.registerScreens(TITLE_SCREEN);
+                GAME_ENGINE.showScreen(TITLE_SCREEN);
             });
 
-            GAME_ENGINE.registerScreens(TITLE_SCREEN);
-            GAME_ENGINE.showScreen(TITLE_SCREEN);
             GAME_ENGINE.start();
         }
         catch (Exception e)

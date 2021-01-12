@@ -1,6 +1,6 @@
 package ivesiris.neonshot.engine.ui;
 
-import ivesiris.neonshot.engine.EngineContext;
+import ivesiris.neonshot.engine.IEngineContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +20,11 @@ public abstract class UIItem
         this.childItems.add(item);
     }
 
-    public void render(EngineContext context)
+    public void render(IEngineContext ctx)
     {
         for (UIItem item : childItems)
         {
-            item.render(context);
+            item.render(ctx);
         }
     }
 

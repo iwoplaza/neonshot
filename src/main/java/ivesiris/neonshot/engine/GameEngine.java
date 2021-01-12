@@ -127,7 +127,7 @@ public class GameEngine implements Runnable
 
             this.engineContext.updateTime(elapsedTime, accumulator/UPDATE_INTERVAL);
 
-            render(elapsedTime);
+            render();
 
             if (!window.isVSyncEnabled())
             {
@@ -162,10 +162,10 @@ public class GameEngine implements Runnable
         screen.update();
     }
 
-    protected void render(float deltaTime) throws Exception
+    protected void render() throws Exception
     {
         if (screen != null)
-            screen.render(deltaTime, window);
+            screen.render(this.engineContext, window);
 
         window.update();
     }

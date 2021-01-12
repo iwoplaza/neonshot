@@ -1,14 +1,12 @@
 package ivesiris.neonshot.game.ui.menu;
 
-import ivesiris.neonshot.engine.EngineContext;
+import ivesiris.neonshot.engine.IEngineContext;
 import ivesiris.neonshot.engine.graphics.GlStack;
 import ivesiris.neonshot.engine.graphics.mesh.FlatBorderMesh;
-import ivesiris.neonshot.engine.graphics.mesh.FlatMesh;
 import ivesiris.neonshot.engine.graphics.shader.FlatShader;
 import ivesiris.neonshot.engine.ui.UIItem;
 import ivesiris.neonshot.game.CommonShaders;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +88,7 @@ public class MenuUI extends UIItem
     }
 
     @Override
-    public void render(EngineContext context)
+    public void render(IEngineContext context)
     {
         super.render(context);
 

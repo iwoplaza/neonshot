@@ -1,10 +1,15 @@
 package ivesiris.neonshot.game.screen;
 
+import ivesiris.neonshot.engine.IEngineContext;
 import ivesiris.neonshot.engine.Window;
 import ivesiris.neonshot.engine.graphics.GlStack;
+import ivesiris.neonshot.engine.lang.ILocalizer;
 import ivesiris.neonshot.engine.screen.IScreen;
+import ivesiris.neonshot.game.ui.menu.MenuUI;
 import org.joml.Matrix4f;
 
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 import static org.lwjgl.opengl.GL30.glBindFramebuffer;
@@ -17,25 +22,20 @@ public class TitleScreen implements IScreen
 
     private Matrix4f modelViewMatrix;
 
+    private final MenuUI menu;
+
+    public TitleScreen(ILocalizer localizer)
+    {
+        this.menu = new MenuUI(WIDTH / 2, 60);
+        this.menu.addOption(localizer.getLocalized("menu.begin"));
+        this.menu.addOption(localizer.getLocalized("menu.options"));
+        this.menu.addOption(localizer.getLocalized("menu.quit"));
+        this.menu.updateBorderMesh();
+    }
+
     @Override
     public void init(Window window) throws Exception
     {
-        float[] positions = new float[] {
-                0, 128,
-                0, 0,
-                512, 0,
-                512, 128,
-        };
-        float[] texCoords = new float[] {
-                0.0F, 0.0F,
-                0.0F, 1.0F,
-                1.0F, 1.0F,
-                1.0F, 0.0F,
-        };
-        int[] indices = new int[] {
-                0, 1, 3, 3, 1, 2,
-        };
-
         this.modelViewMatrix = new Matrix4f();
 
         this.onResized(window);
@@ -64,7 +64,7 @@ public class TitleScreen implements IScreen
     }
 
     @Override
-    public void render(float deltaTime, Window window)
+    public void render(IEngineContext context, Window window)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -85,6 +85,8 @@ public class TitleScreen implements IScreen
 
         Matrix4f matrix = new Matrix4f(modelViewMatrix);
         matrix.translate(WIDTH / 2F - 512 / 2F, HEIGHT - 128, 0);
+
+        this.menu.render(context);
     }
 
     @Override
@@ -95,6 +97,11 @@ public class TitleScreen implements IScreen
     @Override
     public void handleKeyPressed(int key, int mods)
     {
+        if (key == GLFW_KEY_UP || key == GLFW_KEY_W)
+            this.menu.selectPrevious();
+
+        if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S)
+            this.menu.selectNext();
     }
 
     @Override

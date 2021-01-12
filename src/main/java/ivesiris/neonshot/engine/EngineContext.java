@@ -1,6 +1,6 @@
 package ivesiris.neonshot.engine;
 
-public class EngineContext
+public class EngineContext implements IEngineContext
 {
     private float deltaTime;
     private float partialTicks;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class LanguageData
 {
     protected String languageKey;
-    protected HashMap<String, String> unlocalizedToLocalizedMap;
+    protected HashMap<String, String> entries;
 
     public String getLanguageKey()
     {
@@ -20,7 +20,7 @@ public class LanguageData
      */
     public String getLocalized(String unlocalizedKey)
     {
-        String localized = unlocalizedToLocalizedMap.get(unlocalizedKey);
+        String localized = entries.get(unlocalizedKey);
         if (localized == null)
         {
             throw new UnlocalizedException(String.format("No '%s' localization found for '%s'", this.languageKey, unlocalizedKey));

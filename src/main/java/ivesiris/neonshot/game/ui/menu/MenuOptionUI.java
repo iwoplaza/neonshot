@@ -1,6 +1,6 @@
 package ivesiris.neonshot.game.ui.menu;
 
-import ivesiris.neonshot.engine.EngineContext;
+import ivesiris.neonshot.engine.IEngineContext;
 import ivesiris.neonshot.engine.graphics.StaticText;
 import ivesiris.neonshot.engine.ui.UIItem;
 import ivesiris.neonshot.game.CommonFonts;
@@ -25,7 +25,7 @@ public class MenuOptionUI extends UIItem
     }
 
     @Override
-    public void render(EngineContext context)
+    public void render(IEngineContext context)
     {
         super.render(context);
 
