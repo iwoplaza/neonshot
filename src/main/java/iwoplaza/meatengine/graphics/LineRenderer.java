@@ -1,8 +1,8 @@
 package iwoplaza.meatengine.graphics;
 
 import iwoplaza.meatengine.graphics.mesh.FlatMesh;
-import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.meatengine.graphics.shader.ShaderHelper;
+import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
@@ -31,6 +31,7 @@ public class LineRenderer
 
         mesh = new FlatMesh(indices, positions);
         shader = new FlatShader();
+        shader.load();
 
         ShaderHelper.operateOnShader(shader, s -> {
             s.setProjectionMatrix(new Matrix4f());
@@ -65,17 +66,24 @@ public class LineRenderer
 
     public static void draw(float x0, float y0, float x1, float y1)
     {
+        GlStack.push();
+
         float dx = x1-x0;
         float dy = y1-y0;
         float angle = (float) (-Math.atan2(dx, dy));
         float length = (float) Math.sqrt(dx*dx + dy*dy);
 
-        transformMatrix.identity().translate(x0, y0, 0).rotate(angle, 0, 0, 1).scale(lineWidth, length, 1);
+        GlStack.translate(x0, y0, 0);
+        GlStack.rotate(angle, 0, 0, 1);
+        GlStack.scale(lineWidth, length, 1);
 
         shader.bind();
-        shader.setModelViewMatrix(transformMatrix);
+        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
+        shader.setModelViewMatrix(GlStack.MAIN.top());
         mesh.render();
         shader.unbind();
+
+        GlStack.pop();
     }
 
     public static void draw(Vector2f p1, Vector2f p2)
@@ -85,12 +93,18 @@ public class LineRenderer
 
     public static void drawPoint(float x, float y)
     {
-        transformMatrix.identity().translate(x, y, 0).scale(lineWidth, lineWidth, 1);
+        GlStack.push();
+
+        GlStack.translate(x, y, 0);
+        GlStack.scale(lineWidth);
 
         shader.bind();
-        shader.setModelViewMatrix(transformMatrix);
+        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
+        shader.setModelViewMatrix(GlStack.MAIN.top());
         mesh.render();
         shader.unbind();
+
+        GlStack.pop();
     }
 
 }

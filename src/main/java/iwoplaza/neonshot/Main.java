@@ -3,11 +3,11 @@ package iwoplaza.neonshot;
 import iwoplaza.meatengine.GameEngine;
 import iwoplaza.meatengine.assets.AssetLoader;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
+import iwoplaza.neonshot.graphics.IGameRenderContext;
 import iwoplaza.neonshot.graphics.entity.PlayerRenderer;
 import iwoplaza.neonshot.screen.SinglePlayerScreen;
-import iwoplaza.neonshot.world.entity.PlayerEntity;
-import iwoplaza.neonshot.graphics.entity.IGameRenderContext;
 import iwoplaza.neonshot.screen.TitleScreen;
+import iwoplaza.neonshot.world.entity.PlayerEntity;
 
 public class Main
 {
@@ -35,12 +35,12 @@ public class Main
                 GAME_ENGINE.getLocalizer().setLanguage("us_en");
 
                 TITLE_SCREEN =          new TitleScreen(GAME_ENGINE.getLocalizer());
-                SINGLE_PLAYER_SCREEN =  new SinglePlayerScreen();
+                SINGLE_PLAYER_SCREEN =  new SinglePlayerScreen(rendererRegistry);
                 GAME_ENGINE.registerScreens(TITLE_SCREEN, SINGLE_PLAYER_SCREEN);
                 // Registers all assets from registered screens.
                 GAME_ENGINE.registerAssets(assetLoader);
-                GAME_ENGINE.showScreen(TITLE_SCREEN);
-//                GAME_ENGINE.showScreen(SINGLE_PLAYER_SCREEN);
+//                GAME_ENGINE.showScreen(TITLE_SCREEN);
+                GAME_ENGINE.showScreen(SINGLE_PLAYER_SCREEN);
 
                 assetLoader.preloadAssets();
             });

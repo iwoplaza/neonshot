@@ -1,8 +1,8 @@
 package iwoplaza.meatengine.loader;
 
 import iwoplaza.meatengine.assets.AssetLocation;
-import iwoplaza.meatengine.graphics.font.Font;
 import iwoplaza.meatengine.graphics.Texture;
+import iwoplaza.meatengine.graphics.font.Font;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -75,14 +75,19 @@ public class GlStack
         MAIN.top().identity();
     }
 
+    public static void apply(Matrix4f other)
+    {
+        MAIN.top().mul(other);
+    }
+
     public void set(Matrix4f src)
     {
         this.top().set(src);
     }
 
-    public void apply(Matrix4f other)
+    public void checkEndOfFrame()
     {
-        this.top().mul(other);
+        assert this.stateStack.empty();
     }
 
 }

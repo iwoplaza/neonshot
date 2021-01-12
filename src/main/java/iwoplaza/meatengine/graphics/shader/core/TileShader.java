@@ -1,7 +1,6 @@
 package iwoplaza.meatengine.graphics.shader.core;
 
 import iwoplaza.meatengine.graphics.shader.Shader;
-import iwoplaza.neonshot.Statics;
 import org.joml.Matrix4f;
 
 import java.io.FileNotFoundException;

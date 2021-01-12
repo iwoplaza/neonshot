@@ -9,6 +9,7 @@ public interface IScreen extends IDisposable, IAssetConsumer
 {
 
     void init(Window window) throws Exception;
+    void onResized(Window window);
     void update(IEngineContext context);
     void updatePreFrame(IEngineContext context, Window window);
     void render(IEngineContext context, Window window) throws Exception;

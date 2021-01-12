@@ -1,10 +1,10 @@
 package iwoplaza.meatengine.graphics.entity;
 
-import iwoplaza.meatengine.IEngineContext;
-import iwoplaza.meatengine.world.Entity;
 import iwoplaza.meatengine.IDisposable;
+import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
+import iwoplaza.meatengine.world.Entity;
 
 import java.io.IOException;
 import java.util.HashMap;

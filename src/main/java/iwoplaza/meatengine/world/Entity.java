@@ -1,7 +1,7 @@
 package iwoplaza.meatengine.world;
 
-import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.IDisposable;
+import iwoplaza.meatengine.IEngineContext;
 import org.joml.Vector2i;
 
 public abstract class Entity implements IDisposable
@@ -11,13 +11,13 @@ public abstract class Entity implements IDisposable
      * The entity's tile-position in the previous update tick.
      * Used by the renderer to interpolate with nextPosition.
      */
-    protected Vector2i prevPosition;
+    protected Vector2i prevPosition = new Vector2i();
 
     /**
      * The entity's tile-position in the current update tick.
      * Used by the renderer to interpolate with prevPosition.
      */
-    protected Vector2i nextPosition;
+    protected Vector2i nextPosition = new Vector2i();
 
     /**
      * Allows the entity to know what context it exists in.

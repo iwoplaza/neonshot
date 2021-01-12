@@ -1,10 +1,10 @@
 package iwoplaza.neonshot;
 
-import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.meatengine.graphics.shader.Shader;
+import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.meatengine.graphics.shader.core.TextShader;
-import iwoplaza.meatengine.graphics.shader.core.UIShader;
 import iwoplaza.meatengine.graphics.shader.core.TileShader;
+import iwoplaza.meatengine.graphics.shader.core.UIShader;
 
 public class CommonShaders
 {

@@ -1,16 +1,17 @@
 package iwoplaza.neonshot.graphics.entity;
 
-import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
+import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.Transform2f;
 import iwoplaza.meatengine.graphics.mesh.FlatMesh;
 import iwoplaza.meatengine.graphics.mesh.Mesh;
+import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.neonshot.CommonShaders;
 import iwoplaza.neonshot.Statics;
+import iwoplaza.neonshot.graphics.IGameRenderContext;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
-import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
 import java.io.IOException;
@@ -69,30 +70,30 @@ public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
     @Override
     public void render(IGameRenderContext ctx, PlayerEntity entity)
     {
+        GlStack.push();
+
         final int tileSize = ctx.getTileSize();
         final float partialTicks = ctx.getPartialTicks();
+
+        Vector2f position = new Vector2f(new Vector2f(entity.getPrevPosition()).lerp(new Vector2f(entity.getNextPosition()), partialTicks));
+        position.mul(tileSize);
+
+        GlStack.translate(position.x, position.y, 0);
 
         FlatShader shader = CommonShaders.flatShader;
 
         shader.bind();
-        shader.setColor(0, 0, 0, 1);
+        shader.setColor(1, 1, 1, 1);
+        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
+        shader.setModelViewMatrix(GlStack.MAIN.top());
 
-        Vector2f position = new Vector2f(new Vector2f(entity.getPrevPosition()).lerp(new Vector2f(entity.getNextPosition()), partialTicks));
-        position.mul(tileSize);
-        transform.setPosition(position);
-
-        transform.updateTransform();
-        Matrix4f matrix = transform.getMatrix();
-//        matrix.rotateX((float) Math.PI/2);
-        matrix.scale(tileSize, tileSize, tileSize);
-        shader.setModelViewMatrix(matrix);
-
-        this.playerTexture.bind();
+        //this.playerTexture.bind();
 
         borderMesh.render();
 
         shader.unbind();
+//        LineRenderer.draw(position.x, position.y, position.x + groundNormal.x * 5, position.y + groundNormal.y * 5);
 
-        //LineRenderer.draw(position.x, position.y, position.x + groundNormal.x * 5, position.y + groundNormal.y * 5);
+        GlStack.pop();
     }
 }

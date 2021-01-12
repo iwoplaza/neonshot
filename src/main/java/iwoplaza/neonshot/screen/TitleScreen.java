@@ -11,8 +11,6 @@ import org.joml.Matrix4f;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 
 public class TitleScreen implements IScreen
 {
@@ -47,7 +45,8 @@ public class TitleScreen implements IScreen
         // No assets to register
     }
 
-    private void onResized(Window window)
+    @Override
+    public void onResized(Window window)
     {
         final int windowWidth = window.getWidth();
         final int windowHeight = window.getHeight();
@@ -72,14 +71,6 @@ public class TitleScreen implements IScreen
     @Override
     public void render(IEngineContext context, Window window)
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-        if (window.isResized())
-        {
-            this.onResized(window);
-            window.setResized(false);
-        }
-
         glViewport(0, 0, window.getWidth(), window.getHeight());
         window.setClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

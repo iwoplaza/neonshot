@@ -1,10 +1,11 @@
 package iwoplaza.meatengine;
 
-import iwoplaza.meatengine.lang.Localizer;
-import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
+import iwoplaza.meatengine.graphics.LineRenderer;
 import iwoplaza.meatengine.lang.LocalizationLoader;
+import iwoplaza.meatengine.lang.Localizer;
+import iwoplaza.meatengine.screen.IScreen;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -97,6 +98,8 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
         window.init();
         timer.init();
 
+        LineRenderer.init();
+
         for (InitFunction function : this.initFunctions)
         {
             function.init();
@@ -168,7 +171,15 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
     protected void render() throws Exception
     {
         if (screen != null)
+        {
+            if (window.isResized())
+            {
+                screen.onResized(window);
+                window.setResized(false);
+            }
+
             screen.render(engineContext, window);
+        }
 
         window.update();
     }
