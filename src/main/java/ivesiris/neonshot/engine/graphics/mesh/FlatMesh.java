@@ -2,7 +2,6 @@ package ivesiris.neonshot.engine.graphics.mesh;
 
 public class FlatMesh extends Mesh
 {
-
     public FlatMesh(int[] indices, float[] positions)
     {
         super(indices);
@@ -11,6 +10,4 @@ public class FlatMesh extends Mesh
         createFloatVBO(positions, 2);
         this.unbindVertexArray();
     }
-
-
 }

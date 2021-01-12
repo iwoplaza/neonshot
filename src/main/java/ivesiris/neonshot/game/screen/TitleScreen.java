@@ -64,7 +64,7 @@ public class TitleScreen implements IScreen
     }
 
     @Override
-    public void render(float deltaTime, Window window) throws Exception
+    public void render(float deltaTime, Window window)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
