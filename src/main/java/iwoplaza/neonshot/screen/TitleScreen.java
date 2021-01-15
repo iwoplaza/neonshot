@@ -63,7 +63,7 @@ public class TitleScreen implements IScreen
     }
 
     @Override
-    public void updatePreFrame(IEngineContext context, Window window)
+    public void updatePerFrame(IEngineContext context, Window window)
     {
 
     }

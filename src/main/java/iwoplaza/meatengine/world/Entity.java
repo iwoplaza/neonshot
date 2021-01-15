@@ -8,13 +8,13 @@ public abstract class Entity implements IDisposable
 {
 
     /**
-     * The entity's tile-position in the previous update tick.
+     * The entity's tile-position before a movement.
      * Used by the renderer to interpolate with nextPosition.
      */
     protected Vector2i prevPosition = new Vector2i();
 
     /**
-     * The entity's tile-position in the current update tick.
+     * The entity's tile-position after a movement.
      * Used by the renderer to interpolate with prevPosition.
      */
     protected Vector2i nextPosition = new Vector2i();
@@ -43,7 +43,6 @@ public abstract class Entity implements IDisposable
 
     public void update(IEngineContext context)
     {
-        this.prevPosition.set(this.nextPosition);
     }
 
     public void setPosition(int x, int y)

@@ -22,8 +22,17 @@ public class World implements IDisposable, IWorld
         {
             Entity entity = entities.get(i);
 
-            // Update only locally
             entity.update(context);
+        }
+    }
+
+    public void updatePerFrame(IEngineContext context)
+    {
+        for (int i = 0; i < entities.size(); ++i)
+        {
+            Entity entity = entities.get(i);
+
+            entity.updatePerFrame(context);
         }
     }
 

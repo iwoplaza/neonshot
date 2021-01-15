@@ -29,7 +29,7 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
     private final Timer timer;
     private final KeyboardHandler keyboardHandler;
     private Localizer localizer;
-    private EngineContext engineContext = new EngineContext();
+    private EngineContext engineContext = new EngineContext(UPDATE_INTERVAL);
 
     private boolean running = true;
     private boolean debugMode = false;
@@ -162,7 +162,7 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
 
     protected void input()
     {
-        screen.updatePreFrame(engineContext, window);
+        screen.updatePerFrame(engineContext, window);
     }
 
     protected void update(float interval)

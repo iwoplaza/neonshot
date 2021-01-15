@@ -6,12 +6,16 @@ import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.world.World;
+import iwoplaza.neonshot.Direction;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
 import iwoplaza.neonshot.graphics.IGameRenderContext;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
 
 import java.io.IOException;
+
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 
 public class SinglePlayerScreen implements IScreen
 {
@@ -55,8 +59,30 @@ public class SinglePlayerScreen implements IScreen
     }
 
     @Override
-    public void updatePreFrame(IEngineContext context, Window window)
+    public void updatePerFrame(IEngineContext context, Window window)
     {
+        world.updatePerFrame(context);
+
+        if (window.isKeyPressed(GLFW_KEY_A))
+        {
+            this.player.setMoveDirection(Direction.WEST);
+        }
+        else if (window.isKeyPressed(GLFW_KEY_D))
+        {
+            this.player.setMoveDirection(Direction.EAST);
+        }
+        else if (window.isKeyPressed(GLFW_KEY_W))
+        {
+            this.player.setMoveDirection(Direction.NORTH);
+        }
+        else if (window.isKeyPressed(GLFW_KEY_S))
+        {
+            this.player.setMoveDirection(Direction.SOUTH);
+        }
+        else
+        {
+            this.player.setMoveDirection(null);
+        }
     }
 
     @Override

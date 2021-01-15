@@ -7,6 +7,7 @@ public class GameRenderContext implements IGameRenderContext
 {
 
     private final RendererRegistry<IGameRenderContext> rendererRegistry;
+    private float updateInterval;
     private float deltaTime;
     private float partialTicks;
 
@@ -17,6 +18,7 @@ public class GameRenderContext implements IGameRenderContext
 
     public void update(IEngineContext context)
     {
+        this.updateInterval = context.getUpdateInterval();
         this.deltaTime = context.getDeltaTime();
         this.partialTicks = context.getPartialTicks();
     }
@@ -31,6 +33,12 @@ public class GameRenderContext implements IGameRenderContext
     public RendererRegistry<IGameRenderContext> getRendererRegistry()
     {
         return rendererRegistry;
+    }
+
+    @Override
+    public float getUpdateInterval()
+    {
+        return updateInterval;
     }
 
     @Override

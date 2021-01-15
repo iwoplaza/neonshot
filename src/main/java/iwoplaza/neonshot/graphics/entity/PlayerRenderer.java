@@ -10,6 +10,7 @@ import iwoplaza.meatengine.graphics.mesh.Mesh;
 import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
 import iwoplaza.neonshot.CommonShaders;
+import iwoplaza.neonshot.Direction;
 import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.graphics.IGameRenderContext;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
@@ -78,25 +79,23 @@ public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
         final int tileSize = ctx.getTileSize();
         final float partialTicks = ctx.getPartialTicks();
 
-        Vector2f position = new Vector2f(new Vector2f(entity.getPrevPosition()).lerp(new Vector2f(entity.getNextPosition()), partialTicks));
+        Vector2f position = new Vector2f(entity.getNextPosition());
+        int moveCooldown = entity.getMoveCooldown();
+        if (moveCooldown > 0)
+        {
+            float moveProgress = 1 - ((entity.getMoveDuration() - moveCooldown) + partialTicks) / entity.getMoveDuration();
+
+            moveProgress *= moveProgress;
+
+            position.lerp(new Vector2f(entity.getPrevPosition()), moveProgress);
+        }
+
         position.mul(tileSize);
 
-        GlStack.translate(position.x * tileSize, position.y * tileSize, 0);
+        GlStack.translate(position.x, position.y, 0);
 
-        FlatShader shader = CommonShaders.flatShader;
-
-        shader.bind();
-        shader.setColor(1, 1, 1, 1);
-        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        shader.setModelViewMatrix(GlStack.MAIN.top());
-
-        //this.playerTexture.bind();
-
-        borderMesh.render();
-
-        shader.unbind();
-
-        this.playerSprite.setFrameX(1);
+        Direction turnDir = entity.getDirection();
+        this.playerSprite.setFrameX(turnDir.ordinal());
         this.playerSprite.draw();
 //        LineRenderer.draw(position.x, position.y, position.x + groundNormal.x * 5, position.y + groundNormal.y * 5);
 

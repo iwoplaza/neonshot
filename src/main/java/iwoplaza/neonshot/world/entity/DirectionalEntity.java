@@ -6,4 +6,9 @@ import iwoplaza.neonshot.Direction;
 public abstract class DirectionalEntity extends Entity
 {
     protected Direction direction = Direction.EAST;
+
+    public Direction getDirection()
+    {
+        return direction;
+    }
 }
