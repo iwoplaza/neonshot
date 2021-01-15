@@ -8,6 +8,7 @@ import iwoplaza.meatengine.graphics.Transform2f;
 import iwoplaza.meatengine.graphics.mesh.FlatMesh;
 import iwoplaza.meatengine.graphics.mesh.Mesh;
 import iwoplaza.meatengine.graphics.shader.core.FlatShader;
+import iwoplaza.meatengine.graphics.sprite.Sprite;
 import iwoplaza.neonshot.CommonShaders;
 import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.graphics.IGameRenderContext;
@@ -18,9 +19,9 @@ import java.io.IOException;
 
 public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
 {
-    private final Transform2f transform = new Transform2f();
     private final Mesh borderMesh;
     private TextureAsset playerTexture;
+    private Sprite playerSprite;
 
     public PlayerRenderer()
     {
@@ -58,7 +59,9 @@ public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
     public void registerAssets(IAssetLoader loader) throws IOException
     {
         // Assets are disposed of automatically.
-        loader.registerAsset(playerTexture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "textures/texture.png")));
+        loader.registerAsset(playerTexture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "textures/player.png")));
+
+        this.playerSprite = new Sprite(playerTexture, 32, 32);
     }
 
     @Override
@@ -78,7 +81,7 @@ public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
         Vector2f position = new Vector2f(new Vector2f(entity.getPrevPosition()).lerp(new Vector2f(entity.getNextPosition()), partialTicks));
         position.mul(tileSize);
 
-        GlStack.translate(position.x, position.y, 0);
+        GlStack.translate(position.x * tileSize, position.y * tileSize, 0);
 
         FlatShader shader = CommonShaders.flatShader;
 
@@ -92,6 +95,9 @@ public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
         borderMesh.render();
 
         shader.unbind();
+
+        this.playerSprite.setFrameX(1);
+        this.playerSprite.draw();
 //        LineRenderer.draw(position.x, position.y, position.x + groundNormal.x * 5, position.y + groundNormal.y * 5);
 
         GlStack.pop();

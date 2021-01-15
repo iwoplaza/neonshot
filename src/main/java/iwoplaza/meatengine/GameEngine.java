@@ -3,6 +3,7 @@ package iwoplaza.meatengine;
 import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.graphics.LineRenderer;
+import iwoplaza.meatengine.graphics.sprite.SpriteRenderer;
 import iwoplaza.meatengine.lang.LocalizationLoader;
 import iwoplaza.meatengine.lang.Localizer;
 import iwoplaza.meatengine.screen.IScreen;
@@ -99,6 +100,7 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
         timer.init();
 
         LineRenderer.init();
+        SpriteRenderer.INSTANCE.init();
 
         for (InitFunction function : this.initFunctions)
         {

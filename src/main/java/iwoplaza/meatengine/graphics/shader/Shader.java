@@ -114,6 +114,11 @@ public abstract class Shader implements IDisposable
         glUniform1i(uniforms.get(uniformName), value ? 1 : 0);
     }
 
+    protected void setUniform(String uniformName, float x, float y)
+    {
+        glUniform2f(uniforms.get(uniformName), x, y);
+    }
+
     protected void setUniform(String uniformName, float x, float y, float z, float w)
     {
         glUniform4f(uniforms.get(uniformName), x, y, z, w);
