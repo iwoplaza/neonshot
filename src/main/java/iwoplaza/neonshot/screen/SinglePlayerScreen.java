@@ -6,7 +6,9 @@ import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.world.World;
+import iwoplaza.meatengine.world.tile.TileMap;
 import iwoplaza.neonshot.Direction;
+import iwoplaza.neonshot.Tiles;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
 import iwoplaza.neonshot.graphics.IGameRenderContext;
@@ -28,8 +30,31 @@ public class SinglePlayerScreen implements IScreen
     public SinglePlayerScreen(RendererRegistry<IGameRenderContext> rendererRegistry)
     {
         this.context = new GameRenderContext(rendererRegistry);
-        this.world = new World();
+        this.world = new World(10, 10);
         this.gameRenderer = new GameRenderer(world);
+
+        this.initMap();
+    }
+
+    private void initMap()
+    {
+        TileMap tileMap = this.world.getTileMap();
+
+        for (int x = 0; x < tileMap.getWidth(); ++x)
+        {
+            for (int y = 0; y < tileMap.getHeight(); ++y)
+            {
+                if (x != 0 && y != 0)
+                {
+                    tileMap.setTile(x, y, Tiles.CHESSBOARD_FLOOR);
+                }
+                else
+                {
+                    tileMap.setTile(x, y, Tiles.VOID);
+                }
+            }
+        }
+        tileMap.setTile(0, 0, Tiles.VOID);
     }
 
     @Override

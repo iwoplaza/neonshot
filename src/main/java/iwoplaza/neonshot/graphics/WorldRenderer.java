@@ -6,12 +6,14 @@ import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
+import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.mesh.Mesh;
 import iwoplaza.meatengine.graphics.mesh.TexturedMesh;
 import iwoplaza.meatengine.graphics.shader.core.TileShader;
 import iwoplaza.meatengine.helper.ArrayHelper;
 import iwoplaza.meatengine.world.Entity;
 import iwoplaza.meatengine.world.World;
+import iwoplaza.meatengine.world.tile.*;
 import iwoplaza.neonshot.CommonShaders;
 import iwoplaza.neonshot.Statics;
 
@@ -22,13 +24,10 @@ import java.util.List;
 public class WorldRenderer implements IDisposable, IAssetConsumer
 {
 
-    private static final float Z_NEAR = -10F;
-    private static final float Z_FAR = 1000F;
-
     private final World world;
 
     private Mesh bakedMesh;
-    public TextureAsset tileMap;
+    private TextureAsset tileMapTexture;
 
     public WorldRenderer(World world)
     {
@@ -38,7 +37,7 @@ public class WorldRenderer implements IDisposable, IAssetConsumer
     @Override
     public void registerAssets(IAssetLoader loader) throws IOException
     {
-        loader.registerAsset(tileMap = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "/textures/tilemap.png")));
+        loader.registerAsset(tileMapTexture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "/textures/tilemap.png")));
     }
 
     public void bakeMesh(IGameRenderContext context)
@@ -48,21 +47,24 @@ public class WorldRenderer implements IDisposable, IAssetConsumer
         List<Float> texCoords = new ArrayList<>();
 
         final int tileSize = context.getTileSize();
-//        final int tileMapWidth = WorldRenderer.tileMap.getWidth();
-//        final int tileMapHeight = WorldRenderer.tileMap.getHeight();
-//
-//        for (int i = 0; i < this.tiles.length; ++i)
-//        {
-//            TileData data = this.tiles[i];
-//            if (data != null)
-//            {
-//                int tileX = i % width;
-//                int tileY = i / width;
-//                Tile tile = TileRegistry.get(data.getTileId());
-//                tile.getRenderer().render(data, new TileLocation(this, tileX, tileY), tileSize, tileMapWidth, tileMapHeight, indices
-//                        , positions, texCoords);
-//            }
-//        }
+        final int textureWidth = this.tileMapTexture.getWidth();
+        final int textureHeight = this.tileMapTexture.getHeight();
+
+        TileMap tileMap = this.world.getTileMap();
+
+        for (int tileX = 0; tileX < tileMap.getWidth(); ++tileX)
+        {
+            for (int tileY = 0; tileY < tileMap.getHeight(); ++tileY)
+            {
+                TileData data = tileMap.getTileAt(tileX, tileY);
+                if (data != null)
+                {
+                    Tile tile = TileRegistry.get(data.getTileId());
+                    tile.getRenderer().render(data, new TileLocation(tileX, tileY), tileSize, textureWidth, textureHeight, indices
+                            , positions, texCoords);
+                }
+            }
+        }
 
         if (this.bakedMesh != null)
             this.bakedMesh.dispose();
@@ -82,10 +84,12 @@ public class WorldRenderer implements IDisposable, IAssetConsumer
         TileShader shader = CommonShaders.tileShader;
         shader.bind();
 
+        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
+        shader.setModelViewMatrix(GlStack.MAIN.top());
         shader.setColor(1, 1, 1, 1);
         shader.setUseTexture(true);
 
-        this.tileMap.bind();
+        this.tileMapTexture.bind();
 
         if (this.bakedMesh == null)
             this.bakeMesh(context);

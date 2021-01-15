@@ -2,6 +2,7 @@ package iwoplaza.meatengine.world;
 
 import iwoplaza.meatengine.IDisposable;
 import iwoplaza.meatengine.IEngineContext;
+import iwoplaza.meatengine.world.tile.TileMap;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,10 +11,12 @@ import java.util.List;
 public class World implements IDisposable, IWorld
 {
     private final List<Entity> entities;
+    private final TileMap tileMap;
 
-    public World()
+    public World(int width, int height)
     {
         this.entities = new ArrayList<>();
+        this.tileMap = new TileMap(width, height);
     }
 
     public void update(IEngineContext context)
@@ -52,6 +55,11 @@ public class World implements IDisposable, IWorld
     public Collection<Entity> getEntities()
     {
         return this.entities;
+    }
+
+    public TileMap getTileMap()
+    {
+        return this.tileMap;
     }
 
     @Override

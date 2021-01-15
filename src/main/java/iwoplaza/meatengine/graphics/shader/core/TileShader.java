@@ -1,6 +1,7 @@
 package iwoplaza.meatengine.graphics.shader.core;
 
 import iwoplaza.meatengine.graphics.shader.Shader;
+import iwoplaza.meatengine.graphics.shader.ShaderHelper;
 import org.joml.Matrix4f;
 
 import java.io.FileNotFoundException;
@@ -27,6 +28,12 @@ public class TileShader extends Shader
         this.createUniform(COLOR);
         this.createUniform(USE_TEXTURE);
         this.createUniform(TEXTURE_DIFFUSE);
+
+        ShaderHelper.operateOnShader(this, s -> {
+            s.setUniform(COLOR, 1, 1, 1, 1);
+            s.setUniform(USE_TEXTURE, true);
+            s.setUniform(TEXTURE_DIFFUSE, 0);
+        });
     }
 
     public void setProjectionMatrix(Matrix4f matrix)
