@@ -1,10 +1,13 @@
 package iwoplaza.neonshot.graphics;
 
 import iwoplaza.meatengine.IDisposable;
+import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.Window;
 import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.graphics.GlStack;
+import iwoplaza.meatengine.graphics.ICamera;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.shader.ShaderHelper;
 import iwoplaza.meatengine.world.World;
 import iwoplaza.neonshot.CommonShaders;
@@ -24,6 +27,7 @@ public class GameRenderer implements IDisposable, IAssetConsumer
 
     private final World world;
     private final WorldRenderer worldRenderer;
+    private ICamera<IEngineContext, IGameRenderContext> camera;
 
     public GameRenderer(World world)
     {
@@ -61,9 +65,22 @@ public class GameRenderer implements IDisposable, IAssetConsumer
         });
     }
 
+    public void setCamera(ICamera<IEngineContext, IGameRenderContext> camera)
+    {
+        this.camera = camera;
+    }
+
     private void clear()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    public void update(IGameRenderContext context)
+    {
+        if (this.camera != null)
+        {
+            this.camera.update(context);
+        }
     }
 
     public void render(IGameRenderContext context, Window window, World world) throws Exception
@@ -71,6 +88,11 @@ public class GameRenderer implements IDisposable, IAssetConsumer
         this.clear();
 
         GlStack.MAIN.set(modelViewMatrix);
+
+        if (this.camera != null)
+        {
+            this.camera.applyTransform(context);
+        }
 
         this.worldRenderer.render(context, window, world);
     }

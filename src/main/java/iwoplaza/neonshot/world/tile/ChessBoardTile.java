@@ -9,8 +9,9 @@ public class ChessBoardTile extends Tile
 
     private final int textureFrame;
 
-    public ChessBoardTile(int textureFrame)
+    public ChessBoardTile(int textureFrame, int mapColor)
     {
+        super(mapColor);
         this.textureFrame = textureFrame;
     }
 

@@ -7,7 +7,7 @@ public class PlayerEntity extends DirectionalEntity
 {
 
     private static final int MOVE_WINDUP_DURATION = 2;
-    private static final int MOVE_DURATION = 8;
+    private static final int MOVE_DURATION = 6;
 
     /**
      * Describes what the player wants to do.

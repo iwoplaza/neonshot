@@ -31,15 +31,18 @@ public class FullTileRenderer implements ITileRenderer
                 (float) (x + tileSize), (float) (y + tileSize),
                 (float) x, (float) (y + tileSize)
         ));
+
+        float uMargin = 0.01f * tileSize / tileMapWidth;
+        float vMargin = 0.01f * tileSize / tileMapHeight;
         float u0 = (float) ((textureFrame * tileSize) % tileMapWidth) / tileMapWidth;
         float v0 = (float) ((textureFrame * tileSize) / tileMapWidth) / tileMapHeight;
         float u1 = u0 + (float) tileSize / tileMapWidth;
         float v1 = v0 + (float) tileSize / tileMapHeight;
         texCoords.addAll(Arrays.asList(
-                u0, v1,
-                u1, v1,
-                u1, v0,
-                u0, v0));
+                u0 + uMargin, v1 - vMargin,
+                u1 - uMargin, v1 - vMargin,
+                u1 - uMargin, v0 + vMargin,
+                u0 + uMargin, v0 + vMargin));
     }
 
 }

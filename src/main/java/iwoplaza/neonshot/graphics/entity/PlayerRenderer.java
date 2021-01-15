@@ -4,15 +4,12 @@ import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
 import iwoplaza.meatengine.graphics.GlStack;
-import iwoplaza.meatengine.graphics.Transform2f;
 import iwoplaza.meatengine.graphics.mesh.FlatMesh;
 import iwoplaza.meatengine.graphics.mesh.Mesh;
-import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
-import iwoplaza.neonshot.CommonShaders;
 import iwoplaza.neonshot.Direction;
 import iwoplaza.neonshot.Statics;
-import iwoplaza.neonshot.graphics.IGameRenderContext;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
 import org.joml.Vector2f;
 

@@ -2,27 +2,30 @@ package iwoplaza.neonshot.screen;
 
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.Window;
+import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
+import iwoplaza.meatengine.graphics.Camera;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.world.World;
-import iwoplaza.meatengine.world.tile.TileMap;
 import iwoplaza.neonshot.Direction;
-import iwoplaza.neonshot.Tiles;
+import iwoplaza.neonshot.GameLevelLoader;
+import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
-import iwoplaza.neonshot.graphics.IGameRenderContext;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
 
 import java.io.IOException;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
+import static org.lwjgl.opengl.GL11.glViewport;
 
 public class SinglePlayerScreen implements IScreen
 {
     private final GameRenderContext context;
-    private final World world;
+    private World world;
     private GameRenderer gameRenderer;
 
     private PlayerEntity player;
@@ -30,38 +33,30 @@ public class SinglePlayerScreen implements IScreen
     public SinglePlayerScreen(RendererRegistry<IGameRenderContext> rendererRegistry)
     {
         this.context = new GameRenderContext(rendererRegistry);
-        this.world = new World(10, 10);
-        this.gameRenderer = new GameRenderer(world);
 
-        this.initMap();
-    }
-
-    private void initMap()
-    {
-        TileMap tileMap = this.world.getTileMap();
-
-        for (int x = 0; x < tileMap.getWidth(); ++x)
+        try
         {
-            for (int y = 0; y < tileMap.getHeight(); ++y)
-            {
-                if (x != 0 && y != 0)
-                {
-                    tileMap.setTile(x, y, Tiles.CHESSBOARD_FLOOR);
-                }
-                else
-                {
-                    tileMap.setTile(x, y, Tiles.VOID);
-                }
-            }
+            GameLevelLoader levelLoader = new GameLevelLoader((world, x, y) -> {
+                this.player = new PlayerEntity();
+                this.player.setPosition(x, y);
+                world.spawnEntity(this.player);
+            });
+            this.world = levelLoader.loadFromStream((AssetLocation.asResource(Statics.RES_ORIGIN, "levels/level1.png")).getInputStream());
+            this.gameRenderer = new GameRenderer(world);
+
+            Camera camera = new Camera();
+            this.gameRenderer.setCamera(camera);
+            camera.follow(this.player);
         }
-        tileMap.setTile(0, 0, Tiles.VOID);
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void init(Window window)
     {
-        this.player = new PlayerEntity();
-        this.world.spawnEntity(this.player);
         this.gameRenderer.init(window);
     }
 
@@ -69,6 +64,8 @@ public class SinglePlayerScreen implements IScreen
     public void onResized(Window window)
     {
         this.gameRenderer.onResized(window);
+
+        glViewport(0, 0, window.getWidth(), window.getHeight());
     }
 
     @Override
@@ -81,6 +78,8 @@ public class SinglePlayerScreen implements IScreen
     public void update(IEngineContext context)
     {
         this.world.update(context);
+
+        this.gameRenderer.update(this.context);
     }
 
     @Override

@@ -8,8 +8,9 @@ public class FullTile extends Tile
 
     private final int textureFrame;
 
-    public FullTile(int textureFrame)
+    public FullTile(int textureFrame, int mapColor)
     {
+        super(mapColor);
         this.textureFrame = textureFrame;
     }
 

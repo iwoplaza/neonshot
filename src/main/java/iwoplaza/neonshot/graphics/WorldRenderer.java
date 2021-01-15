@@ -7,6 +7,7 @@ import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
 import iwoplaza.meatengine.graphics.GlStack;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.mesh.Mesh;
 import iwoplaza.meatengine.graphics.mesh.TexturedMesh;
 import iwoplaza.meatengine.graphics.shader.core.TileShader;

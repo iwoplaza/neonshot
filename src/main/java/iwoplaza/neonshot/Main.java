@@ -3,7 +3,7 @@ package iwoplaza.neonshot;
 import iwoplaza.meatengine.GameEngine;
 import iwoplaza.meatengine.assets.AssetLoader;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
-import iwoplaza.neonshot.graphics.IGameRenderContext;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.neonshot.graphics.entity.PlayerRenderer;
 import iwoplaza.neonshot.screen.SinglePlayerScreen;
 import iwoplaza.neonshot.screen.TitleScreen;
@@ -28,6 +28,8 @@ public class Main
             GAME_ENGINE.addInitFunction(() -> {
                 CommonShaders.loadShaders();
                 CommonFonts.loadFonts();
+                Tiles.registerTiles();
+
                 rendererRegistry.registerRenderer(PlayerEntity.class, new PlayerRenderer());
                 // Registers all assets from registered renderers.
                 rendererRegistry.registerAssets(assetLoader);

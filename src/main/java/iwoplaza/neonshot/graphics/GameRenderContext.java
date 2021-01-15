@@ -1,6 +1,7 @@
 package iwoplaza.neonshot.graphics;
 
 import iwoplaza.meatengine.IEngineContext;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 
 public class GameRenderContext implements IGameRenderContext

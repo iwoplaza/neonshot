@@ -6,15 +6,22 @@ public abstract class Tile
 {
 
     protected final int id;
+    protected final int mapColor;
 
-    public Tile()
+    public Tile(int mapColor)
     {
+        this.mapColor = mapColor;
         this.id = TileRegistry.registerTile(this);
     }
 
     public int getId()
     {
         return id;
+    }
+
+    public int getMapColor()
+    {
+        return mapColor;
     }
 
     public static char UP = 0x01;

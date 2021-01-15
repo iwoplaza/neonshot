@@ -1,4 +1,4 @@
-package iwoplaza.neonshot.graphics;
+package iwoplaza.meatengine.graphics;
 
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
