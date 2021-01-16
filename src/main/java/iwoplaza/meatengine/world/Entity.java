@@ -3,21 +3,10 @@ package iwoplaza.meatengine.world;
 import iwoplaza.meatengine.IDisposable;
 import iwoplaza.meatengine.IEngineContext;
 import org.joml.Vector2i;
+import org.joml.Vector2ic;
 
 public abstract class Entity implements IDisposable
 {
-
-    /**
-     * The entity's tile-position before a movement.
-     * Used by the renderer to interpolate with nextPosition.
-     */
-    protected Vector2i prevPosition = new Vector2i();
-
-    /**
-     * The entity's tile-position after a movement.
-     * Used by the renderer to interpolate with prevPosition.
-     */
-    protected Vector2i nextPosition = new Vector2i();
 
     /**
      * Allows the entity to know what context it exists in.
@@ -47,27 +36,6 @@ public abstract class Entity implements IDisposable
     {
     }
 
-    public void setPosition(int x, int y)
-    {
-        this.prevPosition.set(x, y);
-        this.nextPosition.set(x, y);
-    }
-
-    public void setPosition(Vector2i position)
-    {
-        this.setPosition(position.x, position.y);
-    }
-
-    public Vector2i getPrevPosition()
-    {
-        return prevPosition;
-    }
-
-    public Vector2i getNextPosition()
-    {
-        return nextPosition;
-    }
-
     public IWorld getWorld()
     {
         return this.world;
@@ -81,4 +49,5 @@ public abstract class Entity implements IDisposable
     @Override
     public abstract void dispose();
 
+    public abstract boolean doesOccupyPosition(Vector2ic tileLocation);
 }

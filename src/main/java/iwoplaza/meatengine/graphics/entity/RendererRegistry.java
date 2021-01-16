@@ -33,6 +33,12 @@ public class RendererRegistry<C extends IEngineContext> implements IDisposable, 
     {
         @SuppressWarnings("unchecked")
         IEntityRenderer<T, C> renderer = (IEntityRenderer<T, C>) getRenderer(entity);
+
+        if (renderer == null)
+        {
+            throw new IllegalStateException(String.format("Trying to render an entity without a registered renderer: %s", entity));
+        }
+
         renderer.render(context, entity);
     }
 

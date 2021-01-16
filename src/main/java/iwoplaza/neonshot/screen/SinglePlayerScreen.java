@@ -15,7 +15,9 @@ import iwoplaza.neonshot.Tiles;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.neonshot.world.entity.PawnEnemyEntity;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
+import org.joml.Vector2i;
 
 import java.io.IOException;
 
@@ -61,6 +63,8 @@ public class SinglePlayerScreen implements IScreen
     public void init(Window window)
     {
         this.gameRenderer.init(window);
+
+        this.world.spawnEntity(new PawnEnemyEntity(new Vector2i(2, this.world.getTileMap().getHeight() - 3)));
     }
 
     @Override

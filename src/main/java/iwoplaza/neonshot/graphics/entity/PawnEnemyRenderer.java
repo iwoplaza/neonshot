@@ -4,21 +4,23 @@ import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
 import iwoplaza.meatengine.graphics.GlStack;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.meatengine.graphics.PathfinderDebug;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
 import iwoplaza.neonshot.Direction;
 import iwoplaza.neonshot.Statics;
-import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.neonshot.world.entity.PawnEnemyEntity;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
 import org.joml.Vector2f;
 
 import java.io.IOException;
 
-public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
+public class PawnEnemyRenderer implements IGameEntityRenderer<PawnEnemyEntity>
 {
-    private TextureAsset playerTexture;
-    private Sprite playerSprite;
+    private TextureAsset texture;
+    private Sprite sprite;
 
-    public PlayerRenderer()
+    public PawnEnemyRenderer()
     {
     }
 
@@ -26,9 +28,9 @@ public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
     public void registerAssets(IAssetLoader loader) throws IOException
     {
         // Assets are disposed of automatically.
-        loader.registerAsset(playerTexture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "textures/entities/player.png")));
+        loader.registerAsset(texture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "textures/entities/pawn.png")));
 
-        this.playerSprite = new Sprite(playerTexture, 32, 32);
+        this.sprite = new Sprite(texture, 32, 32);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
     {
     }
 
-    private Vector2f getPlayerRenderPosition(PlayerEntity entity, float partialTicks)
+    private Vector2f getRenderPosition(PawnEnemyEntity entity, float partialTicks)
     {
         Vector2f position = new Vector2f(entity.getNextPosition());
         int moveCooldown = entity.getMoveCooldown();
@@ -53,22 +55,22 @@ public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
     }
 
     @Override
-    public void render(IGameRenderContext ctx, PlayerEntity entity)
+    public void render(IGameRenderContext ctx, PawnEnemyEntity entity)
     {
         GlStack.push();
 
         final int tileSize = ctx.getTileSize();
         final float partialTicks = ctx.getPartialTicks();
 
-        Vector2f position = this.getPlayerRenderPosition(entity, partialTicks);
+        Vector2f position = this.getRenderPosition(entity, partialTicks);
         position.mul(tileSize);
 
         GlStack.translate(position.x, position.y, 0);
 
-        Direction turnDir = entity.getDirection();
-        this.playerSprite.setFrameX(turnDir.ordinal());
-        this.playerSprite.draw();
+        this.sprite.draw();
 
         GlStack.pop();
+
+        PathfinderDebug.INSTANCE.draw(ctx, entity.getPathfindingActor());
     }
 }

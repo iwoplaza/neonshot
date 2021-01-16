@@ -2,20 +2,16 @@ package iwoplaza.meatengine.pathfinding;
 
 import java.util.*;
 
-public class AStarSolver<T extends IGraphNode>
+public class AStarSolver<T>
 {
     private final IGraph<T> graph;
-    private final ICostScorer<T> nextNodeScorer;
-    private final ICostScorer<T> targetScorer;
 
-    public AStarSolver(IGraph<T> graph, ICostScorer<T> nextNodeScorer, ICostScorer<T> targetScorer)
+    public AStarSolver(IGraph<T> graph)
     {
         this.graph = graph;
-        this.nextNodeScorer = nextNodeScorer;
-        this.targetScorer = targetScorer;
     }
 
-    public List<T> findRoute(T from, T to)
+    public List<T> findRoute(T from, T to, ICostScorer<T> nextNodeScorer, ICostScorer<T> targetScorer)
     {
         Queue<RouteNode<T>> openSet = new PriorityQueue<>();
         Map<T, RouteNode<T>> metaMap = new HashMap<>();
@@ -60,9 +56,9 @@ public class AStarSolver<T extends IGraphNode>
      * @param destination The final node of the returned path.
      * @param metaMap A look up for meta route information for each node.
      */
-    private static <T extends IGraphNode> List<T> backtrackFrom(RouteNode<T> destination, Map<T, RouteNode<T>> metaMap)
+    private static <T> List<T> backtrackFrom(RouteNode<T> destination, Map<T, RouteNode<T>> metaMap)
     {
-        List<T> route = new ArrayList<>();
+        List<T> route = new LinkedList<>();
 
         do
         {

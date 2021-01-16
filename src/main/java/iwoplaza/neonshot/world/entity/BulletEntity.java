@@ -2,11 +2,11 @@ package iwoplaza.neonshot.world.entity;
 
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.neonshot.Direction;
-import org.joml.Vector2i;
+import org.joml.Vector2ic;
 
 public abstract class BulletEntity extends DirectionalEntity
 {
-    public BulletEntity(Vector2i position, Direction direction)
+    public BulletEntity(Vector2ic position, Direction direction)
     {
         this.setPosition(position);
         this.direction = direction;
@@ -19,12 +19,18 @@ public abstract class BulletEntity extends DirectionalEntity
 
         this.nextPosition.add(this.direction.getAsVector());
 
-        if (!this.world.canTraverseTo(this.nextPosition))
+        if (!this.world.canTraverseTo(this.nextPosition, false))
         {
             this.dead = true;
         }
 
         super.update(context);
+    }
+
+    @Override
+    public boolean doesOccupyPosition(Vector2ic tileLocation)
+    {
+        return false;
     }
 
     @Override

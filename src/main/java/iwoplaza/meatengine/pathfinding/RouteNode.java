@@ -1,6 +1,6 @@
 package iwoplaza.meatengine.pathfinding;
 
-public class RouteNode<T extends IGraphNode> implements Comparable<RouteNode>
+public class RouteNode<T> implements Comparable<RouteNode>
 {
     private final T current;
     private T previous;

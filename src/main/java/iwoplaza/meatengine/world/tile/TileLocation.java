@@ -1,6 +1,8 @@
 package iwoplaza.meatengine.world.tile;
 
-public class TileLocation
+import iwoplaza.meatengine.pathfinding.IGraphNode;
+
+public class TileLocation implements IGraphNode
 {
 
     public final int x;

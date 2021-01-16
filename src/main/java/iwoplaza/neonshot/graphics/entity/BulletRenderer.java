@@ -26,7 +26,7 @@ public class BulletRenderer<T extends BulletEntity> implements IGameEntityRender
     public void registerAssets(IAssetLoader loader) throws IOException
     {
         // Assets are disposed of automatically.
-        loader.registerAsset(bulletTexture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "textures/bullet.png")));
+        loader.registerAsset(bulletTexture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "textures/entities/bullet.png")));
 
         this.bulletSprite = new Sprite(bulletTexture, 32, 32);
     }
@@ -50,10 +50,10 @@ public class BulletRenderer<T extends BulletEntity> implements IGameEntityRender
         position.lerp(nextPosition, partialTicks);
         position.mul(tileSize);
 
-        Direction turnDir = entity.getDirection();
+        Direction direction = entity.getDirection();
         GlStack.translate(position.x, position.y, 0);
         GlStack.translate(tileSize/2.0f, tileSize/2.0f, 0);
-        GlStack.rotate((float) (turnDir.ordinal() * Math.PI / 2.0), 0, 0, 1);
+        GlStack.rotate(direction.getAngle(), 0, 0, 1);
         GlStack.translate(-tileSize/2.0f, -tileSize/2.0f, 0);
 
         this.bulletSprite.draw();

@@ -1,6 +1,6 @@
 package iwoplaza.meatengine.world.tile;
 
-import org.joml.Vector2i;
+import org.joml.Vector2ic;
 
 public class TileMap
 {
@@ -43,9 +43,9 @@ public class TileMap
         return this.tiles[y * width + x];
     }
 
-    public TileData getTileAt(Vector2i position)
+    public TileData getTileAt(Vector2ic position)
     {
-        return this.getTileAt(position.x, position.y);
+        return this.getTileAt(position.x(), position.y());
     }
 
     public TileData getTileAt(TileLocation tileLocation)

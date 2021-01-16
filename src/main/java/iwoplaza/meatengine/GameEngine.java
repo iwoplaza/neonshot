@@ -3,6 +3,7 @@ package iwoplaza.meatengine;
 import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.graphics.LineRenderer;
+import iwoplaza.meatengine.graphics.PathfinderDebug;
 import iwoplaza.meatengine.graphics.sprite.SpriteRenderer;
 import iwoplaza.meatengine.lang.LocalizationLoader;
 import iwoplaza.meatengine.lang.Localizer;
@@ -201,6 +202,8 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
     @Override
     public void registerAssets(IAssetLoader assetLoader) throws IOException
     {
+        PathfinderDebug.INSTANCE.init(assetLoader);
+
         for (IScreen screen : registeredScreens)
         {
             screen.registerAssets(assetLoader);
