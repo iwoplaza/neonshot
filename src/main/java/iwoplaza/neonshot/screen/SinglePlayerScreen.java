@@ -11,6 +11,7 @@ import iwoplaza.meatengine.world.World;
 import iwoplaza.neonshot.Direction;
 import iwoplaza.neonshot.GameLevelLoader;
 import iwoplaza.neonshot.Statics;
+import iwoplaza.neonshot.Tiles;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
@@ -40,6 +41,8 @@ public class SinglePlayerScreen implements IScreen
                 this.player = new PlayerEntity();
                 this.player.setPosition(x, y);
                 world.spawnEntity(this.player);
+
+                world.getTileMap().setTile(x, y, Tiles.CHESSBOARD_FLOOR);
             });
             this.world = levelLoader.loadFromStream((AssetLocation.asResource(Statics.RES_ORIGIN, "levels/level1.png")).getInputStream());
             this.gameRenderer = new GameRenderer(world);
@@ -126,7 +129,10 @@ public class SinglePlayerScreen implements IScreen
     @Override
     public void handleKeyPressed(int key, int mods)
     {
-
+        if (key == GLFW_KEY_SPACE)
+        {
+            this.player.shoot();
+        }
     }
 
     @Override

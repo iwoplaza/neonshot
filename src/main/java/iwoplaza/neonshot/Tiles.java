@@ -13,9 +13,9 @@ public class Tiles
 
     public static void registerTiles()
     {
-        VOID = new FullTile(0, 0x000000);
+        VOID = new FullTile(0, 0x000000, false);
         CHESSBOARD_FLOOR = new ChessBoardTile(1, 0xFFFFFF);
-        SOLID_WALL_PLAIN = new FullTile(3, 0xAAAAAA);
+        SOLID_WALL_PLAIN = new FullTile(3, 0xAAAAAA, false);
     }
 
 }

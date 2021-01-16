@@ -1,7 +1,9 @@
 package iwoplaza.neonshot.world.entity;
 
 import iwoplaza.meatengine.IEngineContext;
+import iwoplaza.meatengine.world.tile.TileLocation;
 import iwoplaza.neonshot.Direction;
+import org.joml.Vector2i;
 
 public class PlayerEntity extends DirectionalEntity
 {
@@ -54,17 +56,28 @@ public class PlayerEntity extends DirectionalEntity
                     this.moveCooldown--;
                 }
                 else {
-                    this.moveStep(this.direction);
-                    this.moveCooldown = getMoveDuration();
+                    if (this.moveStep(this.direction))
+                    {
+                        this.moveCooldown = getMoveDuration();
+                    }
                 }
                 break;
         }
     }
 
-    private void moveStep(Direction direction)
+    private boolean moveStep(Direction direction)
     {
         this.prevPosition.set(this.nextPosition);
-        this.nextPosition.add(direction.getAsVector());
+        Vector2i nextPosition = new Vector2i(this.prevPosition);
+        nextPosition.add(direction.getAsVector());
+
+        if (this.world.canTraverseTo(nextPosition))
+        {
+            this.nextPosition.set(nextPosition);
+            return true;
+        }
+
+        return false;
     }
 
     private void setMoveState(MoveState moveState)
@@ -113,6 +126,12 @@ public class PlayerEntity extends DirectionalEntity
                 this.setMoveState(MoveState.WINDUP);
             }
         }
+    }
+
+    public void shoot()
+    {
+        SimpleBulletEntity bullet = new SimpleBulletEntity(this.nextPosition, this.direction);
+        this.world.spawnEntity(bullet);
     }
 
     public MoveState getMoveState()

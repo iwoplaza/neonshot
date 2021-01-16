@@ -16,6 +16,12 @@ public class ChessBoardTile extends Tile
     }
 
     @Override
+    public boolean isTraversable()
+    {
+        return true;
+    }
+
+    @Override
     public ITileRenderer getRenderer()
     {
         return new ChessBoardTileRenderer(this.textureFrame);

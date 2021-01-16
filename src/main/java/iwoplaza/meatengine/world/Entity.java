@@ -24,6 +24,8 @@ public abstract class Entity implements IDisposable
      */
     protected IWorld world;
 
+    protected boolean dead = false;
+
     public Entity()
     {
         this.world = null;
@@ -69,6 +71,11 @@ public abstract class Entity implements IDisposable
     public IWorld getWorld()
     {
         return this.world;
+    }
+
+    public boolean isDead()
+    {
+        return this.dead;
     }
 
     @Override

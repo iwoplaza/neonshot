@@ -7,11 +7,19 @@ public class FullTile extends Tile
 {
 
     private final int textureFrame;
+    private final boolean traversable;
 
-    public FullTile(int textureFrame, int mapColor)
+    public FullTile(int textureFrame, int mapColor, boolean traversable)
     {
         super(mapColor);
         this.textureFrame = textureFrame;
+        this.traversable = traversable;
+    }
+
+    @Override
+    public boolean isTraversable()
+    {
+        return traversable;
     }
 
     @Override

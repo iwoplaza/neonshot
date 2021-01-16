@@ -2,7 +2,9 @@ package iwoplaza.meatengine.world;
 
 import iwoplaza.meatengine.IDisposable;
 import iwoplaza.meatengine.IEngineContext;
+import iwoplaza.meatengine.world.tile.TileLocation;
 import iwoplaza.meatengine.world.tile.TileMap;
+import org.joml.Vector2i;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +28,12 @@ public class World implements IDisposable, IWorld
             Entity entity = entities.get(i);
 
             entity.update(context);
+
+            if (entity.isDead())
+            {
+                entities.remove(entity);
+                i--;
+            }
         }
     }
 
@@ -45,6 +53,7 @@ public class World implements IDisposable, IWorld
      * to another world, it cannot be added to this one as well.
      * @param entity The entity to spawn
      */
+    @Override
     public void spawnEntity(Entity entity)
     {
         entity.onSpawnedIn(this);
@@ -60,6 +69,18 @@ public class World implements IDisposable, IWorld
     public TileMap getTileMap()
     {
         return this.tileMap;
+    }
+
+    @Override
+    public boolean canTraverseTo(Vector2i tileLocation)
+    {
+        if (tileLocation.x < 0 || tileLocation.y < 0 ||
+            tileLocation.x >= this.tileMap.getWidth() || tileLocation.y >= this.tileMap.getHeight())
+        {
+            return false;
+        }
+
+        return this.tileMap.getTileAt(tileLocation).getTile().isTraversable();
     }
 
     @Override

@@ -4,10 +4,12 @@ import iwoplaza.meatengine.GameEngine;
 import iwoplaza.meatengine.assets.AssetLoader;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.neonshot.graphics.entity.BulletRenderer;
 import iwoplaza.neonshot.graphics.entity.PlayerRenderer;
 import iwoplaza.neonshot.screen.SinglePlayerScreen;
 import iwoplaza.neonshot.screen.TitleScreen;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
+import iwoplaza.neonshot.world.entity.SimpleBulletEntity;
 
 public class Main
 {
@@ -31,6 +33,7 @@ public class Main
                 Tiles.registerTiles();
 
                 rendererRegistry.registerRenderer(PlayerEntity.class, new PlayerRenderer());
+                rendererRegistry.registerRenderer(SimpleBulletEntity.class, new BulletRenderer<>());
                 // Registers all assets from registered renderers.
                 rendererRegistry.registerAssets(assetLoader);
 

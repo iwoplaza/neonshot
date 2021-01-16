@@ -24,6 +24,8 @@ public abstract class Tile
         return mapColor;
     }
 
+    public abstract boolean isTraversable();
+
     public static char UP = 0x01;
     public static char RIGHT = 0x02;
     public static char DOWN = 0x04;
