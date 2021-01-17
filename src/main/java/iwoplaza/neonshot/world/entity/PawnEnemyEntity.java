@@ -3,20 +3,20 @@ package iwoplaza.neonshot.world.entity;
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.pathfinding.IPathfindingActor;
 import iwoplaza.meatengine.pathfinding.PathfindingActor;
-import iwoplaza.meatengine.world.IPlayerEntity;
 import iwoplaza.meatengine.world.IWorld;
 import org.joml.Vector2ic;
 
-import java.util.List;
-
-public class PawnEnemyEntity extends EnemyEntity
+public class PawnEnemyEntity extends EnemyEntity implements IDamageSource
 {
     private static final int MOVE_DURATION = 10;
     private static final int WAIT_DURATION = 5;
+    private static final int ATTACK_DURATION = 20;
+    private static final int DAMAGE = 10;
 
     protected PathfindingActor pathfindingActor;
 
     protected int waitCooldown = 0;
+    protected int attackCooldown = 0;
 
     public PawnEnemyEntity(Vector2ic position)
     {
@@ -42,6 +42,11 @@ public class PawnEnemyEntity extends EnemyEntity
     {
         super.update(context);
 
+        if (attackCooldown > 0)
+        {
+            attackCooldown--;
+        }
+
         if (this.moveCooldown > 0)
         {
             this.moveCooldown--;
@@ -56,20 +61,18 @@ public class PawnEnemyEntity extends EnemyEntity
         }
         else
         {
-            this.onMoving();
+            this.performActions();
+        }
+
+        if (this.target != null)
+        {
+            this.pathfindingActor.setTarget(this.target.getPosition());
         }
 
         this.pathfindingActor.update(context);
-
-        List<IPlayerEntity> players = this.world.getPlayers();
-        if (players.size() > 0)
-        {
-            IPlayerEntity player = players.get(0);
-            this.pathfindingActor.setTarget(player.getPosition());
-        }
     }
 
-    protected void onMoving()
+    protected void performActions()
     {
         this.prevPosition.set(this.nextPosition);
 
@@ -91,6 +94,16 @@ public class PawnEnemyEntity extends EnemyEntity
             // Leaving the node, since we don't change the position.
             return false;
         });
+
+        if (attackCooldown == 0)
+        {
+            if (target.getPosition().gridDistance(this.nextPosition) <= 1)
+            {
+                target.inflictDamage(this, DAMAGE);
+                this.attackCooldown = ATTACK_DURATION;
+                System.out.println("Trying to damage target");
+            }
+        }
     }
 
     @Override

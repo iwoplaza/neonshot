@@ -154,13 +154,7 @@ public class PlayerEntity extends LivingEntity implements IPlayerEntity
     @Override
     public void onKilled()
     {
-
-    }
-
-    @Override
-    public void inflictDamage(IDamageSource source, int amount)
-    {
-
+        super.onKilled();
     }
 
     @Override

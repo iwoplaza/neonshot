@@ -10,11 +10,13 @@ import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.world.World;
 import iwoplaza.meatengine.Direction;
 import iwoplaza.neonshot.GameLevelLoader;
+import iwoplaza.neonshot.Main;
 import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.Tiles;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.neonshot.ui.game.FinishScreen;
 import iwoplaza.neonshot.ui.game.PlayerHUD;
 import iwoplaza.neonshot.world.entity.PawnEnemyEntity;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
@@ -32,6 +34,7 @@ public class SinglePlayerScreen implements IScreen
     private World world;
     private GameRenderer gameRenderer;
     private PlayerHUD playerHUD;
+    private FinishScreen finishScreen = null;
 
     private PlayerEntity player;
 
@@ -44,6 +47,7 @@ public class SinglePlayerScreen implements IScreen
             GameLevelLoader levelLoader = new GameLevelLoader((world, x, y) -> {
                 this.player = new PlayerEntity();
                 this.player.setPosition(x, y);
+                this.player.registerDeathListener(p -> this.onGameOver());
                 world.spawnEntity(this.player);
 
                 world.getTileMap().setTile(x, y, Tiles.CHESSBOARD_FLOOR);
@@ -86,12 +90,26 @@ public class SinglePlayerScreen implements IScreen
         gameRenderer.registerAssets(loader);
     }
 
+    public void onGameOver()
+    {
+        this.finishScreen = new FinishScreen("Game Over", () -> {
+            Main.GAME_ENGINE.showScreen(Main.TITLE_SCREEN);
+        });
+    }
+
     @Override
     public void update(IEngineContext context)
     {
-        this.world.update(context);
+        if (this.finishScreen != null)
+        {
+            // Do something?
+        }
+        else
+        {
+            this.world.update(context);
 
-        this.gameRenderer.update(this.context);
+            this.gameRenderer.update(this.context);
+        }
     }
 
     @Override
@@ -127,7 +145,15 @@ public class SinglePlayerScreen implements IScreen
         this.context.update(context);
 
         this.gameRenderer.render(this.context, window, world);
-        this.playerHUD.render(this.context);
+
+        if (this.finishScreen != null)
+        {
+            this.finishScreen.render(context, window);
+        }
+        else
+        {
+            this.playerHUD.render(this.context);
+        }
     }
 
     @Override
@@ -139,9 +165,16 @@ public class SinglePlayerScreen implements IScreen
     @Override
     public void handleKeyPressed(int key, int mods)
     {
-        if (key == GLFW_KEY_SPACE)
+        if (this.finishScreen != null)
         {
-            this.player.shoot();
+            this.finishScreen.handleKeyPressed(key, mods);
+        }
+        else
+        {
+            if (key == GLFW_KEY_SPACE)
+            {
+                this.player.shoot();
+            }
         }
     }
 
