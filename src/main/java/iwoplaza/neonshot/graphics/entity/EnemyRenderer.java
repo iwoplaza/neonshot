@@ -6,7 +6,7 @@ import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.neonshot.graphics.HealthBarRenderer;
 import iwoplaza.neonshot.world.entity.EnemyEntity;
 
-public abstract class EnemyRenderer<E extends EnemyEntity> extends SlidingEntityRenderer<E>
+public abstract class EnemyRenderer<E extends EnemyEntity> extends LivingRenderer<E>
 {
     private final HealthBarRenderer.HealthBarSpec healthBarSpec;
 

@@ -11,6 +11,7 @@ public class SpriteShader extends BasicShader
     private final String COLOR = "uColor";
     private final String FRAME_OFFSET = "uFrameOffset";
     private final String FRAME_SIZE = "uFrameSize";
+    private final String OVERLAY_COLOR = "uOverlayColor";
 
     public SpriteShader() throws FileNotFoundException
     {
@@ -25,12 +26,14 @@ public class SpriteShader extends BasicShader
         this.createUniform(COLOR);
         this.createUniform(FRAME_SIZE);
         this.createUniform(FRAME_OFFSET);
+        this.createUniform(OVERLAY_COLOR);
 
         ShaderHelper.operateOnShader(this, s -> {
-            s.setUniform(TEXTURE_DIFFUSE, 0);
-            s.setUniform(COLOR, 1, 1, 1, 1);
-            s.setUniform(FRAME_OFFSET, 0, 0);
-            s.setUniform(FRAME_SIZE, 1, 1);
+            s.setDiffuseTexture(0);
+            s.setColor(1, 1, 1, 1);
+            s.setFrameOffset(0, 0);
+            s.setFrameSize(1, 1);
+            s.setOverlayColor(1, 1, 1, 0);
         });
     }
 
@@ -52,5 +55,10 @@ public class SpriteShader extends BasicShader
     public void setFrameSize(float frameWidth, float frameHeight)
     {
         this.setUniform(FRAME_SIZE, frameWidth, frameHeight);
+    }
+
+    public void setOverlayColor(float r, float g, float b, float a)
+    {
+        this.setUniform(OVERLAY_COLOR, r, g, b, a);
     }
 }

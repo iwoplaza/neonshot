@@ -52,6 +52,7 @@ public class SpriteRenderer
         this.shader.setColor(1, 1, 1, 1);
         this.shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
         this.shader.setModelViewMatrix(GlStack.MAIN.top());
+        this.shader.setOverlayColor(sprite.getOverlayColor().getR(), sprite.getOverlayColor().getG(), sprite.getOverlayColor().getB(), sprite.getOverlayColor().getA());
 
         sprite.getTexture().bind();
         this.spriteMesh.render();

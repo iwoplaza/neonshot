@@ -2,8 +2,10 @@ package iwoplaza.neonshot.world.entity;
 
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.world.IPlayerEntity;
+import iwoplaza.neonshot.powerup.Powerups;
 
 import java.util.List;
+import java.util.Random;
 
 public abstract class EnemyEntity extends LivingEntity
 {
@@ -39,5 +41,26 @@ public abstract class EnemyEntity extends LivingEntity
     {
         super.onKilled();
         this.dead = true;
+
+        spawnRandomDrop();
+    }
+
+    private void spawnRandomDrop()
+    {
+        Random random = new Random();
+
+        ItemEntity itemToSpawn;
+        if (random.nextFloat() < 0.5)
+        {
+            itemToSpawn = new BandageEntity(this.nextPosition, 500);
+        }
+        else
+        {
+            // Spawning a powerup
+            int choice = random.nextInt(Powerups.POWERUPS.size());
+            itemToSpawn = new PowerupItemEntity(Powerups.POWERUPS.get(choice), this.nextPosition, 500);
+        }
+
+        this.world.spawnEntity(itemToSpawn);
     }
 }

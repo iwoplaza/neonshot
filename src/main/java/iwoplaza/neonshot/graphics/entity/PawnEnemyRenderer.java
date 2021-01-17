@@ -38,7 +38,12 @@ public class PawnEnemyRenderer extends EnemyRenderer<PawnEnemyEntity>
     @Override
     public void drawEntity(IGameRenderContext ctx, PawnEnemyEntity entity)
     {
-        this.sprite.draw();
+        this.applyDamageOverlayColor(ctx, entity, this.sprite);
+
+        if (this.isVisible(ctx, entity))
+        {
+            this.sprite.draw();
+        }
 
         super.drawEntity(ctx, entity);
     }

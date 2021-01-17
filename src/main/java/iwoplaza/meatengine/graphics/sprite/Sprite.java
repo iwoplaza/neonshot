@@ -1,6 +1,7 @@
 package iwoplaza.meatengine.graphics.sprite;
 
 import iwoplaza.meatengine.assets.TextureAsset;
+import iwoplaza.meatengine.graphics.Color;
 import iwoplaza.meatengine.graphics.Texture;
 
 public class Sprite
@@ -11,6 +12,7 @@ public class Sprite
 
     private int frameX = 0;
     private int frameY = 0;
+    private final Color overlayColor = new Color(0, 0, 0, 0);
 
     public Sprite(TextureAsset texture, int frameWidth, int frameHeight)
     {
@@ -22,6 +24,11 @@ public class Sprite
     public void draw()
     {
         SpriteRenderer.INSTANCE.draw(this);
+    }
+
+    public void setOverlayColor(Color color)
+    {
+        this.overlayColor.set(color);
     }
 
     public int getFrameWidth()
@@ -57,5 +64,10 @@ public class Sprite
     public Texture getTexture()
     {
         return this.texture.getTexture();
+    }
+
+    public Color getOverlayColor()
+    {
+        return overlayColor;
     }
 }

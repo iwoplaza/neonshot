@@ -92,7 +92,8 @@ public class SinglePlayerScreen implements IScreen
     @Override
     public void registerAssets(IAssetLoader loader) throws IOException
     {
-        gameRenderer.registerAssets(loader);
+        this.gameRenderer.registerAssets(loader);
+        this.playerHUD.registerAssets(loader);
     }
 
     public void onGameOver()
@@ -121,6 +122,11 @@ public class SinglePlayerScreen implements IScreen
     public void updatePerFrame(IEngineContext context, Window window)
     {
         world.updatePerFrame(context);
+
+        if (window.isKeyPressed(GLFW_KEY_SPACE))
+        {
+            this.player.shoot();
+        }
 
         if (window.isKeyPressed(GLFW_KEY_A))
         {
@@ -173,13 +179,6 @@ public class SinglePlayerScreen implements IScreen
         if (this.finishScreen != null)
         {
             this.finishScreen.handleKeyPressed(key, mods);
-        }
-        else
-        {
-            if (key == GLFW_KEY_SPACE)
-            {
-                this.player.shoot();
-            }
         }
     }
 

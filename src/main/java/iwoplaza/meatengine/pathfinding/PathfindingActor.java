@@ -155,7 +155,6 @@ public class PathfindingActor implements IPathfindingActor, ICostScorer<Vector2i
         catch(PathNotFoundException e)
         {
             this.path = null;
-            e.printStackTrace();
         }
     }
 

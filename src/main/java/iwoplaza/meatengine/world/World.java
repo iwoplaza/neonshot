@@ -19,6 +19,8 @@ public class World implements IDisposable, IWorld
     private final TileMap tileMap;
     private final PathfindingPool pathfindingPool;
 
+    private final Queue<Entity> entitiesToSpawn = new LinkedList<>();
+
     public World(int width, int height)
     {
         this.entities = new ArrayList<>();
@@ -32,6 +34,19 @@ public class World implements IDisposable, IWorld
 
     public void update(IEngineContext context)
     {
+        while (!entitiesToSpawn.isEmpty())
+        {
+            Entity entity = entitiesToSpawn.remove();
+            entity.onSpawnedIn(this);
+
+            this.entities.add(entity);
+
+            if (entity instanceof IPlayerEntity)
+            {
+                this.players.add((IPlayerEntity) entity);
+            }
+        }
+
         for (int i = 0; i < entities.size(); ++i)
         {
             Entity entity = entities.get(i);
@@ -67,13 +82,7 @@ public class World implements IDisposable, IWorld
     @Override
     public void spawnEntity(Entity entity)
     {
-        entity.onSpawnedIn(this);
-        this.entities.add(entity);
-
-        if (entity instanceof IPlayerEntity)
-        {
-            this.players.add((IPlayerEntity) entity);
-        }
+        this.entitiesToSpawn.add(entity);
     }
 
     public void addChallengeRoom(ChallengeRoom room)

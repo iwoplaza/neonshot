@@ -6,14 +6,17 @@ import org.joml.Vector2ic;
 
 public class SimpleBulletEntity extends BulletEntity
 {
-    public SimpleBulletEntity(Entity owner, Vector2ic position, Direction direction)
+    private final int damage;
+
+    public SimpleBulletEntity(Entity owner, Vector2ic position, Direction direction, int damage)
     {
         super(owner, position, direction);
+        this.damage = damage;
     }
 
     @Override
     protected int getDamage()
     {
-        return 10;
+        return damage;
     }
 }

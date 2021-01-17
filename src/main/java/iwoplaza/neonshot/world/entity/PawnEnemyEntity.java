@@ -95,19 +95,18 @@ public class PawnEnemyEntity extends EnemyEntity implements IDamageSource
                 return true;
             }
 
+            if (attackCooldown == 0)
+            {
+                if (target.getPosition().gridDistance(this.nextPosition) <= 1)
+                {
+                    target.inflictDamage(this, DAMAGE);
+                    this.attackCooldown = ATTACK_DURATION;
+                }
+            }
+
             // Leaving the node, since we don't change the position.
             return false;
         });
-
-        if (attackCooldown == 0)
-        {
-            if (target.getPosition().gridDistance(this.nextPosition) <= 1)
-            {
-                target.inflictDamage(this, DAMAGE);
-                this.attackCooldown = ATTACK_DURATION;
-                System.out.println("Trying to damage target");
-            }
-        }
     }
 
     @Override
