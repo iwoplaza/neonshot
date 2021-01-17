@@ -33,7 +33,7 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
     private EngineContext engineContext = new EngineContext(UPDATE_INTERVAL);
 
     private boolean running = true;
-    private boolean debugMode = false;
+    private boolean debugMode = true;
 
     public GameEngine(String windowTitle, int width, int height, boolean vSync)
     {

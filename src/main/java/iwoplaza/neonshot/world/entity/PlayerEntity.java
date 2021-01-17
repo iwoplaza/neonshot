@@ -3,6 +3,7 @@ package iwoplaza.neonshot.world.entity;
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.world.IPlayerEntity;
 import iwoplaza.meatengine.Direction;
+import iwoplaza.meatengine.world.World;
 import org.joml.Vector2ic;
 
 public class PlayerEntity extends LivingEntity implements IPlayerEntity
@@ -84,8 +85,20 @@ public class PlayerEntity extends LivingEntity implements IPlayerEntity
             if (this.moveStep(this.direction))
             {
                 this.moveCooldown = getMoveDuration();
+                this.onMoved();
             }
         }
+    }
+
+    private void onMoved()
+    {
+        World world = (World) this.world;
+        world.getChallengeRooms().forEach(r -> {
+            if (this.nextPosition.equals(r.getEntrance()))
+            {
+                r.activate();
+            }
+        });
     }
 
     private void setMoveState(MoveState moveState)

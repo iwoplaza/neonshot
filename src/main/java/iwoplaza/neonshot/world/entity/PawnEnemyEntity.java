@@ -8,14 +8,18 @@ import org.joml.Vector2ic;
 
 public class PawnEnemyEntity extends EnemyEntity implements IDamageSource
 {
+    /**
+     * The time after spawning it has to wait for before performing any action.
+     */
+    private static final int SPAWN_WAIT = 20;
     private static final int MOVE_DURATION = 10;
-    private static final int WAIT_DURATION = 5;
-    private static final int ATTACK_DURATION = 20;
+    private static final int WAIT_DURATION = 10;
+    private static final int ATTACK_DURATION = 30;
     private static final int DAMAGE = 10;
 
     protected PathfindingActor pathfindingActor;
 
-    protected int waitCooldown = 0;
+    protected int waitCooldown = SPAWN_WAIT;
     protected int attackCooldown = 0;
 
     public PawnEnemyEntity(Vector2ic position)

@@ -5,6 +5,7 @@ import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.pathfinding.PathfindingPool;
 import iwoplaza.meatengine.world.tile.TileMap;
 import iwoplaza.meatengine.Direction;
+import iwoplaza.neonshot.world.ChallengeRoom;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
@@ -14,6 +15,7 @@ public class World implements IDisposable, IWorld
 {
     private final List<Entity> entities;
     private final List<IPlayerEntity> players;
+    private final List<ChallengeRoom> challengeRooms;
     private final TileMap tileMap;
     private final PathfindingPool pathfindingPool;
 
@@ -21,6 +23,7 @@ public class World implements IDisposable, IWorld
     {
         this.entities = new ArrayList<>();
         this.players = new ArrayList<>();
+        this.challengeRooms = new ArrayList<>();
         this.tileMap = new TileMap(width, height);
         this.pathfindingPool = new PathfindingPool();
 
@@ -56,9 +59,9 @@ public class World implements IDisposable, IWorld
     }
 
     /**
-     * Spawns a newly created entity into this world.
-     * This only works on newly created entities. If you try to add an entity that already belongs
-     * to another world, it cannot be added to this one as well.
+     * Spawns a newly created entity into this world. This only works on newly created entities. If you try to add an
+     * entity that already belongs to another world, it cannot be added to this one as well.
+     *
      * @param entity The entity to spawn
      */
     @Override
@@ -71,6 +74,12 @@ public class World implements IDisposable, IWorld
         {
             this.players.add((IPlayerEntity) entity);
         }
+    }
+
+    public void addChallengeRoom(ChallengeRoom room)
+    {
+        room.assignTo(this);
+        this.challengeRooms.add(room);
     }
 
     @Override
@@ -100,7 +109,7 @@ public class World implements IDisposable, IWorld
     public boolean canTraverseTo(Vector2ic tileLocation, boolean includeEntities)
     {
         if (tileLocation.x() < 0 || tileLocation.y() < 0 ||
-            tileLocation.x() >= this.tileMap.getWidth() || tileLocation.y() >= this.tileMap.getHeight())
+                tileLocation.x() >= this.tileMap.getWidth() || tileLocation.y() >= this.tileMap.getHeight())
         {
             return false;
         }
@@ -124,10 +133,10 @@ public class World implements IDisposable, IWorld
     {
         Set<Vector2ic> connections = new HashSet<>();
 
-        Vector2ic up =       new Vector2i(node).add(Direction.UP);
-        Vector2ic right =    new Vector2i(node).add(Direction.RIGHT);
-        Vector2ic down =     new Vector2i(node).add(Direction.DOWN);
-        Vector2ic left =     new Vector2i(node).add(Direction.LEFT);
+        Vector2ic up = new Vector2i(node).add(Direction.UP);
+        Vector2ic right = new Vector2i(node).add(Direction.RIGHT);
+        Vector2ic down = new Vector2i(node).add(Direction.DOWN);
+        Vector2ic left = new Vector2i(node).add(Direction.LEFT);
 
         if (canTraverseTo(up, false))
             connections.add(up);
@@ -142,6 +151,11 @@ public class World implements IDisposable, IWorld
             connections.add(left);
 
         return connections;
+    }
+
+    public List<ChallengeRoom> getChallengeRooms()
+    {
+        return challengeRooms;
     }
 
     @Override

@@ -4,6 +4,7 @@ import iwoplaza.meatengine.GameEngine;
 import iwoplaza.meatengine.assets.AssetLoader;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.neonshot.graphics.ChallengeRoomDebug;
 import iwoplaza.neonshot.graphics.HealthBarRenderer;
 import iwoplaza.neonshot.graphics.entity.BulletRenderer;
 import iwoplaza.neonshot.graphics.entity.PawnEnemyRenderer;
@@ -35,6 +36,7 @@ public class Main
                 CommonFonts.loadFonts();
                 Tiles.registerTiles();
                 HealthBarRenderer.INSTANCE.init();
+                ChallengeRoomDebug.INSTANCE.init(assetLoader);
 
                 rendererRegistry.registerRenderer(PlayerEntity.class, new PlayerRenderer());
                 rendererRegistry.registerRenderer(SimpleBulletEntity.class, new BulletRenderer<>());
@@ -51,8 +53,6 @@ public class Main
                 GAME_ENGINE.registerAssets(assetLoader);
 //                GAME_ENGINE.showScreen(TITLE_SCREEN);
                 GAME_ENGINE.showScreen(SINGLE_PLAYER_SCREEN);
-
-                assetLoader.preloadAssets();
             });
 
             GAME_ENGINE.start();

@@ -8,6 +8,11 @@ public class TileMap
     protected final int height;
     protected final TileData[] tiles;
 
+    /**
+     * Should be true if the tilemap needs to be re-rendered.
+     */
+    protected boolean dirty = true;
+
     public TileMap(int width, int height)
     {
         this.width = width;
@@ -21,11 +26,18 @@ public class TileMap
             this.tiles[y * width + x] = new TileData(tileId);
         else
             this.tiles[y * width + x].setTileId(tileId);
+
+        this.markDirty();
     }
 
     public void setTile(int x, int y, Tile tile)
     {
         this.setTile(x, y, tile.getId());
+    }
+
+    public void markDirty()
+    {
+        this.dirty = true;
     }
 
     public int getWidth()
@@ -36,6 +48,11 @@ public class TileMap
     public int getHeight()
     {
         return height;
+    }
+
+    public boolean isDirty()
+    {
+        return dirty;
     }
 
     public TileData getTileAt(int x, int y)

@@ -58,4 +58,17 @@ public enum Direction
 
         return null;
     }
+
+    public Direction getFlippedVertically()
+    {
+        switch (this)
+        {
+            case NORTH:
+                return SOUTH;
+            case SOUTH:
+                return NORTH;
+            default:
+                return this;
+        }
+    }
 }

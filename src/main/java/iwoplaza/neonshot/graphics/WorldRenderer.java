@@ -16,6 +16,7 @@ import iwoplaza.meatengine.world.Entity;
 import iwoplaza.meatengine.world.World;
 import iwoplaza.meatengine.world.tile.*;
 import iwoplaza.neonshot.CommonShaders;
+import iwoplaza.neonshot.Main;
 import iwoplaza.neonshot.Statics;
 
 import java.io.IOException;
@@ -92,7 +93,7 @@ public class WorldRenderer implements IDisposable, IAssetConsumer
 
         this.tileMapTexture.bind();
 
-        if (this.bakedMesh == null)
+        if (this.bakedMesh == null || world.getTileMap().isDirty())
             this.bakeMesh(context);
 
         this.bakedMesh.render();
@@ -104,8 +105,8 @@ public class WorldRenderer implements IDisposable, IAssetConsumer
             context.getRendererRegistry().renderEntity(context, entity);
         }
 
-//        if (Main.GAME_ENGINE.isDebugModeOn())
-//            DebugGameScreenRenderer.renderPhysicsGizmos(this, renderer);
+        if (Main.GAME_ENGINE.isDebugModeOn())
+            ChallengeRoomDebug.INSTANCE.draw(context, this.world);
     }
 
     @Override

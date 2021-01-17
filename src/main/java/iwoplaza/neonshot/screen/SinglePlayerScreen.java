@@ -2,16 +2,14 @@ package iwoplaza.neonshot.screen;
 
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.Window;
-import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.graphics.Camera;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.world.World;
 import iwoplaza.meatengine.Direction;
-import iwoplaza.neonshot.GameLevelLoader;
+import iwoplaza.neonshot.loader.GameLevelLoader;
 import iwoplaza.neonshot.Main;
-import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.Tiles;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
@@ -54,7 +52,15 @@ public class SinglePlayerScreen implements IScreen
 
                 this.playerHUD = new PlayerHUD(this.player);
             });
-            this.world = levelLoader.loadFromStream((AssetLocation.asResource(Statics.RES_ORIGIN, "levels/level1.png")).getInputStream());
+            this.world = levelLoader.loadFromName("level1", key -> {
+                switch(key)
+                {
+                    case "Pawn":
+                        return PawnEnemyEntity::new;
+                    default:
+                        throw new IllegalStateException(String.format("Couldn't find entity factory for '%s'", key));
+                }
+            });
             this.gameRenderer = new GameRenderer(world);
 
             Camera camera = new Camera();
