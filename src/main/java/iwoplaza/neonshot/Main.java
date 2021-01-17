@@ -6,10 +6,7 @@ import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.neonshot.graphics.ChallengeRoomDebug;
 import iwoplaza.neonshot.graphics.HealthBarRenderer;
-import iwoplaza.neonshot.graphics.entity.BulletRenderer;
-import iwoplaza.neonshot.graphics.entity.ItemRenderer;
-import iwoplaza.neonshot.graphics.entity.PawnEnemyRenderer;
-import iwoplaza.neonshot.graphics.entity.PlayerRenderer;
+import iwoplaza.neonshot.graphics.entity.*;
 import iwoplaza.neonshot.screen.SinglePlayerScreen;
 import iwoplaza.neonshot.screen.TitleScreen;
 import iwoplaza.neonshot.world.entity.*;
@@ -27,7 +24,7 @@ public class Main
     {
         try
         {
-            GAME_ENGINE = new GameEngine("NeonShot",
+            GAME_ENGINE = new GameEngine("NEON_SHOT",
                     900, 600, true);
 
             GAME_ENGINE.addInitFunction(() -> {
@@ -42,6 +39,7 @@ public class Main
                 rendererRegistry.registerRenderer(PawnEnemyEntity.class, new PawnEnemyRenderer());
                 rendererRegistry.registerRenderer(BandageEntity.class, new ItemRenderer<>());
                 rendererRegistry.registerRenderer(PowerupItemEntity.class, new ItemRenderer<>());
+                rendererRegistry.registerRenderer(FinishZoneEntity.class, new FinishZoneRenderer());
                 // Registers all assets from registered renderers.
                 rendererRegistry.registerAssets(assetLoader);
 

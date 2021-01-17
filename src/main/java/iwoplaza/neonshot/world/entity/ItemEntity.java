@@ -5,7 +5,6 @@ import org.joml.Vector2ic;
 
 public abstract class ItemEntity extends TileboundEntity implements IConsumable
 {
-    private int lifetime = 0;
     private final int maxLifetime;
     private final boolean hasLimitedLifetime;
 
@@ -30,7 +29,6 @@ public abstract class ItemEntity extends TileboundEntity implements IConsumable
     {
         super.update(context);
 
-        this.lifetime++;
         if (this.lifetime > this.maxLifetime)
         {
             this.dead = true;
@@ -47,11 +45,6 @@ public abstract class ItemEntity extends TileboundEntity implements IConsumable
     public boolean isConsumableFrom(Vector2ic position)
     {
         return this.nextPosition.equals(position);
-    }
-
-    public int getLifetime()
-    {
-        return lifetime;
     }
 
     public int getMaxLifetime()

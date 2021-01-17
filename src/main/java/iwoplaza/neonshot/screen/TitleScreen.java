@@ -32,6 +32,12 @@ public class TitleScreen implements IScreen
     }
 
     @Override
+    public void onOpened()
+    {
+
+    }
+
+    @Override
     public void init(Window window)
     {
         this.modelViewMatrix = new Matrix4f();

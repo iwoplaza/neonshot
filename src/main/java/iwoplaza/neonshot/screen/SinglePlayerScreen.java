@@ -50,7 +50,8 @@ public class SinglePlayerScreen implements IScreen
                 world.getTileMap().setTile(x, y, Tiles.CHESSBOARD_FLOOR);
 
                 this.playerHUD = new PlayerHUD(this.player);
-            });
+            }, this::onLevelComplete);
+
             this.world = levelLoader.loadFromName("level1", key -> {
                 switch(key)
                 {
@@ -73,11 +74,15 @@ public class SinglePlayerScreen implements IScreen
     }
 
     @Override
+    public void onOpened()
+    {
+
+    }
+
+    @Override
     public void init(Window window)
     {
         this.gameRenderer.init(window);
-
-        this.world.spawnEntity(new PawnEnemyEntity(new Vector2i(2, this.world.getTileMap().getHeight() - 3)));
     }
 
     @Override
@@ -99,6 +104,13 @@ public class SinglePlayerScreen implements IScreen
     public void onGameOver()
     {
         this.finishScreen = new FinishScreen("Game Over", () -> {
+            Main.GAME_ENGINE.showScreen(Main.TITLE_SCREEN);
+        });
+    }
+
+    public void onLevelComplete()
+    {
+        this.finishScreen = new FinishScreen("Level Complete", () -> {
             Main.GAME_ENGINE.showScreen(Main.TITLE_SCREEN);
         });
     }

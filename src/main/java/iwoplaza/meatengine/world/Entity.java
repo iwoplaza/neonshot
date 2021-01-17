@@ -7,6 +7,8 @@ import org.joml.Vector2ic;
 public abstract class Entity implements IDisposable
 {
 
+    protected int lifetime = 0;
+
     /**
      * Allows the entity to know what context it exists in.
      */
@@ -33,6 +35,7 @@ public abstract class Entity implements IDisposable
 
     public void update(IEngineContext context)
     {
+        this.lifetime++;
     }
 
     public IWorld getWorld()
@@ -43,6 +46,11 @@ public abstract class Entity implements IDisposable
     public boolean isDead()
     {
         return this.dead;
+    }
+
+    public int getLifetime()
+    {
+        return lifetime;
     }
 
     @Override

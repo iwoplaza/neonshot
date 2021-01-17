@@ -7,8 +7,10 @@ import iwoplaza.meatengine.world.World;
 import iwoplaza.meatengine.world.tile.Tile;
 import iwoplaza.meatengine.world.tile.TileRegistry;
 import iwoplaza.neonshot.Statics;
+import iwoplaza.neonshot.Tiles;
 import iwoplaza.neonshot.world.ChallengeRoom;
 import iwoplaza.neonshot.world.IChallengeEntityFactory;
+import iwoplaza.neonshot.world.entity.FinishZoneEntity;
 import org.joml.Vector2i;
 
 import java.io.IOException;
@@ -16,13 +18,16 @@ import java.io.IOException;
 public class GameLevelLoader
 {
     private static final int PLAYER_COLOR = 0x00ff00;
+    private static final int FINISH_ZONE_COLOR = 0x0000ff;
 
     private final LevelLoader loader;
     private final IPlayerSpawner playerSpawner;
+    private final FinishZoneEntity.IFinishCallback finishCallback;
 
-    public GameLevelLoader(IPlayerSpawner playerSpawner)
+    public GameLevelLoader(IPlayerSpawner playerSpawner, FinishZoneEntity.IFinishCallback finishCallback)
     {
         this.playerSpawner = playerSpawner;
+        this.finishCallback = finishCallback;
         this.loader = new LevelLoader(this::respondToColor);
     }
 
@@ -71,6 +76,13 @@ public class GameLevelLoader
         if (color == PLAYER_COLOR)
         {
             this.playerSpawner.spawnPlayerAt(world, x, y);
+            return;
+        }
+
+        if (color == FINISH_ZONE_COLOR)
+        {
+            world.spawnEntity(new FinishZoneEntity(new Vector2i(x, y), this.finishCallback));
+            world.getTileMap().setTile(x, y, Tiles.CHESSBOARD_FLOOR);
             return;
         }
 
