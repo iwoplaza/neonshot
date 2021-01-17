@@ -2,7 +2,7 @@ package iwoplaza.neonshot.world.entity;
 
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.world.IPlayerEntity;
-import iwoplaza.neonshot.Direction;
+import iwoplaza.meatengine.Direction;
 import org.joml.Vector2ic;
 
 public class PlayerEntity extends SlidingEntity implements IPlayerEntity
@@ -136,7 +136,7 @@ public class PlayerEntity extends SlidingEntity implements IPlayerEntity
 
     public void shoot()
     {
-        SimpleBulletEntity bullet = new SimpleBulletEntity(this.nextPosition, this.direction);
+        SimpleBulletEntity bullet = new SimpleBulletEntity(this, this.nextPosition, this.direction);
         this.world.spawnEntity(bullet);
     }
 

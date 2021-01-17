@@ -1,6 +1,6 @@
 package iwoplaza.neonshot.world.entity;
 
-import iwoplaza.neonshot.Direction;
+import iwoplaza.meatengine.Direction;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 

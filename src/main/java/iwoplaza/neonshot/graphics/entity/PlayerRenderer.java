@@ -5,7 +5,7 @@ import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
-import iwoplaza.neonshot.Direction;
+import iwoplaza.meatengine.Direction;
 import iwoplaza.neonshot.Statics;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.neonshot.world.entity.PlayerEntity;

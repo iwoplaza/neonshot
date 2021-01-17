@@ -8,7 +8,7 @@ import iwoplaza.meatengine.graphics.Camera;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.world.World;
-import iwoplaza.neonshot.Direction;
+import iwoplaza.meatengine.Direction;
 import iwoplaza.neonshot.GameLevelLoader;
 import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.Tiles;

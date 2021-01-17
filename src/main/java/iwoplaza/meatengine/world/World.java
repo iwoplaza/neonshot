@@ -4,7 +4,7 @@ import iwoplaza.meatengine.IDisposable;
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.pathfinding.PathfindingPool;
 import iwoplaza.meatengine.world.tile.TileMap;
-import iwoplaza.neonshot.Direction;
+import iwoplaza.meatengine.Direction;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 

@@ -99,6 +99,12 @@ public class PawnEnemyEntity extends EnemyEntity
         return this.nextPosition.equals(tileLocation);
     }
 
+    @Override
+    public boolean isHittableFrom(Vector2ic position)
+    {
+        return this.nextPosition.equals(position);
+    }
+
     public IPathfindingActor getPathfindingActor()
     {
         return this.pathfindingActor;

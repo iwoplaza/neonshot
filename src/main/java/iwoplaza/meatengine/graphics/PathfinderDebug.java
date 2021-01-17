@@ -5,8 +5,7 @@ import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
 import iwoplaza.meatengine.pathfinding.IPathfindingActor;
-import iwoplaza.neonshot.Direction;
-import iwoplaza.neonshot.Statics;
+import iwoplaza.meatengine.Direction;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
@@ -23,7 +22,7 @@ public class PathfinderDebug
     public void init(IAssetLoader loader) throws IOException
     {
         TextureAsset texture;
-        loader.registerAsset(texture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "textures/debug.png")));
+        loader.registerAsset(texture = new TextureAsset(AssetLocation.asResource("textures/debug.png")));
 
         this.sprite = new Sprite(texture, 32, 32);
     }

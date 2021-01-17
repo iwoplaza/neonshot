@@ -1,4 +1,4 @@
-package iwoplaza.neonshot;
+package iwoplaza.meatengine;
 
 import org.joml.Vector2i;
 import org.joml.Vector2ic;

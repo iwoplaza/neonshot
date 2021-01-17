@@ -4,6 +4,7 @@ import iwoplaza.meatengine.GameEngine;
 import iwoplaza.meatengine.assets.AssetLoader;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.neonshot.graphics.HealthBarRenderer;
 import iwoplaza.neonshot.graphics.entity.BulletRenderer;
 import iwoplaza.neonshot.graphics.entity.PawnEnemyRenderer;
 import iwoplaza.neonshot.graphics.entity.PlayerRenderer;
@@ -33,6 +34,7 @@ public class Main
                 CommonShaders.loadShaders();
                 CommonFonts.loadFonts();
                 Tiles.registerTiles();
+                HealthBarRenderer.INSTANCE.init();
 
                 rendererRegistry.registerRenderer(PlayerEntity.class, new PlayerRenderer());
                 rendererRegistry.registerRenderer(SimpleBulletEntity.class, new BulletRenderer<>());

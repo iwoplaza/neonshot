@@ -6,7 +6,7 @@ import iwoplaza.meatengine.assets.TextureAsset;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
-import iwoplaza.neonshot.Direction;
+import iwoplaza.meatengine.Direction;
 import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.world.entity.BulletEntity;
 import org.joml.Vector2f;

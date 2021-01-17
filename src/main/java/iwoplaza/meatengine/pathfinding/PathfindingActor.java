@@ -2,7 +2,7 @@ package iwoplaza.meatengine.pathfinding;
 
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.world.IWorld;
-import iwoplaza.neonshot.Direction;
+import iwoplaza.meatengine.Direction;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;

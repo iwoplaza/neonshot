@@ -1,22 +1,34 @@
 package iwoplaza.neonshot.world.entity;
 
 import iwoplaza.meatengine.IEngineContext;
-import iwoplaza.neonshot.Direction;
+import iwoplaza.meatengine.Direction;
+import iwoplaza.meatengine.world.Entity;
 import org.joml.Vector2ic;
 
-public abstract class BulletEntity extends DirectionalEntity
+public abstract class BulletEntity extends DirectionalEntity implements IDamageSource
 {
-    public BulletEntity(Vector2ic position, Direction direction)
+    public final Entity owner;
+
+    public BulletEntity(Entity owner, Vector2ic position, Direction direction)
     {
-        this.setPosition(position);
+        this.owner = owner;
         this.direction = direction;
+        this.setPosition(position);
     }
+
+    protected abstract int getDamage();
 
     @Override
     public void update(IEngineContext context)
     {
-        this.prevPosition.set(this.nextPosition);
+        super.update(context);
 
+        if (this.dead)
+        {
+            return;
+        }
+
+        this.prevPosition.set(this.nextPosition);
         this.nextPosition.add(this.direction.getAsVector());
 
         if (!this.world.canTraverseTo(this.nextPosition, false))
@@ -24,7 +36,18 @@ public abstract class BulletEntity extends DirectionalEntity
             this.dead = true;
         }
 
-        super.update(context);
+        for (Entity entity : this.world.getEntities())
+        {
+            if (entity instanceof IDamageable && entity != this.owner)
+            {
+                IDamageable damageable = (IDamageable) entity;
+                if (damageable.isHittableFrom(this.nextPosition) || damageable.isHittableFrom(this.prevPosition))
+                {
+                    damageable.inflictDamage(this, getDamage());
+                    this.dead = true;
+                }
+            }
+        }
     }
 
     @Override

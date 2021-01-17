@@ -1,6 +1,6 @@
 package iwoplaza.meatengine.pathfinding;
 
-import iwoplaza.neonshot.Direction;
+import iwoplaza.meatengine.Direction;
 import org.joml.Vector2ic;
 
 import java.util.List;
