@@ -52,9 +52,19 @@ public class BulletRenderer<T extends BulletEntity> implements IGameEntityRender
 
         Direction direction = entity.getDirection();
         GlStack.translate(position.x, position.y, 0);
+
+        // Moving the gun up a little to line up with the gun more.
+        if (direction == Direction.EAST || direction == Direction.WEST)
+        {
+            GlStack.translate(0, 5, 0);
+        }
+
         GlStack.translate(tileSize/2.0f, tileSize/2.0f, 0);
         GlStack.rotate(direction.getAngle(), 0, 0, 1);
         GlStack.translate(-tileSize/2.0f, -tileSize/2.0f, 0);
+
+        // Moving the beam a little more forward.
+        GlStack.translate(0, 16, 0);
 
         this.bulletSprite.draw();
 

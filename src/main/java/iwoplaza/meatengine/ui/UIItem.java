@@ -6,7 +6,7 @@ import iwoplaza.meatengine.IEngineContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UIItem implements IDisposable
+public abstract class UIItem<C extends IEngineContext> implements IDisposable
 {
 
     protected List<UIItem> childItems;
@@ -21,7 +21,7 @@ public abstract class UIItem implements IDisposable
         this.childItems.add(item);
     }
 
-    public void render(IEngineContext ctx)
+    public void render(C ctx)
     {
         for (UIItem item : childItems)
         {

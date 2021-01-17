@@ -67,6 +67,10 @@ public class PlayerRenderer implements IGameEntityRenderer<PlayerEntity>
 
         Direction turnDir = entity.getDirection();
         this.playerSprite.setFrameX(turnDir.ordinal());
+
+        int shootFrame = Math.min(entity.getShootDuration() - entity.getShootCooldown(), 3) % 3;
+
+        this.playerSprite.setFrameY(shootFrame);
         this.playerSprite.draw();
 
         GlStack.pop();

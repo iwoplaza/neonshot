@@ -64,7 +64,7 @@ public class PathfindingPool extends Thread implements IPathfindingPool
         }
         catch (InterruptedException e)
         {
-            e.printStackTrace();
+            // This pool has been discarded.
         }
     }
 

@@ -5,17 +5,21 @@ import iwoplaza.meatengine.world.IPlayerEntity;
 import iwoplaza.meatengine.Direction;
 import org.joml.Vector2ic;
 
-public class PlayerEntity extends SlidingEntity implements IPlayerEntity
+public class PlayerEntity extends LivingEntity implements IPlayerEntity
 {
 
     private static final int MOVE_WINDUP_DURATION = 2;
     private static final int MOVE_DURATION = 6;
+    private static final int SHOOT_DURATION = 8;
 
+    private int shootCooldown = 0;
     private int moveWindup = 0;
     /**
      * Describes what the entity wants to do.
      */
     private MoveState moveState = MoveState.IDLE;
+
+    protected Direction direction = Direction.EAST;
 
     @Override
     public void dispose()
@@ -27,6 +31,9 @@ public class PlayerEntity extends SlidingEntity implements IPlayerEntity
     public void update(IEngineContext context)
     {
         super.update(context);
+
+        if (this.shootCooldown > 0)
+            this.shootCooldown--;
 
         switch (moveState)
         {
@@ -136,8 +143,30 @@ public class PlayerEntity extends SlidingEntity implements IPlayerEntity
 
     public void shoot()
     {
+        if (this.shootCooldown > 0)
+            return;
+
         SimpleBulletEntity bullet = new SimpleBulletEntity(this, this.nextPosition, this.direction);
         this.world.spawnEntity(bullet);
+        this.shootCooldown = getShootDuration();
+    }
+
+    @Override
+    public void onKilled()
+    {
+
+    }
+
+    @Override
+    public void inflictDamage(IDamageSource source, int amount)
+    {
+
+    }
+
+    @Override
+    public int getMaxHealth()
+    {
+        return 100;
     }
 
     public int getMoveWindupDuration()
@@ -151,6 +180,16 @@ public class PlayerEntity extends SlidingEntity implements IPlayerEntity
         return MOVE_DURATION;
     }
 
+    public int getShootDuration()
+    {
+        return SHOOT_DURATION;
+    }
+
+    public int getShootCooldown()
+    {
+        return shootCooldown;
+    }
+
     @Override
     public boolean doesOccupyPosition(Vector2ic tileLocation)
     {
@@ -161,5 +200,16 @@ public class PlayerEntity extends SlidingEntity implements IPlayerEntity
     public Vector2ic getPosition()
     {
         return this.nextPosition;
+    }
+
+    public Direction getDirection()
+    {
+        return direction;
+    }
+
+    @Override
+    public boolean isHittableFrom(Vector2ic position)
+    {
+        return position.equals(this.nextPosition);
     }
 }

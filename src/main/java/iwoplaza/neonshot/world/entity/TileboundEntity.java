@@ -5,10 +5,8 @@ import iwoplaza.meatengine.Direction;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
-public abstract class DirectionalEntity extends Entity
+public abstract class TileboundEntity extends Entity
 {
-    protected Direction direction = Direction.EAST;
-
     /**
      * The entity's tile-position before a movement.
      * Used by the renderer to interpolate with nextPosition.
@@ -40,10 +38,5 @@ public abstract class DirectionalEntity extends Entity
     public Vector2ic getNextPosition()
     {
         return nextPosition;
-    }
-
-    public Direction getDirection()
-    {
-        return direction;
     }
 }

@@ -15,6 +15,7 @@ import iwoplaza.neonshot.Tiles;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.neonshot.ui.game.PlayerHUD;
 import iwoplaza.neonshot.world.entity.PawnEnemyEntity;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
 import org.joml.Vector2i;
@@ -30,6 +31,7 @@ public class SinglePlayerScreen implements IScreen
     private final GameRenderContext context;
     private World world;
     private GameRenderer gameRenderer;
+    private PlayerHUD playerHUD;
 
     private PlayerEntity player;
 
@@ -45,6 +47,8 @@ public class SinglePlayerScreen implements IScreen
                 world.spawnEntity(this.player);
 
                 world.getTileMap().setTile(x, y, Tiles.CHESSBOARD_FLOOR);
+
+                this.playerHUD = new PlayerHUD(this.player);
             });
             this.world = levelLoader.loadFromStream((AssetLocation.asResource(Statics.RES_ORIGIN, "levels/level1.png")).getInputStream());
             this.gameRenderer = new GameRenderer(world);
@@ -71,6 +75,7 @@ public class SinglePlayerScreen implements IScreen
     public void onResized(Window window)
     {
         this.gameRenderer.onResized(window);
+        this.playerHUD.onResized(window);
 
         glViewport(0, 0, window.getWidth(), window.getHeight());
     }
@@ -122,6 +127,7 @@ public class SinglePlayerScreen implements IScreen
         this.context.update(context);
 
         this.gameRenderer.render(this.context, window, world);
+        this.playerHUD.render(this.context);
     }
 
     @Override

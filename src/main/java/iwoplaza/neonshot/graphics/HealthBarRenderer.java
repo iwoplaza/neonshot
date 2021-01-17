@@ -10,7 +10,6 @@ import iwoplaza.meatengine.helper.MeshHelper;
 import iwoplaza.neonshot.CommonShaders;
 import iwoplaza.neonshot.graphics.shader.ProgressBarShader;
 import iwoplaza.neonshot.world.entity.IDamageable;
-import org.joml.Vector2f;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,8 +27,8 @@ public class HealthBarRenderer
 
     public static final int SMALL_WIDTH = 20;
     public static final int SMALL_HEIGHT = 3;
-    public static final int BIG_WIDTH = 50;
-    public static final int BIG_HEIGHT = 20;
+    public static final int BIG_WIDTH = 80;
+    public static final int BIG_HEIGHT = 12;
     public static final int THICKNESS = 1;
 
     private final Map<IDamageable, HealthMeta> healthMetaMap = new HashMap<>();

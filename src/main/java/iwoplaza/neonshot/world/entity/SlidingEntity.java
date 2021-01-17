@@ -4,7 +4,7 @@ import iwoplaza.meatengine.Direction;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
-public abstract class SlidingEntity extends DirectionalEntity
+public abstract class SlidingEntity extends TileboundEntity
 {
 
     protected int moveCooldown = 0;
