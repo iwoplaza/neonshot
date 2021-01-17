@@ -1,22 +1,17 @@
 package iwoplaza.neonshot.graphics;
 
-import iwoplaza.meatengine.Direction;
 import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
-import iwoplaza.meatengine.graphics.PathfinderDebug;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
-import iwoplaza.meatengine.pathfinding.IPathfindingActor;
 import iwoplaza.meatengine.world.World;
 import iwoplaza.neonshot.world.ChallengeRoom;
 import org.joml.Vector2f;
-import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
 import java.io.IOException;
-import java.util.List;
 
 public class ChallengeRoomDebug
 {

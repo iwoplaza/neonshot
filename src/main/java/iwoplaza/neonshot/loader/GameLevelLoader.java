@@ -5,7 +5,6 @@ import iwoplaza.meatengine.loader.LevelLoader;
 import iwoplaza.meatengine.loader.ResourceLoader;
 import iwoplaza.meatengine.world.World;
 import iwoplaza.meatengine.world.tile.Tile;
-import iwoplaza.meatengine.world.tile.TileMap;
 import iwoplaza.meatengine.world.tile.TileRegistry;
 import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.world.ChallengeRoom;

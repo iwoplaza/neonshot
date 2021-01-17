@@ -1,6 +1,5 @@
 package iwoplaza.neonshot.graphics;
 
-import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.graphics.Color;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;

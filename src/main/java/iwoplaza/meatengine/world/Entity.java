@@ -2,7 +2,6 @@ package iwoplaza.meatengine.world;
 
 import iwoplaza.meatengine.IDisposable;
 import iwoplaza.meatengine.IEngineContext;
-import org.joml.Vector2i;
 import org.joml.Vector2ic;
 
 public abstract class Entity implements IDisposable

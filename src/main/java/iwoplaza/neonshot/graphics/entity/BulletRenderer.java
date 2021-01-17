@@ -1,12 +1,12 @@
 package iwoplaza.neonshot.graphics.entity;
 
+import iwoplaza.meatengine.Direction;
 import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
-import iwoplaza.meatengine.Direction;
 import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.world.entity.BulletEntity;
 import org.joml.Vector2f;

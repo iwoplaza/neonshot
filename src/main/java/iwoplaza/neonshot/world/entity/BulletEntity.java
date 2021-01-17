@@ -1,7 +1,7 @@
 package iwoplaza.neonshot.world.entity;
 
-import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.Direction;
+import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.world.Entity;
 import org.joml.Vector2ic;
 

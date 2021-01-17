@@ -1,19 +1,19 @@
 package iwoplaza.neonshot.screen;
 
+import iwoplaza.meatengine.Direction;
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.Window;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.graphics.Camera;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.world.World;
-import iwoplaza.meatengine.Direction;
-import iwoplaza.neonshot.loader.GameLevelLoader;
 import iwoplaza.neonshot.Main;
 import iwoplaza.neonshot.Tiles;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
-import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.neonshot.loader.GameLevelLoader;
 import iwoplaza.neonshot.ui.game.FinishScreen;
 import iwoplaza.neonshot.ui.game.PlayerHUD;
 import iwoplaza.neonshot.world.entity.PawnEnemyEntity;
@@ -23,7 +23,6 @@ import org.joml.Vector2i;
 import java.io.IOException;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 public class SinglePlayerScreen implements IScreen

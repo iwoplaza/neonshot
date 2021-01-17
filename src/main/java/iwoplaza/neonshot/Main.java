@@ -2,8 +2,8 @@ package iwoplaza.neonshot;
 
 import iwoplaza.meatengine.GameEngine;
 import iwoplaza.meatengine.assets.AssetLoader;
-import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.neonshot.graphics.ChallengeRoomDebug;
 import iwoplaza.neonshot.graphics.HealthBarRenderer;
 import iwoplaza.neonshot.graphics.entity.BulletRenderer;

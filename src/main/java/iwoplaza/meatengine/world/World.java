@@ -1,10 +1,10 @@
 package iwoplaza.meatengine.world;
 
+import iwoplaza.meatengine.Direction;
 import iwoplaza.meatengine.IDisposable;
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.pathfinding.PathfindingPool;
 import iwoplaza.meatengine.world.tile.TileMap;
-import iwoplaza.meatengine.Direction;
 import iwoplaza.neonshot.world.ChallengeRoom;
 import org.joml.Vector2i;
 import org.joml.Vector2ic;

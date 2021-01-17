@@ -1,7 +1,6 @@
 package iwoplaza.meatengine.helper;
 
 import iwoplaza.meatengine.graphics.mesh.FlatMesh;
-import iwoplaza.meatengine.graphics.mesh.TexturedMesh;
 
 public class MeshHelper
 {
