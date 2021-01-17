@@ -3,6 +3,8 @@ package iwoplaza.meatengine.graphics;
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.world.IPlayerEntity;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
+import org.joml.Vector2ic;
 
 public class Camera implements ICamera<IEngineContext, IGameRenderContext>
 {
@@ -15,13 +17,20 @@ public class Camera implements ICamera<IEngineContext, IGameRenderContext>
 
     }
 
+    public void snapToEndpoint()
+    {
+        Vector2fc targetPosition = getTargetPosition();
+        this.prevPosition.set(targetPosition);
+        this.nextPosition.set(targetPosition);
+    }
+
     public void update(IEngineContext context)
     {
         if (this.entityToFollow != null)
         {
             this.prevPosition.set(this.nextPosition);
-            Vector2f targetPosition = new Vector2f(entityToFollow.getPosition());
-            this.nextPosition = targetPosition.lerp(this.prevPosition, 0.5f);
+            this.nextPosition.set(getTargetPosition());
+            this.nextPosition.lerp(this.prevPosition, 0.5f);
         }
     }
 
@@ -42,5 +51,10 @@ public class Camera implements ICamera<IEngineContext, IGameRenderContext>
     public void follow(IPlayerEntity entity)
     {
         this.entityToFollow = entity;
+    }
+
+    private Vector2fc getTargetPosition()
+    {
+        return new Vector2f(entityToFollow.getPosition());
     }
 }

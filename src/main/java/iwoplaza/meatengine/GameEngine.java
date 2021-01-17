@@ -33,7 +33,7 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
     private EngineContext engineContext = new EngineContext(UPDATE_INTERVAL);
 
     private boolean running = true;
-    private boolean debugMode = true;
+    private boolean debugMode = false;
 
     public GameEngine(String windowTitle, int width, int height, boolean vSync)
     {
@@ -222,6 +222,7 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
     public void showScreen(IScreen screen)
     {
         this.screen = screen;
+        screen.onOpened(this.window);
     }
 
     public void exit()

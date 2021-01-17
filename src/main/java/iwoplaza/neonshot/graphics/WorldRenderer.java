@@ -26,20 +26,23 @@ import java.util.List;
 public class WorldRenderer implements IDisposable, IAssetConsumer
 {
 
-    private final World world;
-
-    private Mesh bakedMesh;
     private TextureAsset tileMapTexture;
 
-    public WorldRenderer(World world)
-    {
-        this.world = world;
-    }
+    private World world;
+    private Mesh bakedMesh;
+
+    public WorldRenderer() {}
 
     @Override
     public void registerAssets(IAssetLoader loader) throws IOException
     {
         loader.registerAsset(tileMapTexture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "/textures/tilemap.png")));
+    }
+
+    public void setWorld(World world)
+    {
+        this.world = world;
+        this.bakedMesh = null;
     }
 
     public void bakeMesh(IGameRenderContext context)

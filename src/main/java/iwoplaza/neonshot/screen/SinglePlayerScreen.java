@@ -28,9 +28,11 @@ import static org.lwjgl.opengl.GL11.glViewport;
 public class SinglePlayerScreen implements IScreen
 {
     private final GameRenderContext context;
+    private final GameRenderer gameRenderer;
+    private final GameLevelLoader levelLoader;
+    private final PlayerHUD playerHUD;
+
     private World world;
-    private GameRenderer gameRenderer;
-    private PlayerHUD playerHUD;
     private FinishScreen finishScreen = null;
 
     private PlayerEntity player;
@@ -38,21 +40,34 @@ public class SinglePlayerScreen implements IScreen
     public SinglePlayerScreen(RendererRegistry<IGameRenderContext> rendererRegistry)
     {
         this.context = new GameRenderContext(rendererRegistry);
+        this.gameRenderer = new GameRenderer();
+        this.playerHUD = new PlayerHUD();
+
+        this.levelLoader = new GameLevelLoader((world, x, y) -> {
+            this.player = new PlayerEntity();
+            this.player.setPosition(x, y);
+            this.player.registerDeathListener(p -> this.onGameOver());
+            this.playerHUD.setPlayer(this.player);
+            world.spawnEntity(this.player);
+
+            world.getTileMap().setTile(x, y, Tiles.CHESSBOARD_FLOOR);
+
+        }, this::onLevelComplete);
+    }
+
+    @Override
+    public void onOpened(Window window)
+    {
+        this.onResized(window);
+    }
+
+    public void startLevel(String levelName)
+    {
+        this.player = null;
 
         try
         {
-            GameLevelLoader levelLoader = new GameLevelLoader((world, x, y) -> {
-                this.player = new PlayerEntity();
-                this.player.setPosition(x, y);
-                this.player.registerDeathListener(p -> this.onGameOver());
-                world.spawnEntity(this.player);
-
-                world.getTileMap().setTile(x, y, Tiles.CHESSBOARD_FLOOR);
-
-                this.playerHUD = new PlayerHUD(this.player);
-            }, this::onLevelComplete);
-
-            this.world = levelLoader.loadFromName("level1", key -> {
+            this.world = levelLoader.loadFromName(levelName, key -> {
                 switch(key)
                 {
                     case "Pawn":
@@ -61,22 +76,25 @@ public class SinglePlayerScreen implements IScreen
                         throw new IllegalStateException(String.format("Couldn't find entity factory for '%s'", key));
                 }
             });
-            this.gameRenderer = new GameRenderer(world);
+
+            this.gameRenderer.setWorld(this.world);
 
             Camera camera = new Camera();
             this.gameRenderer.setCamera(camera);
             camera.follow(this.player);
+            camera.snapToEndpoint();
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            throw new IllegalStateException(String.format("Couldn't load level '%s'", levelName));
         }
-    }
 
-    @Override
-    public void onOpened()
-    {
+        if (this.player == null)
+        {
+            throw new IllegalStateException(String.format("A player start position is missing from the loaded level: '%s'", levelName));
+        }
 
+        this.finishScreen = null;
     }
 
     @Override
@@ -104,14 +122,14 @@ public class SinglePlayerScreen implements IScreen
     public void onGameOver()
     {
         this.finishScreen = new FinishScreen("Game Over", () -> {
-            Main.GAME_ENGINE.showScreen(Main.TITLE_SCREEN);
+            Main.GAME_ENGINE.showScreen(Main.LEVEL_SELECT_SCREEN);
         });
     }
 
     public void onLevelComplete()
     {
         this.finishScreen = new FinishScreen("Level Complete", () -> {
-            Main.GAME_ENGINE.showScreen(Main.TITLE_SCREEN);
+            Main.GAME_ENGINE.showScreen(Main.LEVEL_SELECT_SCREEN);
         });
     }
 

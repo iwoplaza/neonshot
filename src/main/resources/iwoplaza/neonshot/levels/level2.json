@@ -1,0 +1,33 @@
+{
+  "challengeRooms": [
+    {
+      "entranceX": 7,
+      "entranceY": 24,
+      "entranceDirection": "EAST",
+      "exitX": 17,
+      "exitY": 22,
+      "entries": [
+        {
+          "x": 9,
+          "y": 19,
+          "entityKey": "Pawn"
+        },
+        {
+          "x": 14,
+          "y": 19,
+          "entityKey": "Pawn"
+        },
+        {
+          "x": 9,
+          "y": 25,
+          "entityKey": "Pawn"
+        },
+        {
+          "x": 14,
+          "y": 25,
+          "entityKey": "Pawn"
+        }
+      ]
+    }
+  ]
+}

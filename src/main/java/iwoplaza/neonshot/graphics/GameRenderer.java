@@ -25,15 +25,13 @@ public class GameRenderer implements IDisposable, IAssetConsumer
 
     private Matrix4f modelViewMatrix;
 
-    private final World world;
     private final WorldRenderer worldRenderer;
     private ICamera<IEngineContext, IGameRenderContext> camera;
 
-    public GameRenderer(World world)
+    public GameRenderer()
     {
-        this.world = world;
         this.modelViewMatrix = new Matrix4f();
-        this.worldRenderer = new WorldRenderer(world);
+        this.worldRenderer = new WorldRenderer();
     }
 
     public void init(Window window)
@@ -43,6 +41,11 @@ public class GameRenderer implements IDisposable, IAssetConsumer
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    public void setWorld(World world)
+    {
+        this.worldRenderer.setWorld(world);
     }
 
     @Override

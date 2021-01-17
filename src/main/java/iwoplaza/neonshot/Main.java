@@ -7,6 +7,7 @@ import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.neonshot.graphics.ChallengeRoomDebug;
 import iwoplaza.neonshot.graphics.HealthBarRenderer;
 import iwoplaza.neonshot.graphics.entity.*;
+import iwoplaza.neonshot.screen.LevelSelectScreen;
 import iwoplaza.neonshot.screen.SinglePlayerScreen;
 import iwoplaza.neonshot.screen.TitleScreen;
 import iwoplaza.neonshot.world.entity.*;
@@ -15,6 +16,7 @@ public class Main
 {
     public static GameEngine GAME_ENGINE;
     public static TitleScreen TITLE_SCREEN;
+    public static LevelSelectScreen LEVEL_SELECT_SCREEN;
     public static SinglePlayerScreen SINGLE_PLAYER_SCREEN;
 
     private static AssetLoader assetLoader = new AssetLoader();
@@ -46,12 +48,13 @@ public class Main
                 GAME_ENGINE.getLocalizer().setLanguage("us_en");
 
                 TITLE_SCREEN =          new TitleScreen(GAME_ENGINE.getLocalizer());
+                LEVEL_SELECT_SCREEN =   new LevelSelectScreen(GAME_ENGINE.getLocalizer());
                 SINGLE_PLAYER_SCREEN =  new SinglePlayerScreen(rendererRegistry);
                 GAME_ENGINE.registerScreens(TITLE_SCREEN, SINGLE_PLAYER_SCREEN);
                 // Registers all assets from registered screens.
                 GAME_ENGINE.registerAssets(assetLoader);
-//                GAME_ENGINE.showScreen(TITLE_SCREEN);
-                GAME_ENGINE.showScreen(SINGLE_PLAYER_SCREEN);
+                GAME_ENGINE.showScreen(TITLE_SCREEN);
+//                GAME_ENGINE.showScreen(SINGLE_PLAYER_SCREEN);
             });
 
             GAME_ENGINE.start();

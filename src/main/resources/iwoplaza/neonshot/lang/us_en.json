@@ -3,6 +3,7 @@
   "entries": {
     "menu.begin": "begin",
     "menu.options": "options",
-    "menu.quit": "quit"
+    "menu.quit": "quit",
+    "menu.level": "LEVEL"
   }
 }

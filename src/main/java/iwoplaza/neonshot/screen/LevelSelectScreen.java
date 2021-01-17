@@ -11,11 +11,12 @@ import iwoplaza.neonshot.ui.menu.MenuUI;
 import org.joml.Matrix4f;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 
-public class TitleScreen implements IScreen
+public class LevelSelectScreen implements IScreen
 {
-
     private static final int WIDTH = 448;
     private static final int HEIGHT = 224;
 
@@ -23,19 +24,12 @@ public class TitleScreen implements IScreen
 
     private final MenuUI menu;
 
-    public TitleScreen(ILocalizer localizer)
+    public LevelSelectScreen(ILocalizer localizer)
     {
         this.menu = new MenuUI(WIDTH / 2, 60);
-        this.menu.addOption(localizer.getLocalized("menu.begin"));
-        this.menu.addOption(localizer.getLocalized("menu.options"));
-        this.menu.addOption(localizer.getLocalized("menu.quit"));
+        this.menu.addOption(localizer.getLocalized("menu.level") + " 1");
+        this.menu.addOption(localizer.getLocalized("menu.level") + " 2");
         this.menu.updateBorderMesh();
-    }
-
-    @Override
-    public void onOpened(Window window)
-    {
-        this.onResized(window);
     }
 
     @Override
@@ -46,7 +40,13 @@ public class TitleScreen implements IScreen
     @Override
     public void registerAssets(IAssetLoader loader)
     {
-        // No assets to register
+
+    }
+
+    @Override
+    public void onOpened(Window window)
+    {
+        this.onResized(window);
     }
 
     @Override
@@ -101,24 +101,16 @@ public class TitleScreen implements IScreen
         if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S)
             this.menu.selectNext();
 
+        if (key == GLFW_KEY_ESCAPE)
+        {
+            Main.GAME_ENGINE.showScreen(Main.TITLE_SCREEN);
+        }
+
         if (key == GLFW_KEY_SPACE || key == GLFW_KEY_ENTER)
         {
             int option = this.menu.getSelectedOption();
-            switch (option)
-            {
-                case 0:
-                    Main.GAME_ENGINE.showScreen(Main.LEVEL_SELECT_SCREEN);
-                    break;
-                case 1:
-                    if (Main.GAME_ENGINE.getWindow().isFullscreen())
-                        Main.GAME_ENGINE.getWindow().setWindowed();
-                    else
-                        Main.GAME_ENGINE.getWindow().setFullscreen();
-                    break;
-                case 2:
-                    Main.GAME_ENGINE.exit();
-                    break;
-            }
+            Main.GAME_ENGINE.showScreen(Main.SINGLE_PLAYER_SCREEN);
+            Main.SINGLE_PLAYER_SCREEN.startLevel(String.format("level%d", option + 1));
         }
     }
 

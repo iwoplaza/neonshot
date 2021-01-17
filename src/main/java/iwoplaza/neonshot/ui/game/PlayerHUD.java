@@ -25,18 +25,16 @@ import java.io.IOException;
 public class PlayerHUD extends UIItem<IGameRenderContext> implements IAssetConsumer
 {
     private final Matrix4f modelViewMatrix;
-    private final PlayerEntity player;
     private final HealthBarRenderer.HealthBarSpec healthBarSpec;
     protected final StaticText healthLabel;
     protected final StaticText powerupsLabel;
     protected Sprite powerupSprite;
 
-    private int uiScale = 1;
+    private PlayerEntity player;
 
-    public PlayerHUD(PlayerEntity player)
+    public PlayerHUD()
     {
         this.modelViewMatrix = new Matrix4f();
-        this.player = player;
         this.healthBarSpec = new HealthBarRenderer.HealthBarSpec(
                 true,
                 new Color(1, 0.2f, 0.2f, 1.0f),
@@ -57,11 +55,16 @@ public class PlayerHUD extends UIItem<IGameRenderContext> implements IAssetConsu
         this.powerupSprite = new Sprite(texture, 32, 32);
     }
 
+    public void setPlayer(PlayerEntity player)
+    {
+        this.player = player;
+    }
+
     public void onResized(Window window)
     {
         final int windowWidth = window.getWidth();
 
-        this.uiScale = windowWidth > 1000 ? 3 : 2;
+        int uiScale = windowWidth > 1000 ? 3 : 2;
 
         this.modelViewMatrix.identity().translate(10, 10, 0).scale(uiScale);
     }

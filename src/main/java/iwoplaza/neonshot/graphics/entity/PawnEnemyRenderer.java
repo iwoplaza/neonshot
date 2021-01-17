@@ -4,7 +4,6 @@ import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
-import iwoplaza.meatengine.graphics.PathfinderDebug;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
 import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.world.entity.PawnEnemyEntity;
@@ -52,7 +51,5 @@ public class PawnEnemyRenderer extends EnemyRenderer<PawnEnemyEntity>
     public void render(IGameRenderContext ctx, PawnEnemyEntity entity)
     {
         super.render(ctx, entity);
-
-        PathfinderDebug.INSTANCE.draw(ctx, entity.getPathfindingActor());
     }
 }
