@@ -8,13 +8,19 @@ import org.joml.Vector2ic;
 public abstract class BulletEntity extends TileboundEntity implements IDamageSource
 {
     private final Entity owner;
-    private Direction direction;
+    private final Direction direction;
+    private final int moveDuration;
 
-    public BulletEntity(Entity owner, Vector2ic position, Direction direction)
+    private int moveCooldown;
+
+    public BulletEntity(Entity owner, Vector2ic position, Direction direction, int moveDuration)
     {
         this.owner = owner;
         this.direction = direction;
+        this.moveDuration = moveDuration;
         this.setPosition(position);
+
+        this.moveCooldown = 0;
     }
 
     protected abstract int getDamage();
@@ -29,8 +35,17 @@ public abstract class BulletEntity extends TileboundEntity implements IDamageSou
             return;
         }
 
-        this.prevPosition.set(this.nextPosition);
-        this.nextPosition.add(this.direction.getAsVector());
+        if (moveCooldown > 0)
+        {
+            moveCooldown--;
+        }
+
+        if (moveCooldown == 0)
+        {
+            this.prevPosition.set(this.nextPosition);
+            this.nextPosition.add(this.direction.getAsVector());
+            this.moveCooldown = this.moveDuration;
+        }
 
         if (!this.world.canTraverseTo(this.nextPosition, false))
         {
@@ -42,13 +57,22 @@ public abstract class BulletEntity extends TileboundEntity implements IDamageSou
             if (entity instanceof IDamageable && entity != this.owner)
             {
                 IDamageable damageable = (IDamageable) entity;
-                if (damageable.isHittableFrom(this.nextPosition) || damageable.isHittableFrom(this.prevPosition))
+                if ((damageable.isHittableFrom(this.nextPosition) || damageable.isHittableFrom(this.prevPosition)))
                 {
-                    damageable.inflictDamage(this, getDamage());
+                    if (canDamage(damageable))
+                    {
+                        damageable.inflictDamage(this, getDamage());
+                    }
                     this.dead = true;
+                    return;
                 }
             }
         }
+    }
+
+    public boolean canDamage(IDamageable damageable)
+    {
+        return true;
     }
 
     @Override
@@ -61,6 +85,18 @@ public abstract class BulletEntity extends TileboundEntity implements IDamageSou
     {
         return direction;
     }
+
+    public int getMoveDuration()
+    {
+        return moveDuration;
+    }
+
+    public int getMoveCooldown()
+    {
+        return moveCooldown;
+    }
+
+    public abstract int getSpriteFrame();
 
     @Override
     public void dispose()

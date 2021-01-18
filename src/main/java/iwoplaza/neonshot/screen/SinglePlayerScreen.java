@@ -18,6 +18,7 @@ import iwoplaza.neonshot.ui.game.FinishScreen;
 import iwoplaza.neonshot.ui.game.PlayerHUD;
 import iwoplaza.neonshot.world.entity.PawnEnemyEntity;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
+import iwoplaza.neonshot.world.entity.SentryEnemyEntity;
 import org.joml.Vector2i;
 
 import java.io.IOException;
@@ -72,6 +73,8 @@ public class SinglePlayerScreen implements IScreen
                 {
                     case "Pawn":
                         return PawnEnemyEntity::new;
+                    case "Sentry":
+                        return SentryEnemyEntity::new;
                     default:
                         throw new IllegalStateException(String.format("Couldn't find entity factory for '%s'", key));
                 }
@@ -209,6 +212,13 @@ public class SinglePlayerScreen implements IScreen
         if (this.finishScreen != null)
         {
             this.finishScreen.handleKeyPressed(key, mods);
+        }
+        else
+        {
+            if (key == GLFW_KEY_ESCAPE)
+            {
+                Main.GAME_ENGINE.showScreen(Main.LEVEL_SELECT_SCREEN);
+            }
         }
     }
 

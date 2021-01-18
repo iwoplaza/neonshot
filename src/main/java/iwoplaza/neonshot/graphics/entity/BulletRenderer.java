@@ -47,7 +47,9 @@ public class BulletRenderer<T extends BulletEntity> implements IGameEntityRender
         Vector2f position = new Vector2f(entity.getPrevPosition());
         Vector2f nextPosition = new Vector2f(entity.getNextPosition());
 
-        position.lerp(nextPosition, partialTicks);
+        final int moveDuration = entity.getMoveDuration();
+        float progress = (moveDuration - entity.getMoveCooldown() + partialTicks) / moveDuration;
+        position.lerp(nextPosition, progress);
         position.mul(tileSize);
 
         Direction direction = entity.getDirection();
@@ -66,6 +68,7 @@ public class BulletRenderer<T extends BulletEntity> implements IGameEntityRender
         // Moving the beam a little more forward.
         GlStack.translate(0, 16, 0);
 
+        this.bulletSprite.setFrameX(entity.getSpriteFrame());
         this.bulletSprite.draw();
 
         GlStack.pop();

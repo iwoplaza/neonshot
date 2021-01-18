@@ -37,7 +37,6 @@ public class World implements IDisposable, IWorld
         while (!entitiesToSpawn.isEmpty())
         {
             Entity entity = entitiesToSpawn.remove();
-            entity.onSpawnedIn(this);
 
             this.entities.add(entity);
 
@@ -83,6 +82,7 @@ public class World implements IDisposable, IWorld
     public void spawnEntity(Entity entity)
     {
         this.entitiesToSpawn.add(entity);
+        entity.onSpawnedIn(this);
     }
 
     public void addChallengeRoom(ChallengeRoom room)

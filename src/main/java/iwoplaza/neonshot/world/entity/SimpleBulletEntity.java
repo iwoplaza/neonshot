@@ -10,7 +10,7 @@ public class SimpleBulletEntity extends BulletEntity
 
     public SimpleBulletEntity(Entity owner, Vector2ic position, Direction direction, int damage)
     {
-        super(owner, position, direction);
+        super(owner, position, direction, 1);
         this.damage = damage;
     }
 
@@ -18,5 +18,11 @@ public class SimpleBulletEntity extends BulletEntity
     protected int getDamage()
     {
         return damage;
+    }
+
+    @Override
+    public int getSpriteFrame()
+    {
+        return 0;
     }
 }
