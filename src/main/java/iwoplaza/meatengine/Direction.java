@@ -71,4 +71,14 @@ public enum Direction
                 return this;
         }
     }
+
+    public boolean isHorizontal()
+    {
+        return this == Direction.EAST || this == Direction.WEST;
+    }
+
+    public boolean isVertical()
+    {
+        return !this.isHorizontal();
+    }
 }

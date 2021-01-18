@@ -43,6 +43,7 @@ public class Main
                 rendererRegistry.registerRenderer(BadBulletEntity.class, new BulletRenderer<>());
                 rendererRegistry.registerRenderer(PawnEnemyEntity.class, new PawnEnemyRenderer());
                 rendererRegistry.registerRenderer(SentryEnemyEntity.class, new SentryEnemyRenderer());
+                rendererRegistry.registerRenderer(BildstodEnemyEntity.class, new BildstodEnemyRenderer());
                 rendererRegistry.registerRenderer(BandageEntity.class, new ItemRenderer<>());
                 rendererRegistry.registerRenderer(PowerupItemEntity.class, new ItemRenderer<>());
                 rendererRegistry.registerRenderer(FinishZoneEntity.class, new FinishZoneRenderer());

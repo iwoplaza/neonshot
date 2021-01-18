@@ -121,11 +121,6 @@ public class PawnEnemyEntity extends EnemyEntity implements IDamageSource
         return this.nextPosition.equals(position);
     }
 
-    public IPathfindingActor getPathfindingActor()
-    {
-        return this.pathfindingActor;
-    }
-
     @Override
     public int getMoveDuration()
     {

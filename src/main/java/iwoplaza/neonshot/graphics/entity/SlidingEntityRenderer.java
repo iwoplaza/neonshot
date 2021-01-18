@@ -9,18 +9,24 @@ public abstract class SlidingEntityRenderer<E extends SlidingEntity> implements 
 {
     protected Vector2f getSlidingPosition(E entity, float partialTicks)
     {
-        Vector2f position = new Vector2f(entity.getNextPosition());
-        int moveCooldown = entity.getMoveCooldown();
+        final Vector2f position = new Vector2f(entity.getNextPosition());
+        final int moveCooldown = entity.getMoveCooldown();
         if (moveCooldown > 0)
         {
-            float moveProgress = 1 - ((entity.getMoveDuration() - moveCooldown) + partialTicks) / entity.getMoveDuration();
+            final float moveProgress = ((entity.getMoveDuration() - moveCooldown) + partialTicks) / entity.getMoveDuration();
+            float t = getSlideEasing(entity, moveProgress);
 
-            moveProgress *= moveProgress;
-
-            position.lerp(new Vector2f(entity.getPrevPosition()), moveProgress);
+            position.lerp(new Vector2f(entity.getPrevPosition()), 1 - t);
         }
 
         return position;
+    }
+
+    protected float getSlideEasing(E entity, float t)
+    {
+        t = 1 - t;
+        t *= t;
+        return 1 - t;
     }
 
     public abstract void drawEntity(IGameRenderContext ctx, E entity);

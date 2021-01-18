@@ -17,6 +17,7 @@ import iwoplaza.neonshot.graphics.GameRenderer;
 import iwoplaza.neonshot.loader.GameLevelLoader;
 import iwoplaza.neonshot.ui.game.FinishScreen;
 import iwoplaza.neonshot.ui.game.PlayerHUD;
+import iwoplaza.neonshot.world.entity.BildstodEnemyEntity;
 import iwoplaza.neonshot.world.entity.PawnEnemyEntity;
 import iwoplaza.neonshot.world.entity.PlayerEntity;
 import iwoplaza.neonshot.world.entity.SentryEnemyEntity;
@@ -78,6 +79,8 @@ public class SinglePlayerScreen implements IScreen
                         return PawnEnemyEntity::new;
                     case "Sentry":
                         return SentryEnemyEntity::new;
+                    case "Bildstod":
+                        return BildstodEnemyEntity::new;
                     default:
                         throw new IllegalStateException(String.format("Couldn't find entity factory for '%s'", key));
                 }

@@ -6,7 +6,6 @@ import org.joml.Vector2ic;
 
 public abstract class SlidingEntity extends TileboundEntity
 {
-
     protected int moveCooldown = 0;
 
     protected boolean moveStep(Direction direction)
