@@ -9,6 +9,7 @@ import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.world.World;
+import iwoplaza.meatengine.world.tile.TileMap;
 import iwoplaza.neonshot.Main;
 import iwoplaza.neonshot.PlayerController;
 import iwoplaza.neonshot.Tiles;
@@ -16,20 +17,24 @@ import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
 import iwoplaza.neonshot.graphics.StaticCamera;
 import iwoplaza.neonshot.loader.GameLevelLoader;
+import iwoplaza.neonshot.powerup.Powerups;
 import iwoplaza.neonshot.ui.game.FinishScreen;
 import iwoplaza.neonshot.ui.game.PlayerHUD;
-import iwoplaza.neonshot.world.entity.LivingEntity;
-import iwoplaza.neonshot.world.entity.PlayerEntity;
+import iwoplaza.neonshot.world.entity.*;
+import org.joml.Vector2i;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 public class VersusGameScreen implements IScreen
 {
+    private static final int POWER_UP_SPAWN_COOLDOWN = 200;
+
     private final GameRenderContext context;
     private final GameRenderer gameRenderer;
     private final GameLevelLoader levelLoader;
@@ -44,6 +49,8 @@ public class VersusGameScreen implements IScreen
     private List<PlayerEntity> players = new ArrayList<>();
     private PlayerEntity playerOne;
     private PlayerEntity playerTwo;
+
+    private int powerUpSpawnCooldown = POWER_UP_SPAWN_COOLDOWN;
 
     public VersusGameScreen(RendererRegistry<IGameRenderContext> rendererRegistry)
     {
@@ -111,6 +118,7 @@ public class VersusGameScreen implements IScreen
         this.players.clear();
         this.playerOne = null;
         this.playerTwo = null;
+        this.powerUpSpawnCooldown = POWER_UP_SPAWN_COOLDOWN;
 
         try
         {
@@ -172,10 +180,48 @@ public class VersusGameScreen implements IScreen
         }
         else
         {
-            this.world.update(context);
+            if (this.powerUpSpawnCooldown > 0)
+            {
+                this.powerUpSpawnCooldown--;
+            }
+            else
+            {
+                this.spawnPowerup();
+                this.powerUpSpawnCooldown = POWER_UP_SPAWN_COOLDOWN;
+            }
 
+            this.world.update(context);
             this.gameRenderer.update(this.context);
         }
+    }
+
+    private void spawnPowerup()
+    {
+        final Random random = new Random();
+        final TileMap tileMap = this.world.getTileMap();
+        final int mapWidth = tileMap.getWidth();
+        final int mapHeight = tileMap.getHeight();
+
+        Vector2i position = new Vector2i();
+        do
+        {
+            position.set(random.nextInt(mapWidth), random.nextInt(mapHeight));
+        }
+        while (!world.canTraverseTo(position, true));
+
+        ItemEntity itemToSpawn;
+        if (random.nextFloat() < 0.5)
+        {
+            itemToSpawn = new BandageEntity(position, 300);
+        }
+        else
+        {
+            // Spawning a powerup
+            int choice = random.nextInt(Powerups.POWERUPS.size());
+            itemToSpawn = new PowerupItemEntity(Powerups.POWERUPS.get(choice), position, 300);
+        }
+
+        this.world.spawnEntity(itemToSpawn);
     }
 
     @Override
