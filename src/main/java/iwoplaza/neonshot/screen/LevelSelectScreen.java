@@ -11,6 +11,8 @@ import iwoplaza.neonshot.Main;
 import iwoplaza.neonshot.ui.menu.MenuUI;
 import org.joml.Matrix4f;
 
+import java.io.IOException;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.opengl.GL11.*;
@@ -39,9 +41,9 @@ public class LevelSelectScreen implements IScreen
     }
 
     @Override
-    public void registerAssets(IAssetLoader loader)
+    public void registerAssets(IAssetLoader loader) throws IOException
     {
-
+        this.menu.registerAssets(loader);
     }
 
     @Override

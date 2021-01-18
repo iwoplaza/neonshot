@@ -1,6 +1,11 @@
 package iwoplaza.neonshot.ui.menu;
 
 import iwoplaza.meatengine.IEngineContext;
+import iwoplaza.meatengine.assets.AssetLocation;
+import iwoplaza.meatengine.assets.IAssetConsumer;
+import iwoplaza.meatengine.assets.IAssetLoader;
+import iwoplaza.meatengine.assets.SoundAsset;
+import iwoplaza.meatengine.audio.SoundSource;
 import iwoplaza.meatengine.graphics.Drawable;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
@@ -8,11 +13,13 @@ import iwoplaza.meatengine.graphics.mesh.FlatBorderMesh;
 import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.meatengine.ui.UIItem;
 import iwoplaza.neonshot.CommonShaders;
+import iwoplaza.neonshot.Statics;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuUI extends UIItem<IEngineContext>
+public class MenuUI extends UIItem<IEngineContext> implements IAssetConsumer
 {
 
     private static final int OPTION_SPACING = MenuOptionUI.HEIGHT + 4;
@@ -24,6 +31,8 @@ public class MenuUI extends UIItem<IEngineContext>
 
     private int x, y;
 
+    private final SoundSource soundSource;
+    private SoundAsset switchSound;
     private Drawable<FlatShader> border;
 
     public MenuUI(int x, int y)
@@ -32,6 +41,17 @@ public class MenuUI extends UIItem<IEngineContext>
         this.x = x;
         this.y = y;
         this.options = new ArrayList<>();
+
+        this.soundSource = new SoundSource(false, true);
+    }
+
+    @Override
+    public void registerAssets(IAssetLoader loader) throws IOException
+    {
+        loader.registerAsset(switchSound = new SoundAsset(
+                AssetLocation.asResource(Statics.RES_ORIGIN, "sfx/bleep.ogg")
+        ));
+        this.soundSource.setBuffer(switchSound);
     }
 
     public void addOption(String label)
@@ -135,6 +155,8 @@ public class MenuUI extends UIItem<IEngineContext>
 
             this.options.get(this.prevMenuOption).onDeselected();
             this.options.get(this.menuOption).onSelected();
+
+            this.soundSource.play();
         }
     }
 
@@ -148,6 +170,8 @@ public class MenuUI extends UIItem<IEngineContext>
 
             this.options.get(this.prevMenuOption).onDeselected();
             this.options.get(this.menuOption).onSelected();
+
+            this.soundSource.play();
         }
     }
 

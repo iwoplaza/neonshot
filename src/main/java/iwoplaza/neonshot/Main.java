@@ -37,6 +37,7 @@ public class Main
                 Tiles.registerTiles();
                 HealthBarRenderer.INSTANCE.init();
                 ChallengeRoomDebug.INSTANCE.init(assetLoader);
+                PlayerAssets.INSTANCE.registerAssets(assetLoader);
 
                 rendererRegistry.registerRenderer(PlayerEntity.class, new PlayerRenderer());
                 rendererRegistry.registerRenderer(SimpleBulletEntity.class, new BulletRenderer<>());
@@ -68,5 +69,7 @@ public class Main
         {
             e.printStackTrace();
         }
+
+        assetLoader.dispose();
     }
 }

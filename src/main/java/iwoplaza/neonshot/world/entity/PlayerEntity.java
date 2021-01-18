@@ -2,8 +2,10 @@ package iwoplaza.neonshot.world.entity;
 
 import iwoplaza.meatengine.Direction;
 import iwoplaza.meatengine.IEngineContext;
+import iwoplaza.meatengine.audio.SoundSource;
 import iwoplaza.meatengine.world.IPlayerEntity;
 import iwoplaza.meatengine.world.World;
+import iwoplaza.neonshot.PlayerAssets;
 import iwoplaza.neonshot.powerup.Powerup;
 import org.joml.Vector2ic;
 
@@ -29,10 +31,21 @@ public class PlayerEntity extends LivingEntity implements IPlayerEntity
 
     private List<Powerup> powerups = new ArrayList<>();
 
+    private final SoundSource shootSoundSource;
+    private final SoundSource shuffleSoundSource;
+
+    public PlayerEntity()
+    {
+        this.shootSoundSource = new SoundSource(false, false);
+        this.shootSoundSource.setBuffer(PlayerAssets.INSTANCE.shotSound);
+
+        this.shuffleSoundSource = new SoundSource(false, false);
+        this.shuffleSoundSource.setBuffer(PlayerAssets.INSTANCE.shuffleSound);
+    }
+
     @Override
     public void dispose()
     {
-
     }
 
     @Override
@@ -117,6 +130,8 @@ public class PlayerEntity extends LivingEntity implements IPlayerEntity
                 }
             }
         });
+
+        this.shuffleSoundSource.play();
     }
 
     private void setMoveState(MoveState moveState)
@@ -180,6 +195,8 @@ public class PlayerEntity extends LivingEntity implements IPlayerEntity
         SimpleBulletEntity bullet = new SimpleBulletEntity(this, this.nextPosition, this.direction, this.getBulletDamage());
         this.world.spawnEntity(bullet);
         this.shootCooldown = getShootDuration();
+
+        this.shootSoundSource.play();
     }
 
     public void heal(int healAmount)

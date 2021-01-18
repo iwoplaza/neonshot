@@ -2,6 +2,7 @@ package iwoplaza.meatengine;
 
 import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
+import iwoplaza.meatengine.audio.AudioContext;
 import iwoplaza.meatengine.graphics.LineRenderer;
 import iwoplaza.meatengine.graphics.PathfinderDebug;
 import iwoplaza.meatengine.graphics.sprite.SpriteRenderer;
@@ -30,6 +31,7 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
     private final Timer timer;
     private final KeyboardHandler keyboardHandler;
     private Localizer localizer;
+    private AudioContext audioContext;
     private EngineContext engineContext = new EngineContext(UPDATE_INTERVAL);
 
     private boolean running = true;
@@ -97,6 +99,7 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
     {
         localizer = LocalizationLoader.createFromResources();
 
+        audioContext = new AudioContext();
         window.init();
         timer.init();
 
@@ -213,10 +216,15 @@ public class GameEngine implements Runnable, IDisposable, IAssetConsumer
     @Override
     public void dispose()
     {
-        for (IScreen screen : registeredScreens)
+        if (registeredScreens != null)
         {
-            screen.dispose();
+            for (IScreen screen : registeredScreens)
+            {
+                screen.dispose();
+            }
         }
+
+        this.audioContext.dispose();
     }
 
     public void showScreen(IScreen screen)

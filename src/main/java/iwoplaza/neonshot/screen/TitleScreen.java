@@ -4,7 +4,9 @@ import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.Window;
 import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
+import iwoplaza.meatengine.assets.SoundAsset;
 import iwoplaza.meatengine.assets.TextureAsset;
+import iwoplaza.meatengine.audio.SoundSource;
 import iwoplaza.meatengine.graphics.Drawable;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
@@ -33,9 +35,12 @@ public class TitleScreen implements IScreen
 
     private final Matrix4f modelViewMatrix = new Matrix4f();
 
+    private SoundAsset startSound;
     private TextureAsset titleTexture;
     private final MenuUI menu;
     private final Drawable<UIShader> titleMesh;
+
+    private SoundSource soundSource;
 
     public TitleScreen(ILocalizer localizer)
     {
@@ -50,6 +55,8 @@ public class TitleScreen implements IScreen
                 MeshHelper.createTexturedRectangle(256, 128, new Vector2f(0, 0), new Vector2f(1, 1)),
                 CommonShaders.uiShader
         );
+
+        this.soundSource = new SoundSource(false, true);
     }
 
     @Override
@@ -70,6 +77,14 @@ public class TitleScreen implements IScreen
         loader.registerAsset(titleTexture = new TextureAsset(
                 AssetLocation.asResource(Statics.RES_ORIGIN, "textures/title.png")
         ));
+
+        loader.registerAsset(startSound = new SoundAsset(
+                AssetLocation.asResource(Statics.RES_ORIGIN, "sfx/start.ogg")
+        ));
+
+        this.soundSource.setBuffer(startSound);
+
+        this.menu.registerAssets(loader);
     }
 
     @Override
@@ -139,6 +154,8 @@ public class TitleScreen implements IScreen
 
         if (key == GLFW_KEY_SPACE || key == GLFW_KEY_ENTER)
         {
+            this.soundSource.play();
+
             int option = this.menu.getSelectedOption();
             switch (option)
             {
