@@ -10,6 +10,7 @@ import iwoplaza.meatengine.graphics.entity.RendererRegistry;
 import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.meatengine.world.World;
 import iwoplaza.neonshot.Main;
+import iwoplaza.neonshot.PlayerController;
 import iwoplaza.neonshot.Tiles;
 import iwoplaza.neonshot.graphics.GameRenderContext;
 import iwoplaza.neonshot.graphics.GameRenderer;
@@ -32,6 +33,7 @@ public class SinglePlayerScreen implements IScreen
     private final GameRenderer gameRenderer;
     private final GameLevelLoader levelLoader;
     private final PlayerHUD playerHUD;
+    private final PlayerController playerController;
 
     private World world;
     private FinishScreen finishScreen = null;
@@ -42,7 +44,8 @@ public class SinglePlayerScreen implements IScreen
     {
         this.context = new GameRenderContext(rendererRegistry);
         this.gameRenderer = new GameRenderer();
-        this.playerHUD = new PlayerHUD();
+        this.playerHUD = new PlayerHUD(true);
+        this.playerController = new PlayerController(GLFW_KEY_W, GLFW_KEY_D, GLFW_KEY_S, GLFW_KEY_A, GLFW_KEY_SPACE);
 
         this.levelLoader = new GameLevelLoader((world, x, y) -> {
             this.player = new PlayerEntity();
@@ -154,33 +157,9 @@ public class SinglePlayerScreen implements IScreen
     @Override
     public void updatePerFrame(IEngineContext context, Window window)
     {
-        world.updatePerFrame(context);
+        this.world.updatePerFrame(context);
 
-        if (window.isKeyPressed(GLFW_KEY_SPACE))
-        {
-            this.player.shoot();
-        }
-
-        if (window.isKeyPressed(GLFW_KEY_A))
-        {
-            this.player.setMoveDirection(Direction.WEST);
-        }
-        else if (window.isKeyPressed(GLFW_KEY_D))
-        {
-            this.player.setMoveDirection(Direction.EAST);
-        }
-        else if (window.isKeyPressed(GLFW_KEY_W))
-        {
-            this.player.setMoveDirection(Direction.NORTH);
-        }
-        else if (window.isKeyPressed(GLFW_KEY_S))
-        {
-            this.player.setMoveDirection(Direction.SOUTH);
-        }
-        else
-        {
-            this.player.setMoveDirection(null);
-        }
+        this.playerController.handleControls(this.player, window);
     }
 
     @Override
@@ -204,6 +183,7 @@ public class SinglePlayerScreen implements IScreen
     public void dispose()
     {
         this.world.dispose();
+        this.playerHUD.dispose();
     }
 
     @Override

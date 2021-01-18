@@ -1,8 +1,9 @@
 {
   "languageKey": "us_en",
   "entries": {
-    "menu.begin": "begin",
-    "menu.options": "options",
+    "menu.campaign": "campaign",
+    "menu.versus": "versus",
+    "menu.toggle_fullscreen": "toggle fullscreen",
     "menu.quit": "quit",
     "menu.level": "LEVEL"
   }

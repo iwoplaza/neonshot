@@ -10,6 +10,7 @@ import iwoplaza.neonshot.graphics.entity.*;
 import iwoplaza.neonshot.screen.LevelSelectScreen;
 import iwoplaza.neonshot.screen.SinglePlayerScreen;
 import iwoplaza.neonshot.screen.TitleScreen;
+import iwoplaza.neonshot.screen.VersusGameScreen;
 import iwoplaza.neonshot.world.entity.*;
 
 public class Main
@@ -18,6 +19,7 @@ public class Main
     public static TitleScreen TITLE_SCREEN;
     public static LevelSelectScreen LEVEL_SELECT_SCREEN;
     public static SinglePlayerScreen SINGLE_PLAYER_SCREEN;
+    public static VersusGameScreen VERSUS_GAME_SCREEN;
 
     private static AssetLoader assetLoader = new AssetLoader();
     private static RendererRegistry<IGameRenderContext> rendererRegistry = new RendererRegistry<>();
@@ -52,11 +54,11 @@ public class Main
                 TITLE_SCREEN =          new TitleScreen(GAME_ENGINE.getLocalizer());
                 LEVEL_SELECT_SCREEN =   new LevelSelectScreen(GAME_ENGINE.getLocalizer());
                 SINGLE_PLAYER_SCREEN =  new SinglePlayerScreen(rendererRegistry);
-                GAME_ENGINE.registerScreens(TITLE_SCREEN, SINGLE_PLAYER_SCREEN);
+                VERSUS_GAME_SCREEN =    new VersusGameScreen(rendererRegistry);
+                GAME_ENGINE.registerScreens(TITLE_SCREEN, LEVEL_SELECT_SCREEN, SINGLE_PLAYER_SCREEN, VERSUS_GAME_SCREEN);
                 // Registers all assets from registered screens.
                 GAME_ENGINE.registerAssets(assetLoader);
                 GAME_ENGINE.showScreen(TITLE_SCREEN);
-//                GAME_ENGINE.showScreen(SINGLE_PLAYER_SCREEN);
             });
 
             GAME_ENGINE.start();

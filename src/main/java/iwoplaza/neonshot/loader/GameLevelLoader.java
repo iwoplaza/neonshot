@@ -37,17 +37,20 @@ public class GameLevelLoader
 
         LevelContentData contentData = ResourceLoader.loadJSONResource(AssetLocation.asResource(Statics.RES_ORIGIN, contentPath).getResourcePath(), LevelContentData.class);
 
-        for (LevelContentData.ChallengeRoomData d : contentData.challengeRooms)
+        if (contentData.challengeRooms != null)
         {
-            ChallengeRoom room = new ChallengeRoom(
-                    mapCoordinates(world, d.entranceX, d.entranceY),
-                    d.entranceDirection.getFlippedVertically(),
-                    mapCoordinates(world, d.exitX, d.exitY)
-            );
-            d.entries.forEach(e -> {
-                room.addEntry(mapCoordinates(world, e.x, e.y), entityAssigner.getFactoryForKey(e.entityKey));
-            });
-            world.addChallengeRoom(room);
+            for (LevelContentData.ChallengeRoomData d : contentData.challengeRooms)
+            {
+                ChallengeRoom room = new ChallengeRoom(
+                        mapCoordinates(world, d.entranceX, d.entranceY),
+                        d.entranceDirection.getFlippedVertically(),
+                        mapCoordinates(world, d.exitX, d.exitY)
+                );
+                d.entries.forEach(e -> {
+                    room.addEntry(mapCoordinates(world, e.x, e.y), entityAssigner.getFactoryForKey(e.entityKey));
+                });
+                world.addChallengeRoom(room);
+            }
         }
 
         return world;

@@ -24,6 +24,7 @@ import java.io.IOException;
 
 public class PlayerHUD extends UIItem<IGameRenderContext> implements IAssetConsumer
 {
+    private final boolean topRight;
     private final Matrix4f modelViewMatrix;
     private final HealthBarRenderer.HealthBarSpec healthBarSpec;
     protected final StaticText healthLabel;
@@ -32,8 +33,9 @@ public class PlayerHUD extends UIItem<IGameRenderContext> implements IAssetConsu
 
     private PlayerEntity player;
 
-    public PlayerHUD()
+    public PlayerHUD(boolean topRight)
     {
+        this.topRight = topRight;
         this.modelViewMatrix = new Matrix4f();
         this.healthBarSpec = new HealthBarRenderer.HealthBarSpec(
                 true,
@@ -66,22 +68,44 @@ public class PlayerHUD extends UIItem<IGameRenderContext> implements IAssetConsu
 
         int uiScale = windowWidth > 1000 ? 3 : 2;
 
-        this.modelViewMatrix.identity().translate(10, 10, 0).scale(uiScale);
+        if (this.topRight)
+        {
+            this.modelViewMatrix.identity().translate(windowWidth - 5 * uiScale, window.getHeight() - 40 * uiScale, 0).scale(uiScale);
+        }
+        else
+        {
+            this.modelViewMatrix.identity().translate(10, 10, 0).scale(uiScale);
+        }
     }
 
     private void drawPowerups(IGameRenderContext ctx)
     {
         GlStack.push();
-        GlStack.translate(HealthBarRenderer.BIG_WIDTH + 10, -5, 0);
+        if (this.topRight)
+        {
+            GlStack.translate(-HealthBarRenderer.BIG_WIDTH - 10, -5, 0);
+        }
+        else
+        {
+            GlStack.translate(HealthBarRenderer.BIG_WIDTH + 10, -5, 0);
+        }
 
         for (Powerup powerup : this.player.getPowerups())
         {
+            if (this.topRight)
+            {
+                GlStack.translate(-30, 0, 0);
+            }
+
             Vector2ic frame = powerup.getTextureFrame();
             this.powerupSprite.setFrameX(frame.x());
             this.powerupSprite.setFrameY(frame.y());
             this.powerupSprite.draw();
 
-            GlStack.translate(30, 0, 0);
+            if (!this.topRight)
+            {
+                GlStack.translate(30, 0, 0);
+            }
         }
 
         GlStack.pop();
@@ -92,16 +116,37 @@ public class PlayerHUD extends UIItem<IGameRenderContext> implements IAssetConsu
     {
         GlStack.MAIN.set(this.modelViewMatrix);
 
+        GlStack.push();
+        if (this.topRight)
+        {
+            GlStack.translate(-HealthBarRenderer.BIG_WIDTH, 0, 0);
+        }
         HealthBarRenderer.INSTANCE.draw(ctx, player, healthBarSpec);
 
         GlStack.push();
-        GlStack.translate(2, 25, 0);
+        if (this.topRight)
+        {
+            GlStack.translate(45, 25, 0);
+        }
+        else
+        {
+            GlStack.translate(2, 25, 0);
+        }
         GlStack.scale(0.5f);
         this.healthLabel.render();
         GlStack.pop();
 
+        GlStack.pop();
+
         GlStack.push();
-        GlStack.translate(HealthBarRenderer.BIG_WIDTH + 10, 25, 0);
+        if (this.topRight)
+        {
+            GlStack.translate(-HealthBarRenderer.BIG_WIDTH - 54, 25, 0);
+        }
+        else
+        {
+            GlStack.translate(HealthBarRenderer.BIG_WIDTH + 10, 25, 0);
+        }
         GlStack.scale(0.5f);
         this.powerupsLabel.render();
         GlStack.pop();

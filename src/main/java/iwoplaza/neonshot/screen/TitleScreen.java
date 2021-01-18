@@ -26,8 +26,9 @@ public class TitleScreen implements IScreen
     public TitleScreen(ILocalizer localizer)
     {
         this.menu = new MenuUI(WIDTH / 2, 60);
-        this.menu.addOption(localizer.getLocalized("menu.begin"));
-        this.menu.addOption(localizer.getLocalized("menu.options"));
+        this.menu.addOption(localizer.getLocalized("menu.campaign"));
+        this.menu.addOption(localizer.getLocalized("menu.versus"));
+        this.menu.addOption(localizer.getLocalized("menu.toggle_fullscreen"));
         this.menu.addOption(localizer.getLocalized("menu.quit"));
         this.menu.updateBorderMesh();
     }
@@ -110,12 +111,16 @@ public class TitleScreen implements IScreen
                     Main.GAME_ENGINE.showScreen(Main.LEVEL_SELECT_SCREEN);
                     break;
                 case 1:
+                    Main.GAME_ENGINE.showScreen(Main.VERSUS_GAME_SCREEN);
+                    Main.VERSUS_GAME_SCREEN.startLevel("versus");
+                    break;
+                case 2:
                     if (Main.GAME_ENGINE.getWindow().isFullscreen())
                         Main.GAME_ENGINE.getWindow().setWindowed();
                     else
                         Main.GAME_ENGINE.getWindow().setFullscreen();
                     break;
-                case 2:
+                case 3:
                     Main.GAME_ENGINE.exit();
                     break;
             }
