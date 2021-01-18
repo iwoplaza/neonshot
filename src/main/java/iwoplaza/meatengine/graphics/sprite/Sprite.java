@@ -1,7 +1,7 @@
 package iwoplaza.meatengine.graphics.sprite;
 
 import iwoplaza.meatengine.assets.TextureAsset;
-import iwoplaza.meatengine.graphics.Color;
+import iwoplaza.meatengine.util.Color;
 import iwoplaza.meatengine.graphics.Texture;
 
 public class Sprite

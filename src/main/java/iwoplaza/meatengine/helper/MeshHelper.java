@@ -1,6 +1,9 @@
 package iwoplaza.meatengine.helper;
 
 import iwoplaza.meatengine.graphics.mesh.FlatMesh;
+import iwoplaza.meatengine.graphics.mesh.TexturedMesh;
+import org.joml.Matrix4f;
+import org.joml.Vector2fc;
 
 public class MeshHelper
 {
@@ -47,5 +50,28 @@ public class MeshHelper
         };
 
         return new FlatMesh(indices, positions);
+    }
+
+    public static TexturedMesh createTexturedRectangle(int width, int height, Vector2fc minUV, Vector2fc maxUV)
+    {
+        float[] positions = new float[] {
+                0, height,
+                0, 0,
+                width, 0,
+                width, height,
+        };
+
+        float[] texCoords = new float[] {
+                minUV.x(), minUV.y(),
+                minUV.x(), maxUV.y(),
+                maxUV.x(), maxUV.y(),
+                maxUV.x(), minUV.y(),
+        };
+
+        int[] indices = new int[] {
+                0, 1, 3, 3, 1, 2,
+        };
+
+        return new TexturedMesh(indices, positions, texCoords);
     }
 }

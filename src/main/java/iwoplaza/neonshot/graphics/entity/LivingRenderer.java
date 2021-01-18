@@ -1,6 +1,6 @@
 package iwoplaza.neonshot.graphics.entity;
 
-import iwoplaza.meatengine.graphics.Color;
+import iwoplaza.meatengine.util.Color;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.sprite.Sprite;
 import iwoplaza.neonshot.world.entity.LivingEntity;

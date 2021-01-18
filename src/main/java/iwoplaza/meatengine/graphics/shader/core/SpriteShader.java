@@ -1,17 +1,21 @@
 package iwoplaza.meatengine.graphics.shader.core;
 
-import iwoplaza.meatengine.graphics.shader.ShaderHelper;
 import iwoplaza.meatengine.graphics.shader.base.BasicShader;
+import iwoplaza.meatengine.graphics.shader.uniform.ColorUniform;
+import iwoplaza.meatengine.graphics.shader.uniform.IntUniform;
+import iwoplaza.meatengine.graphics.shader.uniform.Uniform;
+import iwoplaza.meatengine.graphics.shader.uniform.Vector2fUniform;
+import iwoplaza.meatengine.util.Color;
 
 import java.io.FileNotFoundException;
 
 public class SpriteShader extends BasicShader
 {
-    private final String TEXTURE_DIFFUSE = "uTextureDiffuse";
-    private final String COLOR = "uColor";
-    private final String FRAME_OFFSET = "uFrameOffset";
-    private final String FRAME_SIZE = "uFrameSize";
-    private final String OVERLAY_COLOR = "uOverlayColor";
+    private IntUniform diffuseTexture;
+    private ColorUniform color;
+    private Vector2fUniform frameOffset;
+    private Vector2fUniform frameSize;
+    private ColorUniform overlayColor;
 
     public SpriteShader() throws FileNotFoundException
     {
@@ -22,43 +26,35 @@ public class SpriteShader extends BasicShader
     protected void createUniforms()
     {
         super.createUniforms();
-        this.createUniform(TEXTURE_DIFFUSE);
-        this.createUniform(COLOR);
-        this.createUniform(FRAME_SIZE);
-        this.createUniform(FRAME_OFFSET);
-        this.createUniform(OVERLAY_COLOR);
-
-        ShaderHelper.operateOnShader(this, s -> {
-            s.setDiffuseTexture(0);
-            s.setColor(1, 1, 1, 1);
-            s.setFrameOffset(0, 0);
-            s.setFrameSize(1, 1);
-            s.setOverlayColor(1, 1, 1, 0);
-        });
+        this.diffuseTexture = new IntUniform(this, "uTextureDiffuse", 0);
+        this.color = new ColorUniform(this, "uColor", new Color(1, 1, 1, 1));
+        this.frameOffset = new Vector2fUniform(this, "uFrameOffset", 0, 0);
+        this.frameSize = new Vector2fUniform(this, "uFrameSize", 1, 1);
+        this.overlayColor = new ColorUniform(this, "uOverlayColor", new Color(1, 1, 1, 0));
     }
 
-    public void setDiffuseTexture(int textureIndex)
+    public IntUniform getDiffuseTexture()
     {
-        this.setUniform(TEXTURE_DIFFUSE, textureIndex);
+        return diffuseTexture;
     }
 
-    public void setColor(float r, float g, float b, float a)
+    public ColorUniform getColor()
     {
-        this.setUniform(COLOR, r, g, b, a);
+        return color;
     }
 
-    public void setFrameOffset(float frameX, float frameY)
+    public Vector2fUniform getFrameOffset()
     {
-        this.setUniform(FRAME_OFFSET, frameX, frameY);
+        return frameOffset;
     }
 
-    public void setFrameSize(float frameWidth, float frameHeight)
+    public Vector2fUniform getFrameSize()
     {
-        this.setUniform(FRAME_SIZE, frameWidth, frameHeight);
+        return frameSize;
     }
 
-    public void setOverlayColor(float r, float g, float b, float a)
+    public ColorUniform getOverlayColor()
     {
-        this.setUniform(OVERLAY_COLOR, r, g, b, a);
+        return overlayColor;
     }
 }

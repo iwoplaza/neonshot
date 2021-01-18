@@ -3,6 +3,7 @@ package iwoplaza.neonshot.ui.game;
 import iwoplaza.meatengine.IDisposable;
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.Window;
+import iwoplaza.meatengine.graphics.Drawable;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.StaticText;
 import iwoplaza.meatengine.graphics.mesh.Mesh;
@@ -22,7 +23,7 @@ public class FinishScreen implements IDisposable
     // Resources
     private final StaticText mainLabel;
     private final StaticText pressEnterToContinue;
-    private final Mesh background;
+    private final Drawable<FlatShader> background;
 
     private final IContinueAction action;
 
@@ -33,7 +34,7 @@ public class FinishScreen implements IDisposable
         this.mainLabel.setPosition(-this.mainLabel.getTextWidth() / 2.0f, 0);
         this.pressEnterToContinue = new StaticText(CommonShaders.textShader, CommonFonts.georgia, "Press ENTER to continue.");
         this.pressEnterToContinue.setPosition(-this.pressEnterToContinue.getTextWidth() / 2.0f, 0);
-        this.background = MeshHelper.createFlatRectangle(1, 1);
+        this.background = new Drawable<>(MeshHelper.createFlatRectangle(1, 1), CommonShaders.flatShader);
 
         this.action = action;
     }
@@ -62,13 +63,11 @@ public class FinishScreen implements IDisposable
 
         GlStack.scale(window.getWidth(), window.getHeight(), 1);
 
-        FlatShader shader = CommonShaders.flatShader;
+        FlatShader shader = this.background.getShader();
         shader.bind();
-        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        shader.setModelViewMatrix(GlStack.MAIN.top());
-        shader.setColor(0, 0, 0, 0.7f);
+        shader.getColor().set(0, 0, 0, 0.7f);
 
-        this.background.render();
+        this.background.draw();
 
         GlStack.pop();
 

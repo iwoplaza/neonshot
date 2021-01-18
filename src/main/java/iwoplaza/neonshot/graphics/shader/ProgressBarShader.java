@@ -1,15 +1,18 @@
 package iwoplaza.neonshot.graphics.shader;
 
+import iwoplaza.meatengine.graphics.shader.uniform.ColorUniform;
 import iwoplaza.meatengine.graphics.shader.base.BasicShader;
+import iwoplaza.meatengine.graphics.shader.uniform.FloatUniform;
+import iwoplaza.meatengine.util.Color;
 import iwoplaza.neonshot.Statics;
 
 import java.io.FileNotFoundException;
 
 public class ProgressBarShader extends BasicShader
 {
-    private final String COLOR = "uColor";
-    private final String HIGHLIGHT_COLOR = "uHighlightColor";
-    private final String HIGHLIGHT = "uHighlight";
+    private ColorUniform color;
+    private ColorUniform highlightColor;
+    private FloatUniform highlight;
 
     public ProgressBarShader() throws FileNotFoundException
     {
@@ -20,23 +23,23 @@ public class ProgressBarShader extends BasicShader
     protected void createUniforms()
     {
         super.createUniforms();
-        this.createUniform(COLOR);
-        this.createUniform(HIGHLIGHT_COLOR);
-        this.createUniform(HIGHLIGHT);
+        this.color = new ColorUniform(this, "uColor", new Color(1, 1, 1, 1));
+        this.highlightColor = new ColorUniform(this, "uHighlightColor", new Color(1, 1, 1, 1));
+        this.highlight = new FloatUniform(this, "uHighlight", 0);
     }
 
-    public void setColor(float r, float g, float b, float a)
+    public ColorUniform getColor()
     {
-        this.setUniform(COLOR, r, g, b, a);
+        return color;
     }
 
-    public void setHighlightColor(float r, float g, float b, float a)
+    public ColorUniform getHighlightColor()
     {
-        this.setUniform(HIGHLIGHT_COLOR, r, g, b, a);
+        return highlightColor;
     }
 
-    public void setHighlight(float value)
+    public FloatUniform getHighlight()
     {
-        this.setUniform(HIGHLIGHT, value);
+        return highlight;
     }
 }

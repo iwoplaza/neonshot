@@ -5,7 +5,7 @@ import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
-import iwoplaza.meatengine.graphics.Color;
+import iwoplaza.meatengine.util.Color;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.StaticText;

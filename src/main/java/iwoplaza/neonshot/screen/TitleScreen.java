@@ -2,13 +2,25 @@ package iwoplaza.neonshot.screen;
 
 import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.Window;
+import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetLoader;
+import iwoplaza.meatengine.assets.TextureAsset;
+import iwoplaza.meatengine.graphics.Drawable;
 import iwoplaza.meatengine.graphics.GlStack;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
+import iwoplaza.meatengine.graphics.mesh.Mesh;
+import iwoplaza.meatengine.graphics.shader.core.UIShader;
+import iwoplaza.meatengine.helper.MeshHelper;
 import iwoplaza.meatengine.lang.ILocalizer;
 import iwoplaza.meatengine.screen.IScreen;
+import iwoplaza.neonshot.CommonShaders;
 import iwoplaza.neonshot.Main;
+import iwoplaza.neonshot.Statics;
 import iwoplaza.neonshot.ui.menu.MenuUI;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
+
+import java.io.IOException;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -21,16 +33,23 @@ public class TitleScreen implements IScreen
 
     private final Matrix4f modelViewMatrix = new Matrix4f();
 
+    private TextureAsset titleTexture;
     private final MenuUI menu;
+    private final Drawable<UIShader> titleMesh;
 
     public TitleScreen(ILocalizer localizer)
     {
-        this.menu = new MenuUI(WIDTH / 2, 60);
+        this.menu = new MenuUI(WIDTH / 2, 80);
         this.menu.addOption(localizer.getLocalized("menu.campaign"));
         this.menu.addOption(localizer.getLocalized("menu.versus"));
         this.menu.addOption(localizer.getLocalized("menu.toggle_fullscreen"));
         this.menu.addOption(localizer.getLocalized("menu.quit"));
         this.menu.updateBorderMesh();
+
+        this.titleMesh = new Drawable<>(
+                MeshHelper.createTexturedRectangle(256, 128, new Vector2f(0, 0), new Vector2f(1, 1)),
+                CommonShaders.uiShader
+        );
     }
 
     @Override
@@ -45,9 +64,12 @@ public class TitleScreen implements IScreen
     }
 
     @Override
-    public void registerAssets(IAssetLoader loader)
+    public void registerAssets(IAssetLoader loader) throws IOException
     {
         // No assets to register
+        loader.registerAsset(titleTexture = new TextureAsset(
+                AssetLocation.asResource(Statics.RES_ORIGIN, "textures/title.png")
+        ));
     }
 
     @Override
@@ -82,8 +104,19 @@ public class TitleScreen implements IScreen
 
         GlStack.MAIN.set(modelViewMatrix);
 
-        Matrix4f matrix = new Matrix4f(modelViewMatrix);
-        matrix.translate(WIDTH / 2F - 512 / 2F, HEIGHT - 128, 0);
+        GlStack.push();
+
+        GlStack.translate(WIDTH / 2F - 256 / 2F, HEIGHT - 128, 0);
+
+        UIShader shader = this.titleMesh.getShader();
+        shader.bind();
+        shader.getColor().set(1, 1, 1, 1);
+        shader.getUseTexture().set(true);
+
+        titleTexture.bind();
+        this.titleMesh.draw();
+
+        GlStack.pop();
 
         this.menu.render(context);
     }
@@ -91,6 +124,8 @@ public class TitleScreen implements IScreen
     @Override
     public void dispose()
     {
+        this.menu.dispose();
+        this.titleMesh.dispose();
     }
 
     @Override

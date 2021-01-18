@@ -1,12 +1,14 @@
 package iwoplaza.meatengine.graphics.shader.core;
 
+import iwoplaza.meatengine.graphics.shader.uniform.ColorUniform;
 import iwoplaza.meatengine.graphics.shader.base.BasicShader;
+import iwoplaza.meatengine.util.Color;
 
 import java.io.FileNotFoundException;
 
 public class FlatShader extends BasicShader
 {
-    private final String COLOR = "uColor";
+    private ColorUniform color;
 
     public FlatShader() throws FileNotFoundException
     {
@@ -17,11 +19,11 @@ public class FlatShader extends BasicShader
     protected void createUniforms()
     {
         super.createUniforms();
-        this.createUniform(COLOR);
+        this.color = new ColorUniform(this, "uColor", new Color(1, 1, 1, 1));
     }
 
-    public void setColor(float r, float g, float b, float a)
+    public ColorUniform getColor()
     {
-        this.setUniform(COLOR, r, g, b, a);
+        return color;
     }
 }

@@ -1,7 +1,9 @@
 package iwoplaza.neonshot.ui.menu;
 
 import iwoplaza.meatengine.IEngineContext;
+import iwoplaza.meatengine.graphics.Drawable;
 import iwoplaza.meatengine.graphics.GlStack;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.mesh.FlatBorderMesh;
 import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.meatengine.ui.UIItem;
@@ -10,7 +12,7 @@ import iwoplaza.neonshot.CommonShaders;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuUI extends UIItem
+public class MenuUI extends UIItem<IEngineContext>
 {
 
     private static final int OPTION_SPACING = MenuOptionUI.HEIGHT + 4;
@@ -22,7 +24,7 @@ public class MenuUI extends UIItem
 
     private int x, y;
 
-    private FlatBorderMesh borderMesh;
+    private Drawable<FlatShader> border;
 
     public MenuUI(int x, int y)
     {
@@ -54,8 +56,8 @@ public class MenuUI extends UIItem
                 maxWidth = width;
         }
 
-        if (this.borderMesh != null)
-            this.borderMesh.dispose();
+        if (this.border != null)
+            this.border.dispose();
 
         int dx = maxWidth / 2 + 14;
         int dy = 14;
@@ -84,7 +86,7 @@ public class MenuUI extends UIItem
                 -dx + t, dy - t
         };
 
-        this.borderMesh = new FlatBorderMesh(indices, positions);
+        this.border = new Drawable<>(new FlatBorderMesh(indices, positions), CommonShaders.flatShader);
     }
 
     @Override
@@ -95,7 +97,7 @@ public class MenuUI extends UIItem
         GlStack.push();
         GlStack.translate(x - 1, y - this.menuOption * OPTION_SPACING + 8, 0);
 
-        FlatShader shader = CommonShaders.flatShader;
+        FlatShader shader = this.border.getShader();
         shader.bind();
 
         if (this.optionSwitchProgress > 0)
@@ -109,19 +111,14 @@ public class MenuUI extends UIItem
             float offset = t * OPTION_SPACING;
             GlStack.translate(0, this.prevMenuOption < this.menuOption ? offset : -offset, 0);
 
-            shader.setColor(1, 1, 0, (1 - this.optionSwitchProgress) * 0.5F);
+            shader.getColor().set(1, 1, 0, (1 - this.optionSwitchProgress) * 0.5F);
         }
         else
         {
-            shader.setColor(1, 1, 0, 1);
+            shader.getColor().set(1, 1, 0, 1);
         }
 
-
-        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        shader.setModelViewMatrix(GlStack.MAIN.top());
-
-
-        this.borderMesh.render();
+        this.border.draw();
 
         GlStack.pop();
 

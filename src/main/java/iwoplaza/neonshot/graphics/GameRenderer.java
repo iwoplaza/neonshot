@@ -61,11 +61,6 @@ public class GameRenderer implements IDisposable, IAssetConsumer
 
         this.modelViewMatrix.identity().translate(windowWidth / 2F, windowHeight / 2F, 0);
         GlStack.MAIN.projectionMatrix.identity().ortho(0, windowWidth, 0, windowHeight, Z_NEAR, Z_FAR);
-
-        ShaderHelper.operateOnShader(CommonShaders.tileShader, shader -> {
-            shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-            shader.setDiffuseTexture(0);
-        });
     }
 
     public void setCamera(ICamera<IEngineContext, IGameRenderContext> camera)

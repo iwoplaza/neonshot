@@ -1,5 +1,6 @@
 package iwoplaza.meatengine.graphics.sprite;
 
+import iwoplaza.meatengine.graphics.Drawable;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.mesh.Mesh;
 import iwoplaza.meatengine.graphics.mesh.TexturedMesh;
@@ -11,7 +12,7 @@ public class SpriteRenderer
 {
     public static final SpriteRenderer INSTANCE = new SpriteRenderer();
 
-    private Mesh spriteMesh;
+    private Drawable spriteDrawable;
     private SpriteShader shader;
 
     public void init() throws FileNotFoundException
@@ -35,10 +36,10 @@ public class SpriteRenderer
                 1, 0,
         };
 
-        this.spriteMesh = new TexturedMesh(indices, positions, texCoords);
-
         this.shader = new SpriteShader();
         this.shader.load();
+
+        this.spriteDrawable = new Drawable(new TexturedMesh(indices, positions, texCoords), this.shader);
     }
 
     public void draw(Sprite sprite)
@@ -47,17 +48,13 @@ public class SpriteRenderer
 
         GlStack.scale(sprite.getFrameWidth(), sprite.getFrameHeight(), 1);
         this.shader.bind();
-        this.shader.setFrameOffset(sprite.getFrameX(), sprite.getFrameY());
-        this.shader.setFrameSize((float) sprite.getFrameWidth() / sprite.getTexture().getWidth(), (float) sprite.getFrameHeight() / sprite.getTexture().getHeight());
-        this.shader.setColor(1, 1, 1, 1);
-        this.shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        this.shader.setModelViewMatrix(GlStack.MAIN.top());
-        this.shader.setOverlayColor(sprite.getOverlayColor().getR(), sprite.getOverlayColor().getG(), sprite.getOverlayColor().getB(), sprite.getOverlayColor().getA());
+        this.shader.getFrameOffset().set(sprite.getFrameX(), sprite.getFrameY());
+        this.shader.getFrameSize().set((float) sprite.getFrameWidth() / sprite.getTexture().getWidth(), (float) sprite.getFrameHeight() / sprite.getTexture().getHeight());
+        this.shader.getColor().set(1, 1, 1, 1);
+        this.shader.getOverlayColor().set(sprite.getOverlayColor());
 
         sprite.getTexture().bind();
-        this.spriteMesh.render();
-
-        this.shader.unbind();
+        this.spriteDrawable.draw();
 
         GlStack.pop();
     }

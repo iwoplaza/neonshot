@@ -1,9 +1,11 @@
 package iwoplaza.meatengine.graphics;
 
+import iwoplaza.meatengine.util.Color;
 import iwoplaza.meatengine.IDisposable;
 import iwoplaza.meatengine.graphics.font.Font;
 import iwoplaza.meatengine.graphics.mesh.TextMesh;
 import iwoplaza.meatengine.graphics.shader.core.TextShader;
+import iwoplaza.neonshot.CommonShaders;
 import org.joml.Vector2f;
 
 public class StaticText implements IDisposable
@@ -12,7 +14,7 @@ public class StaticText implements IDisposable
     public final TextShader shader;
     public final Font font;
     private String renderedText;
-    private TextMesh mesh;
+    private Drawable<TextShader> mesh;
     public final TextRenderOptions options;
     private int textWidth;
 
@@ -52,7 +54,7 @@ public class StaticText implements IDisposable
         if (this.mesh != null)
             this.mesh.dispose();
 
-        this.mesh = TextMesh.build(font, renderedText);
+        this.mesh = new Drawable<>(TextMesh.build(font, renderedText), this.shader);
         this.textWidth = this.font.getTextWidth(renderedText, options);
     }
 
@@ -63,13 +65,10 @@ public class StaticText implements IDisposable
         GlStack.translate(this.position.x, this.position.y, 0);
 
         this.shader.bind();
-        this.shader.setColor(color.getR(), color.getG(), color.getB(), color.getA());
-        this.shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        this.shader.setModelViewMatrix(GlStack.MAIN.top());
-        this.shader.setDiffuseTexture(0);
+        this.shader.getColor().set(color);
 
         this.font.texture.bind();
-        this.mesh.render();
+        this.mesh.draw();
 
         this.shader.unbind();
 

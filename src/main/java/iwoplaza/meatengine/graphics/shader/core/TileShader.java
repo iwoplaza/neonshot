@@ -1,19 +1,19 @@
 package iwoplaza.meatengine.graphics.shader.core;
 
-import iwoplaza.meatengine.graphics.shader.Shader;
-import iwoplaza.meatengine.graphics.shader.ShaderHelper;
-import org.joml.Matrix4f;
+import iwoplaza.meatengine.graphics.shader.base.BasicShader;
+import iwoplaza.meatengine.graphics.shader.uniform.BooleanUniform;
+import iwoplaza.meatengine.graphics.shader.uniform.ColorUniform;
+import iwoplaza.meatengine.graphics.shader.uniform.IntUniform;
+import iwoplaza.meatengine.graphics.shader.uniform.Uniform;
+import iwoplaza.meatengine.util.Color;
 
 import java.io.FileNotFoundException;
 
-public class TileShader extends Shader
+public class TileShader extends BasicShader
 {
-
-    private final String PROJECTION_MATRIX = "uProjectionMatrix";
-    private final String MODEL_VIEW_MATRIX = "uModelViewMatrix";
-    private final String COLOR = "uColor";
-    private final String USE_TEXTURE = "uUseTexture";
-    private final String TEXTURE_DIFFUSE = "uTextureDiffuse";
+    private ColorUniform color;
+    private BooleanUniform useTexture;
+    private IntUniform diffuseTexture;
 
     public TileShader() throws FileNotFoundException
     {
@@ -23,42 +23,25 @@ public class TileShader extends Shader
     @Override
     protected void createUniforms()
     {
-        this.createUniform(PROJECTION_MATRIX);
-        this.createUniform(MODEL_VIEW_MATRIX);
-        this.createUniform(COLOR);
-        this.createUniform(USE_TEXTURE);
-        this.createUniform(TEXTURE_DIFFUSE);
+        super.createUniforms();
 
-        ShaderHelper.operateOnShader(this, s -> {
-            s.setUniform(COLOR, 1, 1, 1, 1);
-            s.setUniform(USE_TEXTURE, true);
-            s.setUniform(TEXTURE_DIFFUSE, 0);
-        });
+        this.color = new ColorUniform(this, "uColor", new Color(1, 1, 1, 1));
+        this.useTexture = new BooleanUniform(this, "uUseTexture", true);
+        this.diffuseTexture = new IntUniform(this, "uTextureDiffuse", 0);
     }
 
-    public void setProjectionMatrix(Matrix4f matrix)
+    public ColorUniform getColor()
     {
-        this.setUniform(PROJECTION_MATRIX, matrix);
+        return color;
     }
 
-    public void setModelViewMatrix(Matrix4f matrix)
+    public BooleanUniform getUseTexture()
     {
-        this.setUniform(MODEL_VIEW_MATRIX, matrix);
+        return useTexture;
     }
 
-    public void setColor(float r, float g, float b, float a)
+    public IntUniform getDiffuseTexture()
     {
-        this.setUniform(COLOR, r, g, b, a);
+        return diffuseTexture;
     }
-
-    public void setUseTexture(boolean useTexture)
-    {
-        this.setUniform(USE_TEXTURE, useTexture);
-    }
-
-    public void setDiffuseTexture(int textureIndex)
-    {
-        this.setUniform(TEXTURE_DIFFUSE, textureIndex);
-    }
-
 }

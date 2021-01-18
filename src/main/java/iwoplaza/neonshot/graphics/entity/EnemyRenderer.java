@@ -1,6 +1,6 @@
 package iwoplaza.neonshot.graphics.entity;
 
-import iwoplaza.meatengine.graphics.Color;
+import iwoplaza.meatengine.util.Color;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.neonshot.graphics.HealthBarRenderer;

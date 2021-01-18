@@ -1,14 +1,14 @@
 package iwoplaza.meatengine.graphics.shader.base;
 
+import iwoplaza.meatengine.graphics.shader.uniform.Matrix4fUniform;
 import iwoplaza.meatengine.graphics.shader.Shader;
-import org.joml.Matrix4f;
 
 import java.io.FileNotFoundException;
 
 public abstract class BasicShader extends Shader
 {
-    protected final String PROJECTION_MATRIX = "uProjectionMatrix";
-    protected final String MODEL_VIEW_MATRIX = "uModelViewMatrix";
+    protected Matrix4fUniform modelViewMatrix;
+    protected Matrix4fUniform projectionMatrix;
 
     public BasicShader(String origin, String shaderName) throws FileNotFoundException
     {
@@ -23,17 +23,17 @@ public abstract class BasicShader extends Shader
     @Override
     protected void createUniforms()
     {
-        this.createUniform(PROJECTION_MATRIX);
-        this.createUniform(MODEL_VIEW_MATRIX);
+        this.modelViewMatrix = new Matrix4fUniform(this, "uModelViewMatrix");
+        this.projectionMatrix = new Matrix4fUniform(this, "uProjectionMatrix");
     }
 
-    public void setProjectionMatrix(Matrix4f matrix)
+    public Matrix4fUniform getModelViewMatrix()
     {
-        this.setUniform(PROJECTION_MATRIX, matrix);
+        return modelViewMatrix;
     }
 
-    public void setModelViewMatrix(Matrix4f matrix)
+    public Matrix4fUniform getProjectionMatrix()
     {
-        this.setUniform(MODEL_VIEW_MATRIX, matrix);
+        return projectionMatrix;
     }
 }

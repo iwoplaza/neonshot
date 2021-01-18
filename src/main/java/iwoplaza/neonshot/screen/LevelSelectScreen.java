@@ -4,6 +4,7 @@ import iwoplaza.meatengine.IEngineContext;
 import iwoplaza.meatengine.Window;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.graphics.GlStack;
+import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.lang.ILocalizer;
 import iwoplaza.meatengine.screen.IScreen;
 import iwoplaza.neonshot.Main;

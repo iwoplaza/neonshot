@@ -1,13 +1,16 @@
 package iwoplaza.meatengine.graphics.shader.core;
 
+import iwoplaza.meatengine.graphics.shader.uniform.ColorUniform;
+import iwoplaza.meatengine.graphics.shader.uniform.IntUniform;
 import iwoplaza.meatengine.graphics.shader.base.BasicShader;
+import iwoplaza.meatengine.util.Color;
 
 import java.io.FileNotFoundException;
 
 public class TextShader extends BasicShader
 {
-    private final String TEXTURE_DIFFUSE = "uTextureDiffuse";
-    private final String COLOR = "uColor";
+    private IntUniform diffuseTexture;
+    private ColorUniform color;
 
     public TextShader() throws FileNotFoundException
     {
@@ -18,17 +21,18 @@ public class TextShader extends BasicShader
     protected void createUniforms()
     {
         super.createUniforms();
-        this.createUniform(TEXTURE_DIFFUSE);
-        this.createUniform(COLOR);
+
+        this.diffuseTexture = new IntUniform(this, "uTextureDiffuse", 0);
+        this.color = new ColorUniform(this, "uColor", new Color(1, 1, 1, 1));
     }
 
-    public void setDiffuseTexture(int textureIndex)
+    public IntUniform getDiffuseTexture()
     {
-        this.setUniform(TEXTURE_DIFFUSE, textureIndex);
+        return diffuseTexture;
     }
 
-    public void setColor(float r, float g, float b, float a)
+    public ColorUniform getColor()
     {
-        this.setUniform(COLOR, r, g, b, a);
+        return color;
     }
 }

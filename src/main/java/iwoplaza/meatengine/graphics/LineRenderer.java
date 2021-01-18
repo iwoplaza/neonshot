@@ -1,8 +1,11 @@
 package iwoplaza.meatengine.graphics;
 
+import iwoplaza.meatengine.helper.MeshHelper;
+import iwoplaza.meatengine.util.Color;
 import iwoplaza.meatengine.graphics.mesh.FlatMesh;
 import iwoplaza.meatengine.graphics.shader.ShaderHelper;
 import iwoplaza.meatengine.graphics.shader.core.FlatShader;
+import iwoplaza.meatengine.util.IColorc;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
@@ -10,53 +13,25 @@ public class LineRenderer
 {
 
     private static FlatShader shader;
-    private static FlatMesh mesh;
+    private static Drawable mesh;
 
-    private static Matrix4f transformMatrix = new Matrix4f();
     private static float lineWidth = 1.0F;
 
     public static void init() throws Exception
     {
-        int[] indices = new int[] {
-                0, 2, 1,
-                0, 3, 2
-        };
-
-        float[] positions = new float[] {
-                0, 0,
-                0, 1,
-                1, 1,
-                1, 0
-        };
-
-        mesh = new FlatMesh(indices, positions);
         shader = new FlatShader();
         shader.load();
-
-        ShaderHelper.operateOnShader(shader, s -> {
-            s.setProjectionMatrix(new Matrix4f());
-            s.setModelViewMatrix(transformMatrix);
-            s.setColor(1, 1, 1, 1);
-        });
+        mesh = new Drawable(MeshHelper.createFlatRectangle(1, 1), shader);
     }
 
-    public static void setColor(Color color)
+    public static void setColor(IColorc color)
     {
-        setColor(color.getR(), color.getG(), color.getB(), color.getA());
+        setColor(color.r(), color.g(), color.b(), color.a());
     }
 
     public static void setColor(float r, float g, float b, float a)
     {
-        ShaderHelper.operateOnShader(shader, s -> {
-            s.setColor(r, g, b, a);
-        });
-    }
-
-    public static void setProjection(Matrix4f matrix)
-    {
-        ShaderHelper.operateOnShader(shader, s -> {
-            s.setProjectionMatrix(matrix);
-        });
+        shader.getColor().set(r, g, b, a);
     }
 
     public static void setWidth(float width)
@@ -78,9 +53,7 @@ public class LineRenderer
         GlStack.scale(lineWidth, length, 1);
 
         shader.bind();
-        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        shader.setModelViewMatrix(GlStack.MAIN.top());
-        mesh.render();
+        mesh.draw();
         shader.unbind();
 
         GlStack.pop();
@@ -99,9 +72,7 @@ public class LineRenderer
         GlStack.scale(lineWidth);
 
         shader.bind();
-        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        shader.setModelViewMatrix(GlStack.MAIN.top());
-        mesh.render();
+        mesh.draw();
         shader.unbind();
 
         GlStack.pop();

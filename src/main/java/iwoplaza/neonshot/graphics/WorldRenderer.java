@@ -6,6 +6,7 @@ import iwoplaza.meatengine.assets.AssetLocation;
 import iwoplaza.meatengine.assets.IAssetConsumer;
 import iwoplaza.meatengine.assets.IAssetLoader;
 import iwoplaza.meatengine.assets.TextureAsset;
+import iwoplaza.meatengine.graphics.Drawable;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.mesh.Mesh;
@@ -89,10 +90,10 @@ public class WorldRenderer implements IDisposable, IAssetConsumer
         TileShader shader = CommonShaders.tileShader;
         shader.bind();
 
-        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        shader.setModelViewMatrix(GlStack.MAIN.top());
-        shader.setColor(1, 1, 1, 1);
-        shader.setUseTexture(true);
+        shader.getProjectionMatrix().set(GlStack.MAIN.projectionMatrix);
+        shader.getModelViewMatrix().set(GlStack.MAIN.top());
+        shader.getColor().set(1, 1, 1, 1);
+        shader.getUseTexture().set(true);
 
         this.tileMapTexture.bind();
 

@@ -1,11 +1,14 @@
 package iwoplaza.neonshot.graphics;
 
-import iwoplaza.meatengine.graphics.Color;
+import iwoplaza.meatengine.graphics.Drawable;
+import iwoplaza.meatengine.graphics.mesh.Mesh;
+import iwoplaza.meatengine.util.Color;
 import iwoplaza.meatengine.graphics.GlStack;
 import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.mesh.FlatMesh;
 import iwoplaza.meatengine.graphics.shader.core.FlatShader;
 import iwoplaza.meatengine.helper.MeshHelper;
+import iwoplaza.meatengine.util.IColorc;
 import iwoplaza.neonshot.CommonShaders;
 import iwoplaza.neonshot.graphics.shader.ProgressBarShader;
 import iwoplaza.neonshot.world.entity.IDamageable;
@@ -18,9 +21,9 @@ public class HealthBarRenderer
 {
     public static final HealthBarRenderer INSTANCE = new HealthBarRenderer();
 
-    private FlatMesh background;
-    private FlatMesh smallBorderMesh;
-    private FlatMesh bigBorderMesh;
+    private Drawable<FlatShader> background;
+    private Drawable<ProgressBarShader> fill;
+    private Drawable<FlatShader> bigBorder;
 
     private ProgressBarShader shader;
 
@@ -34,19 +37,17 @@ public class HealthBarRenderer
 
     public void init() throws IOException
     {
-        this.background = MeshHelper.createFlatRectangle(1, 1);
-        this.smallBorderMesh = MeshHelper.createBorder(SMALL_WIDTH, SMALL_HEIGHT, THICKNESS);
-        this.bigBorderMesh = MeshHelper.createBorder(BIG_WIDTH, BIG_HEIGHT, THICKNESS);
-
         this.shader = new ProgressBarShader();
         this.shader.load();
+
+        Mesh rectangle = MeshHelper.createFlatRectangle(1, 1);
+        this.background = new Drawable<>(rectangle, CommonShaders.flatShader);
+        this.fill = new Drawable<>(rectangle, this.shader);
+        this.bigBorder = new Drawable<>(MeshHelper.createBorder(BIG_WIDTH, BIG_HEIGHT, THICKNESS), CommonShaders.flatShader);
     }
 
     private void drawBackground(boolean big)
     {
-        FlatShader shader = CommonShaders.flatShader;
-        shader.bind();
-
         GlStack.push();
 
         if (big)
@@ -58,21 +59,11 @@ public class HealthBarRenderer
             GlStack.scale(SMALL_WIDTH, SMALL_HEIGHT, 1);
         }
 
-        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        shader.setModelViewMatrix(GlStack.MAIN.top());
-        shader.setColor(0, 0, 0, 1);
-        this.background.render();
+        this.background.draw(s -> {
+            s.getColor().set(0, 0, 0, 1);
+        });
 
         GlStack.pop();
-
-        shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        shader.setModelViewMatrix(GlStack.MAIN.top());
-        shader.setColor(1, 1, 1, 1);
-
-        if (big)
-        {
-            this.bigBorderMesh.render();
-        }
     }
 
     private void drawFill(HealthBarSpec spec, HealthMeta meta)
@@ -80,21 +71,12 @@ public class HealthBarRenderer
         float transition = 1 - meta.getTransitionProgress();
         transition *= transition * transition;
         transition = 1 - transition;
+        final float t = transition;
 
         final float lastHealth = meta.getLastHealthPercentage();
         final float currHealth = meta.getCurrentHealthPercentage();
 
         GlStack.push();
-
-        this.shader.bind();
-        this.shader.setHighlight(1 - transition);
-        this.shader.setColor(spec.baseColor.getR(), spec.baseColor.getG(), spec.baseColor.getB(), spec.baseColor.getA());
-        this.shader.setHighlightColor(
-                spec.highlightColor.getR(),
-                spec.highlightColor.getG(),
-                spec.highlightColor.getB(),
-                spec.highlightColor.getA()
-        );
 
         GlStack.translate(THICKNESS, THICKNESS, 0);
 
@@ -110,9 +92,11 @@ public class HealthBarRenderer
         float percentage = lastHealth + (currHealth - lastHealth) * transition;
         GlStack.scale(percentage, 1, 1);
 
-        this.shader.setProjectionMatrix(GlStack.MAIN.projectionMatrix);
-        this.shader.setModelViewMatrix(GlStack.MAIN.top());
-        this.background.render();
+        this.fill.draw(s -> {
+            s.getHighlight().set(1 - t);
+            s.getColor().set(spec.baseColor);
+            s.getHighlightColor().set(spec.highlightColor);
+        });
 
         GlStack.pop();
     }
@@ -120,6 +104,13 @@ public class HealthBarRenderer
     public void draw(IGameRenderContext context, IDamageable damagable, HealthBarSpec spec)
     {
         this.drawBackground(spec.isBig());
+
+        if (spec.isBig())
+        {
+            this.bigBorder.draw(s -> {
+                s.getColor().set(1, 1, 1, 1);
+            });
+        }
 
         HealthMeta meta = healthMetaMap.get(damagable);
         if (meta == null)
@@ -129,7 +120,6 @@ public class HealthBarRenderer
         }
 
         meta.setHealth(damagable.getHealth(), damagable.getMaxHealth());
-
         meta.update(context.getDeltaTime());
 
         this.drawFill(spec, meta);
@@ -138,10 +128,10 @@ public class HealthBarRenderer
     public static class HealthBarSpec
     {
         private final boolean big;
-        private final Color baseColor;
-        private final Color highlightColor;
+        private final IColorc baseColor;
+        private final IColorc highlightColor;
 
-        public HealthBarSpec(boolean big, Color baseColor, Color highlightColor)
+        public HealthBarSpec(boolean big, IColorc baseColor, IColorc highlightColor)
         {
             this.big = big;
             this.baseColor = baseColor;
@@ -153,12 +143,12 @@ public class HealthBarRenderer
             return big;
         }
 
-        public Color getBaseColor()
+        public IColorc getBaseColor()
         {
             return baseColor;
         }
 
-        public Color getHighlightColor()
+        public IColorc getHighlightColor()
         {
             return highlightColor;
         }
