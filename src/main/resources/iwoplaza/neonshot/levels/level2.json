@@ -6,6 +6,7 @@
       "entranceDirection": "EAST",
       "exitX": 17,
       "exitY": 22,
+      "exitDirection": "EAST",
       "entries": [
         {
           "x": 9,

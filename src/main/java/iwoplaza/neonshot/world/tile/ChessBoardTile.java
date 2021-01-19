@@ -3,16 +3,17 @@ package iwoplaza.neonshot.world.tile;
 import iwoplaza.meatengine.graphics.tile.ITileRenderer;
 import iwoplaza.meatengine.world.tile.Tile;
 import iwoplaza.neonshot.graphics.tile.ChessBoardTileRenderer;
+import org.joml.Vector2ic;
 
 public class ChessBoardTile extends Tile
 {
 
-    private final int textureFrame;
+    private final ChessBoardTileRenderer renderer;
 
-    public ChessBoardTile(int textureFrame, int mapColor)
+    public ChessBoardTile(Vector2ic textureFrame, int mapColor)
     {
         super(mapColor);
-        this.textureFrame = textureFrame;
+        this.renderer = new ChessBoardTileRenderer(textureFrame);
     }
 
     @Override
@@ -24,7 +25,7 @@ public class ChessBoardTile extends Tile
     @Override
     public ITileRenderer getRenderer()
     {
-        return new ChessBoardTileRenderer(this.textureFrame);
+        return renderer;
     }
 
 }

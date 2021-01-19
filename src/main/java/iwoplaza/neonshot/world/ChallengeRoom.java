@@ -2,7 +2,7 @@ package iwoplaza.neonshot.world;
 
 import iwoplaza.meatengine.Direction;
 import iwoplaza.meatengine.world.World;
-import iwoplaza.neonshot.Tiles;
+import iwoplaza.neonshot.world.entity.ChallengeDoorEntity;
 import iwoplaza.neonshot.world.entity.IDeathListener;
 import iwoplaza.neonshot.world.entity.LivingEntity;
 import org.joml.Vector2i;
@@ -19,17 +19,20 @@ public class ChallengeRoom implements IDeathListener
     private final Vector2ic entrance;
     private final Direction entranceDirection;
     private final Vector2ic exit;
+    private final Direction exitDirection;
     private final List<ChallengeRoomEntry> entries = new ArrayList<>();
 
     private boolean active = false;
     private Set<LivingEntity> livingChallengers = new HashSet<>();
+    private List<ChallengeDoorEntity> spawnedDoors = new ArrayList<>();
     private boolean completed = false;
 
-    public ChallengeRoom(Vector2ic entrance, Direction entranceDirection, Vector2ic exit)
+    public ChallengeRoom(Vector2ic entrance, Direction entranceDirection, Vector2ic exit, Direction exitDirection)
     {
         this.entrance = entrance;
         this.entranceDirection = entranceDirection;
         this.exit = exit;
+        this.exitDirection = exitDirection;
     }
 
     public void assignTo(World world)
@@ -56,9 +59,8 @@ public class ChallengeRoom implements IDeathListener
 
         Vector2i entranceWall = new Vector2i(this.entrance);
         entranceWall.sub(this.entranceDirection.getAsVector());
-        this.world.getTileMap().setTile(entranceWall.x, entranceWall.y, Tiles.VOID);
-
-        this.world.getTileMap().setTile(exit.x(), exit.y(), Tiles.VOID);
+        this.spawnDoorAt(entranceWall, entranceDirection);
+        this.spawnDoorAt(exit, exitDirection);
 
         this.entries.forEach(e -> {
             LivingEntity entity = e.entityFactory.create(e.position);
@@ -66,6 +68,13 @@ public class ChallengeRoom implements IDeathListener
             entity.registerDeathListener(this);
             livingChallengers.add(entity);
         });
+    }
+
+    private void spawnDoorAt(Vector2ic position, Direction direction)
+    {
+        ChallengeDoorEntity door = new ChallengeDoorEntity(position, direction);
+        this.world.spawnEntity(door);
+        this.spawnedDoors.add(door);
     }
 
     @Override
@@ -86,9 +95,9 @@ public class ChallengeRoom implements IDeathListener
 
         Vector2i entranceWall = new Vector2i(this.entrance);
         entranceWall.sub(this.entranceDirection.getAsVector());
-        this.world.getTileMap().setTile(entranceWall.x, entranceWall.y, Tiles.CHESSBOARD_FLOOR);
 
-        this.world.getTileMap().setTile(exit.x(), exit.y(), Tiles.CHESSBOARD_FLOOR);
+        this.spawnedDoors.forEach(ChallengeDoorEntity::open);
+        this.spawnedDoors.clear();
     }
 
     public Vector2ic getEntrance()

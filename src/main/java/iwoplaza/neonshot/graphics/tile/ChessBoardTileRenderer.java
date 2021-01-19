@@ -1,54 +1,29 @@
 package iwoplaza.neonshot.graphics.tile;
 
-import iwoplaza.meatengine.graphics.tile.ITileRenderer;
+import iwoplaza.meatengine.graphics.tile.TileRenderer;
 import iwoplaza.meatengine.world.tile.TileData;
 import iwoplaza.meatengine.world.tile.TileLocation;
+import org.joml.Vector2i;
+import org.joml.Vector2ic;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class ChessBoardTileRenderer implements ITileRenderer
+public class ChessBoardTileRenderer extends TileRenderer
 {
+    private final Vector2ic textureFrame;
+    private final Vector2ic offsetTextureFrame;
 
-    private final int textureFrame;
-
-    public ChessBoardTileRenderer(int textureFrame)
+    public ChessBoardTileRenderer(Vector2ic textureFrame)
     {
         this.textureFrame = textureFrame;
+        this.offsetTextureFrame = new Vector2i(this.textureFrame).add(1, 0);
     }
 
     @Override
-    public void render(TileData data, TileLocation location, int tileSize, int tileMapWidth, int tileMapHeight, List<Integer> indices, List<Float> positions, List<Float> texCoords)
+    public Vector2ic getTextureFrame(TileData data, TileLocation location)
     {
-        final int x = location.x * tileSize;
-        final int y = location.y * tileSize;
-
-        int textureFrame = this.textureFrame;
         if ((location.x + location.y) % 2 == 0)
         {
-            textureFrame++;
+            return offsetTextureFrame;
         }
-
-        final int idxOff = positions.size() / 2;
-        indices.addAll(Arrays.asList(idxOff, idxOff + 3, idxOff + 1, idxOff + 1, idxOff + 3, idxOff + 2));
-
-        positions.addAll(Arrays.asList(
-                (float) x, (float) y,
-                (float) (x + tileSize), (float) y,
-                (float) (x + tileSize), (float) (y + tileSize),
-                (float) x, (float) (y + tileSize)
-        ));
-        float uMargin = 0.01f * tileSize / tileMapWidth;
-        float vMargin = 0.01f * tileSize / tileMapHeight;
-        float u0 = (float) ((textureFrame * tileSize) % tileMapWidth) / tileMapWidth;
-        float v0 = (float) ((textureFrame * tileSize) / tileMapWidth) / tileMapHeight;
-        float u1 = u0 + (float) tileSize / tileMapWidth;
-        float v1 = v0 + (float) tileSize / tileMapHeight;
-        texCoords.addAll(Arrays.asList(
-                u0 + uMargin, v1 - vMargin,
-                u1 - uMargin, v1 - vMargin,
-                u1 - uMargin, v0 + vMargin,
-                u0 + uMargin, v0 + vMargin));
+        return textureFrame;
     }
-
 }

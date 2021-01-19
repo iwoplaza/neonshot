@@ -48,6 +48,7 @@ public class Main
                 rendererRegistry.registerRenderer(BandageEntity.class, new ItemRenderer<>());
                 rendererRegistry.registerRenderer(PowerupItemEntity.class, new ItemRenderer<>());
                 rendererRegistry.registerRenderer(FinishZoneEntity.class, new FinishZoneRenderer());
+                rendererRegistry.registerRenderer(ChallengeDoorEntity.class, new ChallengeDoorRenderer());
                 // Registers all assets from registered renderers.
                 rendererRegistry.registerAssets(assetLoader);
 

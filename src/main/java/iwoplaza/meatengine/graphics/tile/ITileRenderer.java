@@ -7,7 +7,20 @@ import java.util.List;
 
 public interface ITileRenderer
 {
+    void render(TileData tileData, TileLocation location, TileMapSpec tileMapSpec, List<Integer> indices, List<Float> positions, List<Float> texCoords);
 
-    void render(TileData tileData, TileLocation location, int tileSize, int tileMapWidth, int tileMapHeight, List<Integer> indices, List<Float> positions, List<Float> texCoords);
+    class TileMapSpec
+    {
+        public final int width;
+        public final int height;
+        public final int tileSize;
+
+        public TileMapSpec(int width, int height, int tileSize)
+        {
+            this.width = width;
+            this.height = height;
+            this.tileSize = tileSize;
+        }
+    }
 
 }

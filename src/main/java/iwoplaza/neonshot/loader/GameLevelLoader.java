@@ -44,7 +44,8 @@ public class GameLevelLoader
                 ChallengeRoom room = new ChallengeRoom(
                         mapCoordinates(world, d.entranceX, d.entranceY),
                         d.entranceDirection.getFlippedVertically(),
-                        mapCoordinates(world, d.exitX, d.exitY)
+                        mapCoordinates(world, d.exitX, d.exitY),
+                        d.exitDirection.getFlippedVertically()
                 );
                 d.entries.forEach(e -> {
                     room.addEntry(mapCoordinates(world, e.x, e.y), entityAssigner.getFactoryForKey(e.entityKey));

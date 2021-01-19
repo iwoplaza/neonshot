@@ -12,6 +12,7 @@ import iwoplaza.meatengine.graphics.IGameRenderContext;
 import iwoplaza.meatengine.graphics.mesh.Mesh;
 import iwoplaza.meatengine.graphics.mesh.TexturedMesh;
 import iwoplaza.meatengine.graphics.shader.core.TileShader;
+import iwoplaza.meatengine.graphics.tile.ITileRenderer;
 import iwoplaza.meatengine.helper.ArrayHelper;
 import iwoplaza.meatengine.world.Entity;
 import iwoplaza.meatengine.world.World;
@@ -52,11 +53,9 @@ public class WorldRenderer implements IDisposable, IAssetConsumer
         List<Float> positions = new ArrayList<>();
         List<Float> texCoords = new ArrayList<>();
 
-        final int tileSize = context.getTileSize();
-        final int textureWidth = this.tileMapTexture.getWidth();
-        final int textureHeight = this.tileMapTexture.getHeight();
-
         TileMap tileMap = this.world.getTileMap();
+        ITileRenderer.TileMapSpec spec = new ITileRenderer.TileMapSpec(
+                this.tileMapTexture.getWidth(), this.tileMapTexture.getHeight(), context.getTileSize());
 
         for (int tileX = 0; tileX < tileMap.getWidth(); ++tileX)
         {
@@ -66,7 +65,7 @@ public class WorldRenderer implements IDisposable, IAssetConsumer
                 if (data != null)
                 {
                     Tile tile = TileRegistry.get(data.getTileId());
-                    tile.getRenderer().render(data, new TileLocation(tileX, tileY), tileSize, textureWidth, textureHeight, indices
+                    tile.getRenderer().render(data, new TileLocation(tileX, tileY), spec, indices
                             , positions, texCoords);
                 }
             }

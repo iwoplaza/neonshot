@@ -10,8 +10,8 @@ public class Sprite
     private final int frameWidth;
     private final int frameHeight;
 
-    private int frameX = 0;
-    private int frameY = 0;
+    private float frameX = 0;
+    private float frameY = 0;
     private final Color overlayColor = new Color(0, 0, 0, 0);
 
     public Sprite(TextureAsset texture, int frameWidth, int frameHeight)
@@ -41,22 +41,22 @@ public class Sprite
         return frameHeight;
     }
 
-    public int getFrameX()
+    public float getFrameX()
     {
         return frameX;
     }
 
-    public void setFrameX(int spriteFrameX)
+    public void setFrameX(float spriteFrameX)
     {
         this.frameX = spriteFrameX;
     }
 
-    public int getFrameY()
+    public float getFrameY()
     {
         return frameY;
     }
 
-    public void setFrameY(int spriteFrameY)
+    public void setFrameY(float spriteFrameY)
     {
         this.frameY = spriteFrameY;
     }

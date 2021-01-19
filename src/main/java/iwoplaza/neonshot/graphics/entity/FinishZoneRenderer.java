@@ -25,7 +25,7 @@ public class FinishZoneRenderer implements IGameEntityRenderer<FinishZoneEntity>
     public void registerAssets(IAssetLoader loader) throws IOException
     {
         // Assets are disposed of automatically.
-        loader.registerAsset(texture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "textures/entities/finishZone.png")));
+        loader.registerAsset(texture = new TextureAsset(AssetLocation.asResource(Statics.RES_ORIGIN, "textures/entities/finish_zone.png")));
 
         this.sprite = new Sprite(texture, 32, 32);
     }

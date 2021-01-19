@@ -15,6 +15,7 @@ public class LevelContentData
         public Direction entranceDirection;
         public int exitX;
         public int exitY;
+        public Direction exitDirection;
         public List<Entry> entries;
 
         public static class Entry
