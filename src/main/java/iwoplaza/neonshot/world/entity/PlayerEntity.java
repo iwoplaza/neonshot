@@ -18,7 +18,9 @@ public class PlayerEntity extends LivingEntity implements IPlayerEntity
     private static final int MOVE_WINDUP_DURATION = 2;
     private static final int MOVE_DURATION = 6;
     private static final int SHOOT_DURATION = 8;
-    private static final int BULLET_DAMAGE = 10;
+    private static final int BULLET_DAMAGE = 5;
+
+    private final int invincibilityDuration;
 
     private int shootCooldown = 0;
     private int moveWindup = 0;
@@ -34,8 +36,9 @@ public class PlayerEntity extends LivingEntity implements IPlayerEntity
     private final SoundSource shootSoundSource;
     private final SoundSource shuffleSoundSource;
 
-    public PlayerEntity()
+    public PlayerEntity(int invincibilityDuration)
     {
+        this.invincibilityDuration = invincibilityDuration;
         this.shootSoundSource = new SoundSource(false, false);
         this.shootSoundSource.setBuffer(PlayerAssets.INSTANCE.shotSound);
 
@@ -303,7 +306,7 @@ public class PlayerEntity extends LivingEntity implements IPlayerEntity
     @Override
     public int getInvincibilityDuration()
     {
-        return 30;
+        return invincibilityDuration;
     }
 
     public List<Powerup> getPowerups()

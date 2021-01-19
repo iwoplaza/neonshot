@@ -60,25 +60,44 @@ public class ChallengeDoorRenderer implements IGameEntityRenderer<ChallengeDoorE
 
         GlStack.translate(basePosition.x, basePosition.y, 0);
 
-        // Top of the door
-        GlStack.push();
-        this.sprite.setFrameX(1);
-        this.sprite.setFrameY(3 - progress * 2);
-        this.sprite.draw();
+        if (entity.getDirection().isHorizontal())
+        {
+            // Top of the door
+            GlStack.push();
+            this.sprite.setFrameX(1);
+            this.sprite.setFrameY(3 - progress * 2);
+            this.sprite.draw();
 
-        GlStack.translate(0, tileSize, 0);
-        this.sprite.setFrameX(1);
-        this.sprite.setFrameY(2 - progress * 2);
-        this.sprite.draw();
-        GlStack.pop();
+            GlStack.translate(0, tileSize, 0);
+            this.sprite.setFrameX(1);
+            this.sprite.setFrameY(2 - progress * 2);
+            this.sprite.draw();
+            GlStack.pop();
 
-        // Front of the door
-        GlStack.push();
-        GlStack.translate(0, Math.max(1 - progress * 2, 0) * tileSize, 0);
-        this.sprite.setFrameX(0);
-        this.sprite.setFrameY(Math.min(2 - progress * 2, 1));
-        this.sprite.draw();
-        GlStack.pop();
+            // Front of the door
+            GlStack.push();
+            GlStack.translate(0, Math.max(1 - progress * 2, 0) * tileSize, 0);
+            this.sprite.setFrameX(0);
+            this.sprite.setFrameY(Math.min(2 - progress * 2, 1));
+            this.sprite.draw();
+            GlStack.pop();
+        }
+        else
+        {
+            GlStack.push();
+            // Front of the door
+            this.sprite.setFrameX(2 + progress);
+            this.sprite.setFrameY(1);
+            this.sprite.draw();
+            GlStack.pop();
+
+            GlStack.translate(0, tileSize, 0);
+
+            // Top of the door
+            this.sprite.setFrameX(2 + progress);
+            this.sprite.setFrameY(0);
+            this.sprite.draw();
+        }
 
         GlStack.pop();
     }

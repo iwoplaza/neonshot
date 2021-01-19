@@ -53,4 +53,9 @@ public class GameRenderContext implements IGameRenderContext
     {
         return partialTicks;
     }
+
+    public void setPartialTicks(float partialTicks)
+    {
+        this.partialTicks = partialTicks;
+    }
 }

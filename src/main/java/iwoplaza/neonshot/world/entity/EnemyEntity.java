@@ -42,7 +42,11 @@ public abstract class EnemyEntity extends LivingEntity
         super.onKilled();
         this.dead = true;
 
-        spawnRandomDrop();
+        Random random = new Random();
+        if (random.nextFloat() < 0.5f)
+        {
+            spawnRandomDrop();
+        }
     }
 
     private void spawnRandomDrop()

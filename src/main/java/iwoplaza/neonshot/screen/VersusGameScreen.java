@@ -116,10 +116,21 @@ public class VersusGameScreen implements IScreen
 
     public void startLevel(String levelName)
     {
+        for (PlayerEntity player : this.players)
+        {
+            player.dispose();
+        }
         this.players.clear();
+
         this.playerOne = null;
         this.playerTwo = null;
         this.powerUpSpawnCooldown = POWER_UP_SPAWN_COOLDOWN;
+
+        if (this.world != null)
+        {
+            this.world.dispose();
+            this.world = null;
+        }
 
         try
         {
@@ -148,7 +159,7 @@ public class VersusGameScreen implements IScreen
 
     private PlayerEntity spawnPlayer(World world, int x, int y, PlayerHUD hud)
     {
-        PlayerEntity player = new PlayerEntity();
+        PlayerEntity player = new PlayerEntity(5);
         player.setPosition(x, y);
         player.registerDeathListener(this::onGameOver);
         world.spawnEntity(player);

@@ -5,7 +5,7 @@ import org.joml.Vector2ic;
 
 public class BandageEntity extends ItemEntity
 {
-    private static final int HEAL_AMOUNT = 10;
+    private static final int HEAL_AMOUNT = 30;
     private static final Vector2ic TEXTURE_FRAME = new Vector2i(0, 0);
 
     public BandageEntity(Vector2ic position, int maxLifetime)

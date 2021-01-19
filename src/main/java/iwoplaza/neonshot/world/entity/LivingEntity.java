@@ -62,7 +62,7 @@ public abstract class LivingEntity extends SlidingEntity implements IDamageable
 
     public int getInvincibilityDuration()
     {
-        return 10;
+        return 5;
     }
 
     public int getInvincibilityFrames()

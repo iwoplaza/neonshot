@@ -16,16 +16,13 @@ public class PathfindingPool extends Thread implements IPathfindingPool
     }
 
     @Override
-    public void requestPath(PathfindingActor actor, Vector2ic from, Vector2ic to)
+    public synchronized void requestPath(PathfindingActor actor, Vector2ic from, Vector2ic to)
     {
-        synchronized (this)
-        {
-            // Inserting a request into the queue.
-            this.requests.add(new PathfindingRequest(actor, from, to));
+        // Inserting a request into the queue.
+        this.requests.add(new PathfindingRequest(actor, from, to));
 
-            // Notifying the solver that a request has been added.
-            notify();
-        }
+        // Notifying the solver that a request has been added.
+        notify();
     }
 
     /**
@@ -37,14 +34,14 @@ public class PathfindingPool extends Thread implements IPathfindingPool
         {
             synchronized (this)
             {
-                while (requests.isEmpty() && running)
-                    wait();
-
                 if (!running)
                 {
                     // Stopping the thread.
                     return;
                 }
+
+                while (requests.isEmpty())
+                    wait();
 
                 // Retrieving the next pathfinding request.
                 PathfindingRequest request = requests.remove();
@@ -65,12 +62,12 @@ public class PathfindingPool extends Thread implements IPathfindingPool
         catch (InterruptedException e)
         {
             // This pool has been discarded.
+            this.running = false;
         }
     }
 
-    public void stopRunning()
+    public synchronized void stopRunning()
     {
-        this.running = false;
         this.interrupt();
     }
 

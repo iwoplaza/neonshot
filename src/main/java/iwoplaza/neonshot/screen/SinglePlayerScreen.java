@@ -49,7 +49,7 @@ public class SinglePlayerScreen implements IScreen
         this.playerController = new PlayerController(GLFW_KEY_W, GLFW_KEY_D, GLFW_KEY_S, GLFW_KEY_A, GLFW_KEY_SPACE);
 
         this.levelLoader = new GameLevelLoader((world, x, y) -> {
-            this.player = new PlayerEntity();
+            this.player = new PlayerEntity(30);
             this.player.setPosition(x, y);
             this.player.registerDeathListener(p -> this.onGameOver());
             this.playerHUD.setPlayer(this.player);
@@ -68,6 +68,17 @@ public class SinglePlayerScreen implements IScreen
 
     public void startLevel(String levelName)
     {
+        if (this.player != null)
+        {
+            this.player.dispose();
+        }
+
+        if (this.world != null)
+        {
+            this.world.dispose();
+            this.world = null;
+        }
+
         this.player = null;
 
         try
@@ -130,6 +141,11 @@ public class SinglePlayerScreen implements IScreen
 
     public void onGameOver()
     {
+        if (this.finishScreen != null)
+        {
+            this.finishScreen.dispose();
+        }
+
         this.finishScreen = new FinishScreen("Game Over", () -> {
             Main.GAME_ENGINE.showScreen(Main.LEVEL_SELECT_SCREEN);
         });
@@ -137,6 +153,11 @@ public class SinglePlayerScreen implements IScreen
 
     public void onLevelComplete()
     {
+        if (this.finishScreen != null)
+        {
+            this.finishScreen.dispose();
+        }
+
         this.finishScreen = new FinishScreen("Level Complete", () -> {
             Main.GAME_ENGINE.showScreen(Main.LEVEL_SELECT_SCREEN);
         });
@@ -160,8 +181,12 @@ public class SinglePlayerScreen implements IScreen
     @Override
     public void updatePerFrame(IEngineContext context, Window window)
     {
-        this.world.updatePerFrame(context);
+        if (this.finishScreen != null)
+        {
+            return;
+        }
 
+        this.world.updatePerFrame(context);
         this.playerController.handleControls(this.player, window);
     }
 
@@ -169,6 +194,11 @@ public class SinglePlayerScreen implements IScreen
     public void render(IEngineContext context, Window window) throws Exception
     {
         this.context.update(context);
+
+        if (this.finishScreen != null)
+        {
+            this.context.setPartialTicks(0);
+        }
 
         this.gameRenderer.render(this.context, window, world);
 
@@ -185,6 +215,8 @@ public class SinglePlayerScreen implements IScreen
     @Override
     public void dispose()
     {
+        if (this.finishScreen != null)
+            this.finishScreen.dispose();
         if (this.world != null)
             this.world.dispose();
         this.playerHUD.dispose();

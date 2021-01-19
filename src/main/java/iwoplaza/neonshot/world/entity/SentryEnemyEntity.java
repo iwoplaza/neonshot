@@ -62,7 +62,7 @@ public class SentryEnemyEntity extends EnemyEntity implements IDamageSource
     @Override
     public int getMaxHealth()
     {
-        return 50;
+        return 30;
     }
 
     @Override

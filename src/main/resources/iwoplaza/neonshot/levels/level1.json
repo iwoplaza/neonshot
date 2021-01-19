@@ -4,13 +4,98 @@
       "entranceX": 7,
       "entranceY": 8,
       "entranceDirection": "EAST",
-      "exitX": 15,
+      "exitX": 16,
       "exitY": 10,
       "exitDirection": "EAST",
       "entries": [
         {
-          "x": 10,
+          "x": 11,
+          "y": 7,
+          "entityKey": "Pawn"
+        },
+        {
+          "x": 11,
           "y": 9,
+          "entityKey": "Pawn"
+        },
+        {
+          "x": 11,
+          "y": 11,
+          "entityKey": "Pawn"
+        }
+      ]
+    },
+    {
+      "entranceX": 24,
+      "entranceY": 18,
+      "entranceDirection": "SOUTH",
+      "exitX": 24,
+      "exitY": 37,
+      "exitDirection": "SOUTH",
+      "entries": [
+        {
+          "x": 17,
+          "y": 19,
+          "entityKey": "Sentry"
+        },
+        {
+          "x": 31,
+          "y": 19,
+          "entityKey": "Sentry"
+        },
+        {
+          "x": 31,
+          "y": 34,
+          "entityKey": "Sentry"
+        },
+        {
+          "x": 17,
+          "y": 34,
+          "entityKey": "Sentry"
+        },
+        {
+          "x": 24,
+          "y": 21,
+          "entityKey": "Pawn"
+        },
+        {
+          "x": 29,
+          "y": 26,
+          "entityKey": "Pawn"
+        },
+        {
+          "x": 24,
+          "y": 32,
+          "entityKey": "Pawn"
+        },
+        {
+          "x": 17,
+          "y": 34,
+          "entityKey": "Pawn"
+        }
+      ]
+    },
+    {
+      "entranceX": 24,
+      "entranceY": 42,
+      "entranceDirection": "SOUTH",
+      "exitX": 6,
+      "exitY": 44,
+      "exitDirection": "WEST",
+      "entries": [
+        {
+          "x": 7,
+          "y": 42,
+          "entityKey": "Sentry"
+        },
+        {
+          "x": 7,
+          "y": 46,
+          "entityKey": "Sentry"
+        },
+        {
+          "x": 11,
+          "y": 44,
           "entityKey": "Bildstod"
         }
       ]

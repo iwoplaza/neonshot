@@ -149,6 +149,6 @@ public class BildstodEnemyEntity extends EnemyEntity implements IDamageSource
     @Override
     public int getMaxHealth()
     {
-        return 20;
+        return 100;
     }
 }
