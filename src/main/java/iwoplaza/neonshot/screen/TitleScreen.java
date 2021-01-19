@@ -79,7 +79,7 @@ public class TitleScreen implements IScreen
         ));
 
         loader.registerAsset(startSound = new SoundAsset(
-                AssetLocation.asResource(Statics.RES_ORIGIN, "sfx/start.ogg")
+                AssetLocation.asResource(Statics.RES_ORIGIN, "sfx/click.ogg")
         ));
 
         this.soundSource.setBuffer(startSound);

@@ -78,7 +78,8 @@ public class VersusGameScreen implements IScreen
     @Override
     public void dispose()
     {
-        this.world.dispose();
+        if (this.world != null)
+            this.world.dispose();
         this.playerOneHUD.dispose();
         this.playerTwoHUD.dispose();
     }
