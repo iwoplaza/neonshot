@@ -16,3 +16,11 @@ Grasz 1:
 Gracz 2:
 * Strzałki - Poruszanie
 * . - Strzał
+
+## Przedmioty
+| Wygląd                                    | Przedmioty        | Opis                                   |
+|:------------------------------------------|-------------------|----------------------------------------|
+| <img src="misc/item_bandage.png"/>        | Bandaż            | Odnawia życie o 30 jednostek           |
+| <img src="misc/item_extraspeed.png"/>     | Extra prędkość    | Zwiększa prędkość poruszania się o 10% |
+| <img src="misc/item_rapidfire.png"/>      | Rapidfire         | Zwiększa prędkość strzelania się o 43% |
+| <img src="misc/item_extradamage.png"/>    | Większe obrażenia | Zwiększa zadawane obrażenia o 50%      |
