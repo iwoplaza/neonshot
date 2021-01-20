@@ -18,9 +18,16 @@ Gracz 2:
 * . - Strzał
 
 ## Przedmioty
-| Wygląd                                    | Przedmioty        | Opis                                   |
+| Wygląd                                    | Nazwa             | Opis                                   |
 |:------------------------------------------|-------------------|----------------------------------------|
 | <img src="misc/item_bandage.png"/>        | Bandaż            | Odnawia życie o 30 jednostek           |
 | <img src="misc/item_extraspeed.png"/>     | Extra prędkość    | Zwiększa prędkość poruszania się o 10% |
 | <img src="misc/item_rapidfire.png"/>      | Rapidfire         | Zwiększa prędkość strzelania się o 43% |
 | <img src="misc/item_extradamage.png"/>    | Większe obrażenia | Zwiększa zadawane obrażenia o 50%      |
+
+## Przeciwnicy
+| Wygląd                               | Nazwa    | Opis                                   |
+|:-------------------------------------|----------|----------------------------------------|
+| <img src="misc/enemy_pawn.png"/>     | Pawn     | Przesuwa się w czterek kierunkach      |
+| <img src="misc/enemy_sentry.png"/>   | Sentry   | Strzela w czterech kierunkach          |
+| <img src="misc/enemy_bildstod.png"/> | Bildstod | Porusza się w liniach prostych         |
